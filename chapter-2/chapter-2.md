@@ -593,3 +593,341 @@ MAIL FROM is part of the handshaking command while From: is in the header of eac
 ### 16
 
 Summarize streaming of videos.
+
+A compressed video is stored in a data source, when requested by a user the server will choose the version of the video based on the rate (bps) decompressed it and stream the video to the user by chunk, videos are a stream of images (the quality is judge on how many images you have by seconds). and images are bits that represent the colors etc..., the user will constantly request chunk till the end of the video.
+
+### 17
+
+Read RFC 5321 for SMTP. What does MTA stand for? 
+Mail transport agent (mail servers)
+Consider the following received spam e-mail (modified from a real spam e-mail). Assuming only the originator of this spam e-mail is malicious and all other hosts are honest, identify the malacious host that has generated this spam e-mail.
+
+From - Fri Nov 07 13:41:30 2008
+
+Return-Path: <tennis5@pp33head.com>
+
+Received: from barmail.cs.umass.edu (barmail.cs.umass.
+
+edu
+
+[128.119.240.3]) by cs.umass.edu (8.13.1/8.12.6) for
+
+<hg@cs.umass.edu>; Fri, 7 Nov 2008 13:27:10 -0500
+
+Received: from asusus-4b96 (localhost [127.0.0.1]) by
+
+barmail.cs.umass.edu (Spam Firewall) for <hg@cs.umass.
+
+edu>; Fri, 7
+
+Nov 2008 13:27:07 -0500 (EST)
+
+Received: from asusus-4b96 ([58.88.21.177]) by barmail.
+
+cs.umass.edu
+
+for <hg@cs.umass.edu>; Fri, 07 Nov 2008 13:27:07 -0500
+
+(EST)
+
+Received: from [58.88.21.177] by inbnd55.exchangeddd.
+
+com; Sat, 8
+
+Nov 2008 01:27:07 +0700
+
+From: ”Jonny” <tennis5@pp33head.com>
+
+To: <hg@cs.umass.edu>
+
+Subject: How to secure your savings
+
+the malicious host IP is 58.88.21.177.
+
+### 18
+
+- What is a whois database?
+
+This is a database that stores information on a web resource such as its IP, hostname, autonomous systems numbers etc...
+
+
+
+- Use various whois databases on the Internet to obtain the names of two
+DNS servers. Indicate which whois databases you used.
+domain : canalplus.com
+name servers:
+nsa.perf1.fr
+nsb.perf1.com
+nsc.perf1.com
+
+Domain: google.com
+name servers:
+ns1.google.com
+ns2.google.com
+ns3.google.com
+ns4.google.com
+
+i used the whois database on whois.com
+
+Use nslookup on your local host to send DNS queries to three DNS
+servers: your local DNS server and the two DNS servers you found in
+part (b). Try querying for Type A, NS, and MX reports. Summarize your
+findings.
+
+NS often return multiple name servers, MX and A gives back two different IPs wich is normal since the mail server is not the same than the web server.
+
+
+-Use nslookup to find a Web server that has multiple IP addresses. Does
+the Web server of your institution (school or company) have multiple IP
+addresses?
+
+My company have mutliple IP addresses, google as well.
+
+- Use the ARIN whois database to determine the IP address range used by
+your university.
+
+I'm not in university anymore so i got the IP range of google.com 142.250.0.0 - 142.251.255.255
+
+- Describe how an attacker can use whois databases and the nslookup tool
+to perform reconnaissance on an institution before launching an attack.
+
+It can use nslookup to get the IP of the hostname, then with whois he can get the IP ranges and set up a DDOS attack on the server in this IP range.
+
+- Discuss why whois databases should be publicly available.
+Because it is essential to know who owns what, and for abuse report, intellectual property and tech troubleshooting
+
+### 19
+
+In this problem, we use the useful dig tool available on Unix and Linux hosts to
+explore the hierarchy of DNS servers. Recall that in Figure 2.19, a DNS server
+in the DNS hierarchy delegates a DNS query to a DNS server lower in the
+hierarchy, by sending back to the DNS client the name of that lower-level DNS
+server. First read the man page for dig, and then answer the following questions.
+
+- Starting with a root DNS server (from one of the root servers [a-m].
+root-servers.net), initiate a sequence of queries for the IP address for your
+department’s Web server by using dig. Show the list of the names of DNS
+servers in the delegation chain in answering your query.
+
+dig mit.edu +trace
+
+-  Repeat part (a) for several popular Web sites, such as google.com, yahoo
+.com, or amazon.com.
+
+done
+
+### 20
+
+Consider the scenarios illustrated in Figures 2.12 and 2.13. Assume the rate
+of the institutional network is Rl and that of the bottleneck link is Rb. Suppose
+there are N clients requesting a file of size L with HTTP at the same time.
+For what values of Rl would the file transfer takes less time when a proxy is
+installed at the institutional network? (Assume the RTT between a client and
+any other host in the institutional network is negligible.)
+
+if RL/N < RB/N = RL < RB the file will be downloaded in less time in most client.
+
+### 21
+
+Suppose that your department has a local DNS server for all computers in the
+department. You are an ordinary user (i.e., not a network/system administra-
+tor). Can you determine if an external Web site was likely accessed from a
+computer in your department a couple of seconds ago? Explain.
+
+Sure if the query time with dig is low, and the TTL is far from a round number that is more than 2 digits usally, it means that the local dns cached the response.
+
+### 22
+
+Consider distributing a file of F= 10 Gbits to N peers. The server has
+an upload rate of us = 1 Gbps, and each peer has a download rate of
+di = 200 Mbps and an upload rate of u. For N= 10, 100, and 1,000 and
+u = 2 Mbps, 10 Mbps, and 100 Mbps, prepare a table giving the minimum
+distribution time in seconds for each of the combinations of N and u for both
+client-server distribution and P2P distribution.
+
+it takes 50 seconds to download a file for a client 10 Gbits/ 0.2 Gbps
+The server can handle only 5 users 1 Gbps/ 0.2 Gbps
+
+Client-server | N 
+100 s         | 10  |
+1000 s        | 100 |
+10000 s       | 1000|
+
+DP2P >= {F:us, F/dmin, NF/ us + sum(ui)}
+
+
+
+
+P2P distribution | U        |  N
+98s              | 2 Mbps   | 10
+                 | 10 Mbps  | 100
+909s             | 100 Mpbs | 1000
+833s             | 2 Mbps   | 100
+91s              | 10 Mpbs  | 10
+                 | 100 Mpbs | 1000
+3333s            |  2 Mbps   | 1000
+                 |  10 Mpbs  | 100 
+500s             |   100 Mpbs | 10
+
+#### 23
+
+Consider distributing a file of F bits to N peers using a client-server architecture. Assume a fluid model where the server can simultaneously transmit
+to multiple peers, transmitting to each peer at different rates, as long as the
+combined rate does not exceed us.
+-  Suppose that us/N <= dmin. 
+
+Specify a distribution scheme that has a distribution time of NF/us.
+
+NF/us >= F/dmin or us/N <= dmin wich is when the the peers have a download time >= to us/N.
+
+- Suppose that us/N >= dmin. Specify a distribution scheme that has a distribution time of F/dmin.
+
+  the distribution scheme would be to allocate exactly di bandwidth for each peer and the distribution time would be F/dmin (the distribution time of the slowest peer).
+
+- Conclude that the minimum distribution time is in general given by max {NF/us, F/dmin}.
+
+the distribution time is given by max {NF/us, F/dmin} because the bottleneck is either the server that can't upload fast enough or a peer that has a slow download time.
+
+#### 24
+
+Consider distributing a file of F bits to N peers using a P2P architecture.
+Assume a fluid model. For simplicity assume that dmin is very large, so that
+peer download bandwidth is never a bottleneck.
+
+- Suppose that us … (us + u1 + . . . + uN)/N. Specify a distribution
+scheme that has a distribution time of F/us.
+
+The distribution scheme depicting this scenario, is when the server is the bottleneck, the server serve each peer at a rate of us/n the peer as soon as they get a packet start to upload it to another peer, the distribution time will be F/us
+
+- Suppose that us Ú (us + u1 + . . . + uN)/N. Specify a distribution
+scheme that has a distribution time of NF/(us + u1 + . . . + uN).
+
+The distribution scheme depicting this scenario, is when the mean of the upload rate of the peer is the bottleneck, the server serve as much first peer as it can at a rate of us/ as many peers as possible, the peer as soon as they get a packet start to redistribute even when the server finished to uploads to n peeers, i assume it can continue to start uploading to other peers (so go back to step one) thus at the end achieving a distribution time of NF/(us + u1 + . . . + uN).
+
+this is essentially the p2p network working at full capacity
+
+-  Conclude that the minimum distribution time is in general given by
+max5 F/us, NF/(us + u1 + . . . + uN).
+
+Either the server is the bottleneck F/us or p2p network has to work at full capacity NF/ (us + u1 + ... + un)
+
+
+#### 25
+
+Consider an overlay network with N active peers, with each pair of peers hav-
+ing an active TCP connection. Additionally, suppose that the TCP connec-
+tions pass through a total of M routers. How many nodes and edges are there
+in the corresponding overlay network?
+
+number of nodes = N
+
+number of edges = n * (n - 1) / 2
+
+#### 26
+
+Suppose Bob joins a BitTorrent torrent, but he does not want to upload any
+data to any other peers (he wants to be a so-called free-rider).
+- Alice who has been using BitTorrent tells Bob that he cannot receive a
+complete copy of the file that is shared by the swarm. Is Alice correct or
+not? Why?
+She is right BitTorrent has cut of the node that only download and does not upload to its peers.
+- Charlie claims that Alice is wrong and that he has even been using a collection of multiple computers (with distinct IP addresses) in the computer
+lab in his department to make his downloads faster, using some additional coordination scripting. What could his script have done?
+
+From first principles his script found a way to by pass BitTorrent mechanism that cut of the selfish nodes, by joining the torrents with multiple selfish nodes (that can get some packets because of optimistic unchocking) until he has every bits of the files even though it is distributed across the different computers, a so called Sybil attack.
+
+#### 27
+
+Consider a DASH system for which there are N video versions (at N different
+rates and qualities) and N audio versions (at N different rates and qualities).
+Suppose we want to allow the player to choose at any time any of the N video
+versions and any of the N audio versions.
+- If we create files so that the audio is mixed in with the video, so server
+sends only one media stream at given time, how many files will the server
+need to store (each a different URL)?
+
+Let's call the total number of audio V and the total number of audio A.
+Since we need every combination of V and A.
+the total number of file is V * A.
+- If the server instead sends the audio and video streams separately and has the
+client synchronize the streams, how many files will the server need to store?
+
+The server will only need to store V + A, a file by video and a file by audio.
+
+#### 28
+
+Install the Python programs TCPClient and UDPClient on one host and
+TCPServer and UDPServer on another host.
+
+- Suppose you run TCPServer and you try to connect using UDPClient.
+What happens? Why?
+
+It won't work, the UDPClient won't be able to connect to any server because it is not the same protocal, TCP require a handshake in order for it to work.
+
+- Suppose you run UDPClient before you run UDPServer. What happens?
+Why?
+
+The message may not arrive since it can be sent before that the UDPServer is up and running.
+
+- What happens if you hardwire in the python client and server programs
+different port numbers for the client and server sides in either a TCP or
+UDP client-server pair?
+
+It won't work, for example the client will try to send a message to a port that may be or not in use by another socket but not the expected socket.
+
+- if nothing is listening an error will occurs
+- if a TCP socket is listening the connection will be refused because the handshake didn't happen.
+- if a UDP is listening you will most likely receive garbage data, or a processing error will occur.
+
+#### 29
+
+Suppose that in UDPClient.py, after we create the socket, we add the line:
+clientSocket.bind((’’, 5432))
+Will it become necessary to change UDPServer.py?
+
+No it won't since it dynamically retrieve the client port from the request.
+
+What are the port numbers for the sockets in UDPClient and UDPServer? 
+
+The port number of UDPServer is 12000 and UDPClient for the UDP client 5432
+
+
+What were they before making this change?
+
+It is assign by the OS.
+
+#### 30
+
+Can you configure your browser to open multiple simultaneous connections
+to a Web site? 
+Yes you can and this technique was more used by HTTP/1
+
+What are the advantages and disadvantages of having a large
+number of simultaneous TCP connections
+
+The disadvantage is that you pay the price of the handshake imposed by TCP multiple time.
+That is why HTTP2 has been invented and allows multiple request to shared the same TCP connections achieving multiplexing.
+The advantage on the other hand is that when one connection is waiting for data , another connection can be used to retrieve other data.
+
+#### 31
+
+We have seen that Internet TCP sockets treat the data being sent as a byte
+stream but UDP sockets recognize message boundaries.
+
+What are one advantage and one disadvantage of byte-oriented API versus having the API
+explicitly recognize and preserve application-defined message boundaries?
+
+byte-oriented api you can start to do some work even though you don't have the full message yet, but you have to implement something for detecting the message boundaries.
+
+And an API that explicitly recognize and preserve application boundaries is straightforward only one request , the disadvantage is that it needs to wait the whole message since it is not a stream, it can't start to do some work with the packets that already arrives.
+
+#### 32
+
+What is the Apache Web server? 
+It is a webserver.
+How much does it cost? 
+It is an open source software, so it is free, only hosting it would cost some money.
+What functionality does it currently have? You may want to look at Wikipedia to answer this
+question.
+
+from wikipedia "Popular authentication modules include mod_access, mod_auth, mod_digest, and mod_auth_digest, the successor to mod_digest. A sample of other features include Secure Sockets Layer and Transport Layer Security support (mod_ssl), a proxy module (mod_proxy), a URL rewriting module (mod_rewrite), custom log files (mod_log_config), and filtering support (mod_include and mod_ext_filter)."
