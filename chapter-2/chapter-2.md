@@ -931,3 +931,145 @@ What functionality does it currently have? You may want to look at Wikipedia to 
 question.
 
 from wikipedia "Popular authentication modules include mod_access, mod_auth, mod_digest, and mod_auth_digest, the successor to mod_digest. A sample of other features include Secure Sockets Layer and Transport Layer Security support (mod_ssl), a proxy module (mod_proxy), a URL rewriting module (mod_rewrite), custom log files (mod_log_config), and filtering support (mod_include and mod_ext_filter)."
+
+## Wireshark Lab:HTTP
+
+### The Basic HTTP GET/response interaction
+
+#### 1  
+Is your browser running HTTP version 1.0, 1.1 or 2 ?
+
+My browser is running HTTP version 1.1
+
+What version of HTTP is the server running ?
+The server is alos running HTTP version 1.1
+
+#### 2 
+
+What languages (if any) does your browser indicate taht it can accept to the server ?
+
+English
+
+#### 3 
+
+What is the IP address of your computer?  What is the IP address of the gaia.cs.umass.edu server? 
+
+The ip address of my computer is: 192.168.1.57 
+
+
+The ip address of the gaia.cs.umass.edu server is: 128.119.245.12
+
+#### 4
+
+What is the status code returned from the server to your browser?
+
+The status code returned by the server is 200
+
+#### 5
+
+When was the HTML file that you are retrieving last modified at the server?
+
+28 october 2025, we can see that in the Last modifed header
+
+#### 6
+
+How many bytes of content are being returned to your browser? 
+
+128 bytes
+
+#### 7 
+
+By inspecting the raw data in the packet content window, do you see any headers within the data that are not displayed in the packet-listing window?  If so, name one.
+
+[Status code description: OK]
+
+### The Conditional HTTP GET/operation
+
+#### 8
+
+Inspect the contents of the first HTTP GET request from your browser to the server.  Do you see an “IF-MODIFIED-SINCE” line in the HTTP GET?
+
+No there is no IF-MODIFED-SINCE header.
+
+#### 9
+
+Inspect the contents of the server response. Did the server explicitly return the contents of the file?   How can you tell?
+
+Yes otherwise the status code would have been 304
+
+#### 10
+
+Now inspect the contents of the second HTTP GET request from your browser to the server.  Do you see an “IF-MODIFIED-SINCE:” line in the HTTP GET ? If so, what information follows the “IF-MODIFIED-SINCE:” header?
+
+Yes there is a IF-MODIFED-SINCE the next inforamtion is the frame of where is the response, and the header before is IF-NONE-MATCH
+
+What is the HTTP status code and phrase returned from the server in response to this second HTTP GET?  
+The 304 status code witht the phrase not modifed.
+Did the server explicitly return the contents of the file?   Explain.
+
+#### 11
+
+No the server didn't explicitly return the contents of the file, since the server found no changes the last time i made the request the browser gave the response from the local storage.
+
+### Retrieving long document
+
+#### 12
+
+How many HTTP GET request messages did your browser send?  Which packet number in the trace contains the GET message for the Bill or Rights?
+
+The browser sent only one get request, pakcet number 38
+
+#### 13
+
+Which packet number in the trace contains the status code and phrase associated with the response to the HTTP GET request?
+
+
+The browser sent only one get request, pakcet number 48
+
+
+#### 14
+
+What is the status code and phrase in the response?
+
+200 OK
+
+#### 15
+
+How many data-containing TCP segments were needed to carry the single HTTP response and the text of the Bill of Rights?
+
+2 TCP segment, one of 4380 bytes and another of 484 bytes
+
+### HTML documents with embeded objects
+
+#### 16
+
+How many HTTP GET request messages did your browser send?  
+
+3 GET request have been sent
+
+To which Internet addresses were these GET requests sent?
+
+the file ip address and persons ip address: 128.119.245.12
+
+
+the book cover ip address: 2a03:4000:3e:5ca:3813:f3ff:fe33:915d
+
+#### 17
+
+The request appears to be made sequencially since the first response arrive even before that the second request is captured.
+
+### HTTP Authentication
+
+#### 18
+
+What is the server’s response (status code and phrase) in response to the initial HTTP GET message from your browser?
+
+401 Unauthenticated
+
+#### 19
+
+When your browser’s sends the HTTP GET message for the second time, what new field is included in the HTTP GET message? 
+
+The new field what the Authorization header: it was a basic auth so the username and password were sent.
+
+
