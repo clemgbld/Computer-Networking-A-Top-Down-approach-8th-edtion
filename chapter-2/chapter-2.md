@@ -932,7 +932,7 @@ question.
 
 from wikipedia "Popular authentication modules include mod_access, mod_auth, mod_digest, and mod_auth_digest, the successor to mod_digest. A sample of other features include Secure Sockets Layer and Transport Layer Security support (mod_ssl), a proxy module (mod_proxy), a URL rewriting module (mod_rewrite), custom log files (mod_log_config), and filtering support (mod_include and mod_ext_filter)."
 
-## Wireshark Lab:HTTP
+## Wireshark Lab: HTTP
 
 ### The Basic HTTP GET/response interaction
 
@@ -1071,5 +1071,113 @@ What is the server’s response (status code and phrase) in response to the init
 When your browser’s sends the HTTP GET message for the second time, what new field is included in the HTTP GET message? 
 
 The new field what the Authorization header: it was a basic auth so the username and password were sent.
+
+## Wireshark Lab: DNS
+
+### nslookup
+
+#### 1
+
+Run nslookup to obtain the IP address of the web server for the Indian Institute of Technology in Bombay, India: www.iitb.ac.in.  What is the IP address of www.iitb.ac.in 
+
+103.21.124.133
+
+#### 2
+
+What is the IP address of the DNS server that provided the answer to your nslookup command in question 1 above?
+
+Its name is box and its ip address is 192.168.1.1
+
+#### 3
+
+Did the answer to your nslookup command in question 1 above come from an authoritative or non-authoritative server
+
+A non-authoritative server
+
+#### 4
+
+Use the nslookup command to determine the name of the authoritative name server for the iit.ac.in domain.  What is that name?  (If there are more than one authoritative servers, what is the name of the first authoritative server returned by nslookup)?
+
+dns1.iitb.ac.in
+
+If you had to find the IP address of that authoritative name server, how would you do so?
+
+i would do a ns lookup of type A of the domain name of the primary dns server who is dns1.ittb.ac.in, and the ip address is : 103.21.125.129
+
+
+### Tracing DNS with Wireshark
+
+#### 5
+
+Locate the first DNS query message resolving the name gaia.cs.umass.edu. What is the packet number  in the trace for the DNS query message?  Is this query message sent over UDP or TCP?   
+
+It is the packet number 87, the query message is sent over UDP
+
+#### 6
+
+Now locate the corresponding DNS response to the initial DNS query. What is the packet number in the trace for the DNS response message?  Is this response message received via UDP or TCP?   
+
+the packet is the nubmer 89 and it use UDP as well.
+
+#### 7
+
+What is the destination port for the DNS query message? 
+
+The destination port is 53
+
+
+What is the source port of the DNS response message?
+
+The source port is 53
+
+#### 8
+
+To what IP address is the DNS query message sent? 
+
+128.119.40.12
+
+#### 9
+
+Examine the DNS query message. How many “questions” does this DNS message contain? How many “answers” answers does it contain?
+
+It contains 1 question and 0 answer
+
+#### 10
+
+Examine the DNS response message to the initial query message. How many “questions” does this DNS message contain? How many “answers” answers does it con
+
+It contains 1 question and 1 answer
+
+
+#### 11
+
+The web page for the base file http://gaia.cs.umass.edu/kurose_ross/ references the image object http://gaia.cs.umass.edu/kurose_ross/header_graphic_book_8E_2.jpg , which, like the base webpage, is on gaia.cs.umass.edu.  What is the packet number in the trace for the initial HTTP GET request for the base file http://gaia.cs.umass.edu/kurose_ross/?
+
+this is the package 118
+
+What is the packet number in the trace of the DNS query made to resolve gaia.cs.umass.edu so that this initial HTTP request can be sent to the gaia.cs.umass.edu IP address?
+
+it is the package 87
+
+What is the packet number in the trace of the received DNS response? 
+
+it is the package 89
+
+What is the packet number in the trace for the HTTP GET request for the image object http://gaia.cs.umass.edu/kurose_ross/header_graphic_book_8E2.jpg? 
+
+this is the package 137 
+
+What is the packet number in the DNS query made to resolve gaia.cs.umass.edu so that this second HTTP request can be sent to the gaia.cs.umass.edu IP address? 
+
+This is the package 119
+
+the ip address is 10.15.0.2
+
+Discuss how DNS caching affects the answer to this last question. 
+
+It is not the same address because of the local caching
+
+
+#### 12
 
 
