@@ -1180,4 +1180,64 @@ It is not the same address because of the local caching
 
 #### 12
 
+What is the destination port for the DNS query message? 
 
+the destination port is 53
+
+What is the source port of the DNS response message?
+
+the source port is 53
+
+#### 13
+
+To what IP address is the DNS query message sent? Is this the IP address of your default local DNS server?
+
+Address: 128.119.240.9 and no this is not my default local DNS server
+
+#### 14
+
+Examine the DNS query message. What “Type” of DNS query is it? Does the query message contain any “answers”?
+
+It is a type A for the first one and a type AAAA for the second one an there is no answer in both
+
+
+#### 15
+
+Examine the DNS response message to the query message. How many “questions” does this DNS response message contain? How many “answers”?
+
+The first one has one query and one answer and the second one has only one query.
+
+Last, let’s use nslookup to issue a command that will return a type NS DNS record, Enter the following command:
+nslookup –type=NS umass.edu
+and then answer the following questions  :
+
+
+
+
+#### 16
+
+To what IP address is the DNS query message sent? Is this the IP address of your default local DNS server?
+
+The ip address is fd20:2814:1f8e:0:8223:95ff:feac:bb90 but the first query was sent to the cache first
+
+
+#### 17
+
+Examine the DNS query message. How many questions does the query have? Does the query message contain any “answers”?
+
+The two queries have each 1 question and 0 answer.
+
+#### 18
+
+Examine the DNS response message (in particular the DNS response message that has type “NS”).  How many answers does the response have?  What information 
+
+It has answers 3 with those informations: the domain name of the name servers.
+
+How many additional resource records are returned? 
+
+3 additional record of type A.
+
+What additional information is included in these additional resource records (if additional information is returned)?
+
+
+Those are type A record so the information included is the ip addresses of the name servers.
