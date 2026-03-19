@@ -47,7 +47,44 @@ Not it does not, only the receiver transport layer side needs to.
 #### 3
 
 a. Can we set up a gateway to the internet that translates IP addresses, so that we don't have to change all our internal addresses to an official network ?
+Yes we can set up a NAT Network address translation gateway exactly for that purpose.
 
 b. One of the header fields in an IP datagram is the time to live (TTL) Which of the following statements best explains the need for this field ?
 
+This header define the life-span of a packet before it is discarded by a router, to prevent it to let it circulate indefineltly on the network.
+
 c. What is the maximum size of data that the application layer can pass on to the TCP layer below ?
+This is defined by the MSS maximum size segment
+
+#### 4
+
+Describe why an application developer might choose to run an application
+over UDP rather than TCP
+
+When it does not care about 100% reliability (for example a video chat like Skype, you can afford some packet loss), When the application developer does not want to be constrained by network congestion control.
+
+#### 5
+
+Why is it that voice and video traffic is often sent over TCP rather than UDP
+in today’s Internet? (Hint: The answer we are looking for has nothing to do
+with TCP’s congestion-control mechanism.)
+
+For simplity i would say to take advantage of HTTP DASH and be able to consume the content in the quality that fits your connection better, and for security as well, with https the content will not be blocked by firewall and stuff like that unlike UDP who can be blocked.
+
+#### 6
+
+What are the responsabilities of the transport layer ?
+The big responsability of the transport layer is to get from and give to the network core packets and performing demultiplexing and multiplexing, by ensuring that the segment will be deliver to the correct source or destination process. Some more complex transport layer like TCP have additional responsabilites like ensuring reliablity, congestion control etc...
+
+#### 7
+
+Suppose a process in Host C has a UDP socket with port number 6789.
+Suppose both Host A and Host B each send a UDP segment to Host C with
+destination port number 6789. Will both of these segments be directed to the
+same socket at Host C? 
+Yes both segments will be directed at the same socket at Host C
+
+If so, how will the process at Host C know that these
+two segments originated from two different hosts?
+
+the process at Host C will know thanks to the source port in the header of the UDP segment and the source address in the header
