@@ -74,6 +74,7 @@ For simplity i would say to take advantage of HTTP DASH and be able to consume t
 #### 6
 
 What are the responsabilities of the transport layer ?
+
 The big responsability of the transport layer is to get from and give to the network core packets and performing demultiplexing and multiplexing, by ensuring that the segment will be deliver to the correct source or destination process. Some more complex transport layer like TCP have additional responsabilites like ensuring reliablity, congestion control etc...
 
 #### 7
@@ -82,9 +83,31 @@ Suppose a process in Host C has a UDP socket with port number 6789.
 Suppose both Host A and Host B each send a UDP segment to Host C with
 destination port number 6789. Will both of these segments be directed to the
 same socket at Host C? 
+
 Yes both segments will be directed at the same socket at Host C
 
 If so, how will the process at Host C know that these
 two segments originated from two different hosts?
 
 the process at Host C will know thanks to the source port in the header of the UDP segment and the source address in the header
+
+#### 8
+
+Suppose that a Web server runs in Host C on port 80. Suppose this Web
+server uses persistent connections, and is currently receiving requests from
+two different Hosts, A and B. Are all of the requests being sent through the
+same socket at Host C? 
+
+First the welcoming socket will perform the handshake phase with host A and B.
+
+Creating a client socket for handling the requests of each host.
+
+If they are being passed through different sockets, do
+both of the sockets have port 80?
+
+Discuss and explain.
+
+Multiple TCP connections can share port 80 because each connection is uniquely identified by the 4-tuple (source IP, source port, destination IP, destination port), and for different clients the source IP address and source port differ, allowing the server to distinguish them
+
+
+### Sections 3.4
