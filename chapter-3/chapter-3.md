@@ -169,4 +169,112 @@ c. Finally, try sending six packets. What happens?
 
 Same than with the GO-Back-N strategy, We cannot send six packets at the same time because the max window is 5 so there must be at most 5 packets in flight.
 
+### Sections 3.5
+
 #### 14
+
+True or false?
+a. Host A is sending Host B a large file over a TCP connection. Assume Host
+B has no data to send Host A. Host B will not send acknowledgments to
+Host A because Host B cannot piggyback the acknowledgments on data.
+
+False. Over TCP the receiver always have to acknowledged a packet.
+
+b. The size of the TCP rwnd never changes throughout the duration of the
+connection.
+
+False.
+
+c. Suppose Host A is sending Host B a large file over a TCP connection. The
+number of unacknowledged bytes that A sends cannot exceed the size of
+the receive buffer.
+
+True. The sender side has a mechanism to not overwhelmed the receiver.
+
+d. Suppose Host A is sending a large file to Host B over a TCP connection.
+If the sequence number for a segment of this connection is m, then the
+sequence number for the subsequent segment will necessarily be m + 1.
+
+False, the next sequence is m + number of bytes.
+
+e. The TCP segment has a field in its header for rwnd.
+
+True.
+
+f. Suppose that the last SampleRTT in a TCP connection is equal to 1 sec.
+The current value of TimeoutInterval for the connection will neces-
+sarily be >= 1 sec.
+
+True.
+
+g. Suppose Host A sends one segment with sequence number 38 and 4
+bytes of data over a TCP connection to Host B. In this same segment, the
+acknowledgment number is necessarily 42.
+
+False.
+
+#### 15
+
+Suppose Host A sends two TCP segments back to back to Host B over a
+TCP connection. The first segment has sequence number 90; the second has
+sequence number 110.
+a. How much data is in the first segment?
+20 bytes is in the first segment.
+b. Suppose that the first segment is lost but the second segment arrives at
+B. In the acknowledgment that Host B sends to Host A, what will be the
+acknowledgment number?
+
+the acknowledgment number will be 90.
+
+#### 16
+
+Consider the Telnet example discussed in Section 3.5. A few seconds after
+the user types the letter ‘C,’ the user types the letter ‘R.’ After typing the let-
+ter ‘R,’ how many segments are sent, and what is put in the sequence number
+and acknowledgment fields of the segments?
+
+3 segments are sent in total.
+
+Just to recall the segments sent by when the letter 'C' was typed was:
+
+1. Seq = 42, ACK=79, data='C' (client)
+2. Seq = 79, ACK=43, data='C' (server)
+3. Seq= 43, ACK=80
+
+And the segments for 'R' will be:
+
+1. Seq = 43, ACK=80, data='R' (client)
+2. Seq = 80, ACK=44, data='R' (server)
+3. Seq= 44, ACK=81
+
+#### 17
+
+Suppose two TCP connections are present over some bottleneck link of rate R
+
+bps. Both connections have a huge file to send (in the same direction over the
+
+bottleneck link). The transmissions of the files start at the same time. What
+
+transmission rate would TCP like to give to each of the connections?
+
+If we look at the concept of Fairness in TCP the logical rate TCP would like to give each connection is R/2 bps.
+
+#### 18
+
+True or false? Consider congestion control in TCP. When the timer expires at
+the sender, the value of ssthresh is set to one half of its previous value.
+False the ssthresh is set to cwnd (congestion window) / 2.
+
+#### 19
+
+In the discussion of TCP splitting in the sidebar in Section 3.7, it was
+claimed that the response time with TCP splitting is approximately
+4 * RTTFE + RTTBE + processing time. Justify this claim.
+
+It's because the frontend maintain a persistent TCP connection with the backend, and the frontend is close to the client.
+
+- 1 RTTFE for http handshake with the frontend server
+- 1 RTTFE for http request client
+- 1 RTTBE to frontend server -> backend server
+- 2 RTTFE response to the client (multiple RTT because of the slow start)
+- processing time (the backend needs to build the response)
