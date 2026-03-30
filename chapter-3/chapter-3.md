@@ -278,3 +278,62 @@ It's because the frontend maintain a persistent TCP connection with the backend,
 - 1 RTTBE to frontend server -> backend server
 - 2 RTTFE response to the client (multiple RTT because of the slow start)
 - processing time (the backend needs to build the response)
+
+### Problems
+
+#### 1
+
+Suppose Client A initiates a Telnet session with Server S. At about the same
+time, Client B also initiates a Telnet session with Server S. Provide possible
+source and destination port numbers for
+a. The segments sent from A to S.
+
+source: 5890, destination: 9087
+
+b. The segments sent from B to S.
+
+source: 6790, destination: 9087
+
+c. The segments sent from S to A.
+
+source: 9087, destination: 5890
+
+d. The segments sent from S to B.
+
+
+source: 9087, destination: 6790
+
+e. If A and B are different hosts, is it possible that the source port number in
+the segments from A to S is the same as that from B to S?
+
+Yes it is possible.
+Their IP would differentiate them in that case.
+
+f. How about if they are the same host?
+
+No it is not possible, because of the 4 tuple uniqueness requirement.
+
+#### 2
+
+Consider Figure 3.5. What are the source and destination port values in the
+segments flowing from the server back to the clients’ processes? What are
+the IP addresses in the network-layer datagrams carrying the transport-layer
+segments?
+
+There is 3 segments and datagrams:
+
+- segment (source port: 80, destination port: 7532) , datagram ( source IP: B, destination IP: C)
+- segment (source port: 80, destination port: 26145) , datagram ( source IP: B, destination IP: C)
+- segment (source port: 80, destination port: 26145) , datagram ( source IP: B, destination IP: A)
+
+#### 3
+
+UDP and TCP use 1s complement for their checksums. Suppose you have
+the following three 8-bit bytes: 01010011, 01100110, 01110100. What is the
+1s complement of the sum of these 8-bit bytes? (Note that although UDP and
+TCP use 16-bit words in computing the checksum, for this problem you are
+being asked to consider 8-bit sums.) Show all work. Why is it that UDP takes
+the 1s complement of the sum; that is, why not just use the sum? With the 1s
+complement scheme, how does the receiver detect errors? Is it possible that a
+1-bit error will go undetected? How about a 2-bit error?
+
