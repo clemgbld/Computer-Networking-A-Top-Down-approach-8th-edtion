@@ -332,8 +332,85 @@ UDP and TCP use 1s complement for their checksums. Suppose you have
 the following three 8-bit bytes: 01010011, 01100110, 01110100. What is the
 1s complement of the sum of these 8-bit bytes? (Note that although UDP and
 TCP use 16-bit words in computing the checksum, for this problem you are
-being asked to consider 8-bit sums.) Show all work. Why is it that UDP takes
-the 1s complement of the sum; that is, why not just use the sum? With the 1s
-complement scheme, how does the receiver detect errors? Is it possible that a
+being asked to consider 8-bit sums.) Show all work. 
+
+01010011
+10111001
+--------
+10111001
+--------
+00101101
+       1
+--------
+11010001
+
+The overflow get wrapped around, we inverse zeros and ones.
+
+So the resulting checksum is 11010001
+
+Why is it that UDP takes
+the 1s complement of the sum; that is, why not just use the sum? 
+Because the sum could overflow the 16 bits.
+
+With the 1s complement scheme, how does the receiver detect errors? 
+
+The 1s complement scheme lets the receiver check integrity, by simply adding all values including the checksum, if the result is all 1, no error is detected.
+
+Is it possible that a
 1-bit error will go undetected? How about a 2-bit error?
+
+1 bit error will be detected because if one bit is flipped you will have a zero but if 2-bit are flipped one bit can be flipped to 0 and then flipped back to 1 and go undetected.
+
+#### 4
+
+a. Suppose you have the following 2 bytes: 01011100 and 01100101. What
+is the 1s complement of the sum of these 2 bytes?
+
+Since their sum doesn't exceed 255 it is just a simple sum 11000001 and if you apply the 1 complement 00111110.
+
+b. Suppose you have the following 2 bytes: 11011010 and 01100101. What
+is the 1s complement of the sum of these 2 bytes?
+
+11011010
+--------
+01100101
+--------
+101000011
+wrap around
+01000011
+--------
+       1
+01000100
+first complement
+10111011
+
+c. For the bytes in part (a), give an example where one bit is flipped in each
+of the 2 bytes and yet the 1s complement doesn’t change.
+
+01011101
+--------
+01100100
+--------
+00111110
+1 complement
+11000001
+
+The trick is just to keep the same sum.
+
+#### 5
+
+Suppose that the UDP receiver computes the Internet checksum for the
+received UDP segment and finds that it matches the value carried in the
+checksum field. Can the receiver be absolutely certain that no bit errors have
+occurred? Explain.
+
+Not it can't because if a two bit error happened on the same bit it will be undetected.
+
+#### 6
+
+Consider our motivation for correcting protocol rdt2.1. Show that the
+receiver, shown in Figure 3.60, when operating with the sender shown in
+Figure 3.11, can lead the sender and receiver to enter into a deadlock state,
+where each is waiting for an event that will never occur.
+
 
