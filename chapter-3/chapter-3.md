@@ -413,4 +413,28 @@ receiver, shown in Figure 3.60, when operating with the sender shown in
 Figure 3.11, can lead the sender and receiver to enter into a deadlock state,
 where each is waiting for an event that will never occur.
 
+- Sender sends a packet who get acknowledged
+
+- the ACK get corrupted
+
+- the Sender resend the same packet
+
+- The receiver gets confused because it thinks it is a new packet.
+
+- the sender and receiver are out of sync and enter a deadlock state which from they can't recover.
+
+the flaw of the protocol 2.1 is that there is no sequence number.
+
+#### 7
+
+In protocol rdt3.0, the ACK packets flowing from the receiver to the
+sender do not have sequence numbers (although they do have an ACK field
+that contains the sequence number of the packet they are acknowledging).
+Why is it that our ACK packets do not require sequence numbers?
+
+They do not require sequence number because rdt3.0 is a stop and wait protocol (you can't have multiple packets in flight), so the ACK is either the right one or a duplicate and get ignores. 
+
+#### 8
+
+Draw the FSM for the receiver side of protocol rdt3.0.
 
