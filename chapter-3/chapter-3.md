@@ -438,3 +438,133 @@ They do not require sequence number because rdt3.0 is a stop and wait protocol (
 
 Draw the FSM for the receiver side of protocol rdt3.0.
 
+[answer](./problem-8.png)
+
+#### 9
+
+Give a trace of the operation of protocol rdt3.0 when data packets and
+acknowledgment packets are garbled. Your trace should be similar to that
+used in Figure 3.16.
+
+
+[answer](./problem-9.png)
+
+
+#### 10
+
+Consider a channel that can lose packets but has a maximum delay that is
+known. Modify protocol rdt2.1 to include sender timeout and retransmit.
+Informally argue why your protocol can communicate correctly over this
+channel.
+
+
+[answer](./problem-10.png)
+
+#### 11
+
+Consider the rdt2.2 receiver in Figure 3.14, and the creation of a new
+packet in the self-transition (i.e., the transition from the state back to
+itself) in the Wait-for-0-from-below and the Wait-for-1-from-below states:
+sndpkt=make_pkt(ACK,1,checksum) and sndpkt=make_
+pkt(ACK,0,checksum). Would the protocol work correctly if this action
+were removed from the self-transition in the Wait-for-1-from-below state?
+Justify your answer. 
+This is safe because the receiver can resend the duplicated packet.
+What if this event were removed from the self-transition
+in the Wait-for-0-from-below state? 
+Not it won't the sender needs to resend the packet in case of a corrupted packet or a corrupted ACK.
+[Hint: In this latter case, consider what
+would happen if the first sender-to-receiver packet were corrupted.]
+
+
+#### 12
+
+The sender side of rdt3.0 simply ignores (that is, takes no action on)
+all received packets that are either in error or have the wrong value in the
+acknum field of an acknowledgment packet. Suppose that in such circum-
+stances, rdt3.0 were simply to retransmit the current data packet. Would
+the protocol still work? (Hint: Consider what would happen if there were
+only bit errors; there are no packet losses but premature timeouts can occur.
+Consider how many times the nth packet is sent, in the limit as n approaches
+infinity.)
+
+The protocol would break because it would trigger a chain where too much packets are in flight (due to the sender constantly resending packets).
+
+#### 13
+
+Consider the rdt 3.0 protocol. Draw a diagram showing that if the
+network connection between the sender and receiver can reorder messages
+(that is, that two messages propagating in the medium between the sender
+and receiver can be reordered), then the alternating-bit protocol will not
+work correctly (make sure you clearly identify the sense in which it will
+not work correctly). Your diagram should have the sender on the left and
+the receiver on the right, with the time axis running down the page, show-
+ing data (D) and acknowledgment (A) message exchange. Make sure you
+indicate the sequence number associated with any data or acknowledgment
+segment
+
+
+[answer](./problem-13.png)
+
+#### 14
+
+Consider a reliable data transfer protocol that uses only negative acknowledg-
+ments. Suppose the sender sends data only infrequently. Would a NAK-only
+protocol be preferable to a protocol that uses ACKs? Why? 
+
+A protocol that use ACK is better in that case because you don't want to move to the next packet to send too quickly before being sure that the receiver received the packet and having and sustain a loss that you can't detect.
+
+Now suppose the
+sender has a lot of data to send and the end-to-end connection experiences
+few losses. In this second case, would a NAK-only protocol be preferable to
+a protocol that uses ACKs? Why?
+
+A NAK is preferable because since there is a lot of data to and send and few losses you want to move forward as fast as possible and resend packet when you receive a NAK.
+
+#### 15
+
+Consider the cross-country example shown in Figure 3.17. How big would
+the window size have to be for the channel utilization to be greater than
+98 percent? Suppose that the size of a packet is 1,500 bytes, including both
+header fields and data.
+
+dtrans = L/R = 12000 bits/ 10^9bits/sec = 12 microseconds.
+
+30,012 * 0,98 = 29,401 / 0,012 = a window size of 2451.
+
+#### 16
+
+Suppose an application uses rdt 3.0 as its transport layer protocol. As the
+stop-and-wait protocol has very low channel utilization (shown in the cross-
+country example), the designers of this application let the receiver keep send-
+ing back a number (more than two) of alternating ACK 0 and ACK 1 even if
+the corresponding data have not arrived at the receiver. Would this applica-
+tion design increase the channel utilization? Why? Are there any potential
+problems with this approach? Explain.
+
+Yes that will increase channel utilization but that would cause more than one packet to be in flight and could cause lost packets since the receiver couldn't if the right 0 or 1 packet has arrived.
+
+#### 17
+
+Consider two network entities, A and B, which are connected by a perfect
+bi-directional channel (i.e., any message sent will be received correctly; the
+channel will not corrupt, lose, or re-order packets). A and B are to deliver
+data messages to each other in an alternating manner: First, A must deliver
+a message to B, then B must deliver a message to A, then A must deliver a
+message to B and so on. If an entity is in a state where it should not attempt
+to deliver a message to the other side, and there is an event like rdt_
+send(data) call from above that attempts to pass data down for transmis-
+sion to the other side, this call from above can simply be ignored with a call
+to rdt_unable_to_send(data), which informs the higher layer that it
+is currently not able to send data. [Note: This simplifying assumption is made
+so you don’t have to worry about buffering data.]
+Draw a FSM specification for this protocol (one FSM for A, and one FSM
+for B!). Note that you do not have to worry about a reliability mechanism
+here; the main point of this question is to create a FSM specification that
+reflects the synchronized behavior of the two entities. You should use the
+following events and actions that have the same meaning as protocol rdt1.0 in
+Figure 3.9: rdt_send(data), packet = make_pkt(data), udt_
+send(packet), rdt_rcv(packet), extract (packet,data),
+deliver_data(data). Make sure your protocol reflects the strict alter-
+nation of sending between A and B. Also, make sure to indicate the initial
+states for A and B in your FSM descriptions.
