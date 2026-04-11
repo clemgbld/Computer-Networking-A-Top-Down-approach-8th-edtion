@@ -568,3 +568,41 @@ send(packet), rdt_rcv(packet), extract (packet,data),
 deliver_data(data). Make sure your protocol reflects the strict alter-
 nation of sending between A and B. Also, make sure to indicate the initial
 states for A and B in your FSM descriptions.
+
+
+[answer](./problem-17.png)
+
+#### 18
+
+In the generic SR protocol that we studied in Section 3.4.4, the sender
+transmits a message as soon as it is available (if it is in the window) without
+waiting for an acknowledgment. Suppose now that we want an SR protocol
+that sends messages two at a time. That is, the sender will send a pair of mes-
+sages and will send the next pair of messages only when it knows that both
+messages in the first pair have been received correctly.
+Suppose that the channel may lose messages but will not corrupt or reorder
+messages. Design an error-control protocol for the unidirectional reliable
+transfer of messages. Give an FSM description of the sender and receiver.
+Describe the format of the packets sent between sender and receiver, and vice
+versa. If you use any procedure calls other than those in Section 3.4
+(for example, udt_send(), start_timer(), rdt_rcv(), and so on),
+clearly state their actions. Give an example (a timeline trace of sender and
+receiver) showing how your protocol recovers from a lost packet.
+
+[sending side](./problem-18-sender.png)
+[receiving side](./problem-18-receiver.png)
+[timeline](./problem-18-timeline.png)
+
+#### 19
+
+Consider a scenario in which Host A wants to simultaneously send packets
+to Hosts B and C. A is connected to B and C via a broadcast channel—a
+packet sent by A is carried by the channel to both B and C. Suppose that
+the broadcast channel connecting A, B, and C can independently lose and
+corrupt packets (and so, for example, a packet sent from A might be cor-
+rectly received by B, but not by C). Design a stop-and-wait-like error-control
+protocol for reliably transferring packets from A to B and C, such that A will
+not get new data from the upper layer until it knows that both B and C have
+correctly received the current packet. Give FSM descriptions of A and C.
+(Hint: The FSM for B should be essentially the same as for C.) Also, give a
+description of the packet format(s) used.
