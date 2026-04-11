@@ -606,3 +606,23 @@ not get new data from the upper layer until it knows that both B and C have
 correctly received the current packet. Give FSM descriptions of A and C.
 (Hint: The FSM for B should be essentially the same as for C.) Also, give a
 description of the packet format(s) used.
+
+[Host A](./problem-19-A.png)
+[Host B and C since they are basically the same](./problem-19-B.png)
+
+packet has the same format that in rdt
+ACK has well except for one additional field to track from which host the ACK come from (let's call it ID).
+
+#### 20
+
+Consider a scenario in which Host A and Host B want to send messages to
+Host C. Hosts A and C are connected by a channel that can lose and corrupt
+(but not reorder) messages. Hosts B and C are connected by another channel
+(independent of the channel connecting A and C) with the same properties.
+The transport layer at Host C should alternate in delivering messages from
+A and B to the layer above (that is, it should first deliver the data from a packet
+from A, then the data from a packet from B, and so on). Design a stop-and-
+wait-like error-control protocol for reliably transferring packets from A and
+B to C, with alternating delivery at C as described above. Give FSM descrip-
+tions of A and C. (Hint: The FSM for B should be essentially the same as
+for A.) Also, give a description of the packet format(s) used.
