@@ -626,3 +626,8 @@ wait-like error-control protocol for reliably transferring packets from A and
 B to C, with alternating delivery at C as described above. Give FSM descrip-
 tions of A and C. (Hint: The FSM for B should be essentially the same as
 for A.) Also, give a description of the packet format(s) used.
+
+
+[Host C](./problem-20-C.png)
+packet and ACK has the same format that in rdt but both have an additional field ID that contains the name of the host.
+
