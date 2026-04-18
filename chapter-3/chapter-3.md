@@ -629,5 +629,182 @@ for A.) Also, give a description of the packet format(s) used.
 
 
 [Host C](./problem-20-C.png)
+[Host A (B is the same)](./problem-20-A.png)
+
 packet and ACK has the same format that in rdt but both have an additional field ID that contains the name of the host.
 
+#### 21
+
+Suppose we have two network entities, A and B. B has a supply of data mes-
+sages that will be sent to A according to the following conventions. When A
+gets a request from the layer above to get the next data (D) message from B,
+A must send a request (R) message to B on the A-to-B channel. Only when B
+receives an R message can it send a data (D) message back to A on the B-to-
+A channel. A should deliver exactly one copy of each D message to the layer
+above. R messages can be lost (but not corrupted) in the A-to-B channel; D
+messages, once sent, are always delivered correctly. The delay along both
+channels is unknown and variable.
+Design (give an FSM description of) a protocol that incorporates the appro-
+priate mechanisms to compensate for the loss-prone A-to-B channel and
+implements message passing to the layer above at entity A, as discussed
+above. Use only those mechanisms that are absolutely necessary.
+
+
+[Host A](./problem-21-A.png)
+[Host B](./problem-21-B.png)
+
+#### 22
+
+Consider the GBN protocol with a sender window size of 4 and a sequence
+number range of 1,024. Suppose that at time t, the next in-order packet
+that the receiver is expecting has a sequence number of k. Assume that the
+medium does not reorder messages. Answer the following questions:
+a. What are the possible sets of sequence numbers inside the sender’s
+window at time t? Justify your answer.
+
+4 possible windows {k - 3, k - 2, k - 1, k}, {k - 2, k - 1, k, k + 1} , {k - 1, k, k + 1, k + 2}, {k, k + 1, k + 2, k + 3}
+
+b. What are all possible values of the ACK field in all possible messages
+currently propagating back to the sender at time t? Justify your answer.
+
+Any values before the max sequence number of the current window is possible even values from a previous window because of the unreliability of the network.
+
+#### 23
+
+Consider the GBN and SR protocols. Suppose the sequence number space
+is of size k. What is the largest allowable sender window that will avoid
+the occurrence of problems such as that in Figure 3.27 for each of these
+protocols?
+
+In the case of SR is should be less than than or half the size of the sequence number space.
+IN GBN it for that case it doesn't matter because since it use cumulative acknowledgement the sender will know there is a problem if it receive an ACK that is not the expected K but the window still needs to be k - 1 to avoid confusing an old package with a current one.
+
+#### 24
+
+Answer true or false to the following questions and briefly justify your
+answer:
+a. With the SR protocol, it is possible for the sender to receive an ACK for a
+packet that falls outside of its current window.
+true a delayed packet can still arrive later
+b. With GBN, it is possible for the sender to receive an ACK for a packet
+that falls outside of its current window.
+true a delayed packet can still arrive later
+c. The alternating-bit protocol is the same as the SR protocol with a sender
+and receiver window size of 1.
+true
+d. The alternating-bit protocol is the same as the GBN protocol with a sender
+and receiver window size of 1.
+true
+
+#### 25
+
+We have said that an application may choose UDP for a transport protocol
+because UDP offers finer application control (than TCP) of what data is sent
+in a segment and when.
+Why does an application have more control of what data is sent in a segment?
+
+Because UDP put in his data field what the application gives it, no splitting or buffering is happening like it happens with TCP.
+
+Why does an application have more control on when the segment is sent?
+
+Again because since UDP is the simplest a transport layer protocol can be there is no flow control and connection to maintain.
+
+#### 26
+
+Consider transferring an enormous file of L bytes from Host A to Host B.
+Assume an MSS of 536 bytes.
+a. What is the maximum value of L such that TCP sequence numbers are not
+exhausted? Recall that the TCP sequence number field has 4 bytes.
+
+Since the maximum number that we can put in a 4 bytes number field is 4294967296 (4294967295 + 1 which is zero), the maximum L can get's without a wrap around is 4294967296 bytes.
+
+b. For the L you obtain in (a), find how long it takes to transmit the file.
+Assume that a total of 66 bytes of transport, network, and data-link header
+are added to each segment before the resulting packet is sent out over a
+155 Mbps link. Ignore flow control and congestion control so A can pump
+out the segments back to back and continuously.
+
+total number of segments = 4294967296 / 536 = 8012998,68656716
+d_transmission = (536 + 66) * 8 bits / 155Mpbs = 0,00003107s
+d_transmission * total number of segments = around 249 seconds.
+
+
+#### 27
+
+Host A and B are communicating over a TCP connection, and Host B has
+already received from A all bytes up through byte 126. Suppose Host A
+then sends two segments to Host B back-to-back. The first and second
+segments contain 80 and 40 bytes of data, respectively. In the first segment,
+the sequence number is 127, the source port number is 302, and the des-
+tination port number is 80. Host B sends an acknowledgment whenever it
+receives a segment from Host A.
+a. In the second segment sent from Host A to B, what are the sequence num-
+
+ber, source port number, and destination port number?
+The sequence number is 207 , the source port number is 302, and the des-
+tination port number is 80.
+
+b. If the first segment arrives before the second segment, in the acknowledg-
+ment of the first arriving segment, what is the acknowledgment number,
+the source port number, and the destination port number?
+
+the acknowledgment will be 207 the source port 80 and the destination port 302
+
+c. If the second segment arrives before the first segment, in the acknowledg-
+ment of the first arriving segment, what is the acknowledgment number?
+
+it will send that it expects the first segment so:
+sequence number 127, source port 80 and the destination port 302.
+
+d. Suppose the two segments sent by A arrive in order at B. The first
+acknowledgment is lost and the second acknowledgment arrives after the
+first timeout interval. Draw a timing diagram, showing these segments
+and all other segments and acknowledgments sent. (Assume there is no
+additional packet loss.) For each segment in your figure, provide the
+sequence number and the number of bytes of data; for each acknowledg-
+ment that you add, provide the acknowledgment number.
+
+[diagram](./problem-27-D.png)
+
+#### 28
+
+Host A and B are directly connected with a 100 Mbps link. There is one TCP
+connection between the two hosts, and Host A is sending to Host B an enor-
+mous file over this connection. Host A can send its application data into its
+TCP socket at a rate as high as 120 Mbps but Host B can read out of its TCP
+receive buffer at a maximum rate of 50 Mbps. Describe the effect of TCP
+flow control.
+
+The throughput will be limited to 50Mbps to not overwhelmed the receiver.
+
+#### 29
+
+SYN cookies were discussed in Section 3.5.6.
+a. Why is it necessary for the server to use a special initial sequence number
+in the SYNACK?
+It's necessary to use a special initial sequence number to be sure that the client go to the full workflow of sending a SYN, then get back a SYNACK and then send a ACK, and not bypassing a step by sending directly a ACK because the client must know the sepecial initial number and cannot guess it.
+b. Suppose an attacker knows that a target host uses SYN cookies. Can the
+attacker create half-open or fully open connections by simply sending an
+ACK packet to the target? Why or why not?
+No it can't because the ACK must contain the cookie that you can get only by sending a SYN first and get by receiving the SYNACK.
+c. Suppose an attacker collects a large amount of initial sequence numbers sent
+by the server. Can the attacker cause the server to create many fully open
+connections by sending ACKs with those initial sequence numbers? Why?
+
+The cookie have a TTL because it is timestamped so too many connection will not be open because most of the cookie will be expired when the client will try to open many concurrent TCP connection.
+
+#### 30
+
+Consider the network shown in Scenario 2 in Section 3.6.1. Suppose both
+sending hosts A and B have some fixed timeout values.
+a. Argue that increasing the size of the finite buffer of the router might pos-
+sibly decrease the throughput (lout).
+
+Not really a bigger buffer size in that case just means that the segment will spend more time in the buffer since the timeout is fixed. And retransmission will occur.
+
+b. Now suppose both hosts dynamically adjust their timeout values (like
+what TCP does) based on the buffering delay at the router. Would increas-
+ing the buffer size help to increase the throughput? Why?
+
+
+Yes because the host could figure out the optimal timeout value and retransmit less (that is what TCP does in fact), and send more segment in less time to the other host.
