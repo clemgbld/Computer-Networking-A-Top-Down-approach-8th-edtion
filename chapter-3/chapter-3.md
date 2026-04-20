@@ -808,3 +808,151 @@ ing the buffer size help to increase the throughput? Why?
 
 
 Yes because the host could figure out the optimal timeout value and retransmit less (that is what TCP does in fact), and send more segment in less time to the other host.
+
+#### 31
+
+Suppose that the five measured SampleRTT values (see Section 3.5.3)
+are 106 ms, 120 ms, 140 ms, 90 ms, and 115 ms. Compute the Estimat-
+edRTT after each of these SampleRTT values is obtained, using a value of
+α = 0.125 and assuming that the value of EstimatedRTT was 100 ms
+just before the first of these five samples were obtained. Compute also the
+DevRTT after each sample is obtained, assuming a value of β= 0.25 and
+assuming the value of DevRTT was 5 ms just before the first of these five
+samples was obtained. Last, compute the TCP TimeoutInterval after
+each of these samples is obtained.
+
+I implemented a small [python program](./estimated_Rtt.py) to do the calculations:
+
+Dev RTT 5.25 ms
+Estimated RTT: 100.75 ms
+Timeout interval 121.75 ms
+
+Dev RTT 8.75 ms
+Estimated RTT: 103.15625 ms
+Timeout interval 138.15625 ms
+
+Dev RTT 15.7734375 ms
+Estimated RTT: 107.76171875 ms
+Timeout interval 170.85546875 ms
+
+Dev RTT 16.2705078125 ms
+Estimated RTT: 105.54150390625 ms
+Timeout interval 170.62353515625 ms
+
+Dev RTT 14.5675048828125 ms
+Estimated RTT: 106.72381591796875 ms
+Timeout interval 164.99383544921875 ms
+
+Final estimated RTT: 106.72381591796875 ms
+
+#### 32
+
+Consider the TCP procedure for estimating RTT. Suppose that α = 0.1. Let
+SampleRTT1 be the most recent sample RTT, let SampleRTT2 be the next
+most recent sample RTT, and so on.
+a. For a given TCP connection, suppose four acknowledgments have
+been returned with corresponding sample RTTs: SampleRTT4,
+SampleRTT3, SampleRTT2, and SampleRTT1. Express
+EstimatedRTT in terms of the four sample RTTs.
+
+
+(0.9 * (0.9 *   (0.9 * (0.9 * InitialEstimatedRTT + 0.1 * SampleRTT4) + 0.1 * SampleRTT3 ) + 0.1 * SampleRTT2 ) + 0.1 * SampleRTT1 )
+
+
+b. Generalize your formula for n sample RTTs.
+
+EstimatedRTT_n = 0.9 × EstimatedRTT_(n-1) + 0.1 × SampleRTT_n
+
+c.
+For the formula in part (b) let n approach infinity. Comment on why this
+averaging procedure is called an exponential moving average
+
+Since the youngest RTT is given a weight of alpha (in that case 10%) no matter how many previous SampleRTT there was that is was it's called exponnetial moving average the new SampleRTT quickly have more influence than the previous ones in an exponential manner (and logically the oldest RTT loose influence exponentially as well).
+
+#### 33
+
+In Section 3.5.3, we discussed TCP’s estimation of RTT. Why do you think
+TCP avoids measuring the SampleRTT for retransmitted segments?
+
+It because ambiguity, the server doesn't know if the ACK segment comes from the retransmitted segment or from the original one since there is no way to know if this last was really lost or not.
+
+#### 34
+What is the relationship between the variable SendBase in Section 3.5.4
+and the variable LastByteRcvd in Section 3.5.5?
+
+Sendbase - 1 = LastByteRcvd
+
+#### 35
+
+What is the relationship between the variable LastByteRcvd in
+Section 3.5.5 and the variable y in Section 3.5.4?
+
+if(y > SendBase) = y - 1 = LastByteRcvd
+
+#### 36
+
+In Section 3.5.4, we saw that TCP waits until it has received three dupli-
+cate ACKs before performing a fast retransmit. Why do you think the TCP
+designers chose not to perform a fast retransmit after the first duplicate ACK
+for a segment is received?
+
+To not do a premature retransmission (which would be expensive and waste work), because it can happen that a segment has been a little delayed and had arrived out of order at the receiver, and it would be expensive to retransmit all the segment after the base.
+
+#### 37
+
+Compare GBN, SR, and TCP (no delayed ACK). Assume that the timeout
+values for all three protocols are sufficiently long such that five consecutive
+data segments and their corresponding ACKs can be received (if not lost in
+the channel) by the receiving host (Host B) and the sending host (Host A)
+respectively. Suppose Host A sends five data segments to Host B, and the
+second segment (sent from A) is lost. In the end, all five data segments have
+been correctly received by Host B.
+a. How many segments has Host A sent in total and how many ACKs has
+Host B sent in total? 
+
+
+What are their sequence numbers? Answer this
+question for all three protocols.
+
+for GBN: 
+Host A sent 9 segments and Host B sent 8 ACK
+
+Host A segment's sequence numbers: 0,1,2,3,4, 1,2,3,4
+Host B ACK's sequence numbers: 1, 1, 1, 1, 2, 3, 4, 5
+
+for SR:
+Host A sent 6 segments and Host B sent 5 ACK
+
+Host A segment's sequence numbers: 0,1,2,3,4,1
+Host B ACK's sequence numbers: 0,2,3,4,1
+
+for TCP
+
+Host A sent 6 segments and Host B sent 5 ACK
+Host A segment's sequence numbers: 0, 1, 2, 3, 4, 1
+Host B ACK's sequence numbers:  1, 1, 1, 1, 5
+
+
+b. If the timeout values for all three protocol are much longer than 5 RTT,
+then which protocol successfully delivers all five data segments in short-
+est time interval?
+
+I would say it is TCP since we don't have to wait the timeout, and just resend the loss packet as soon as we get the 3 duplicate ACK.
+
+#### 38
+
+In our description of TCP in Figure 3.53, the value of the threshold,
+ssthresh, is set as ssthresh=cwnd/2 in several places and
+ssthresh value is referred to as being set to half the window size when a
+loss event occurred. Must the rate at which the sender is sending when the
+loss event occurred be approximately equal to cwnd segments per RTT?
+Explain your answer. If your answer is no, can you suggest a different
+manner in which ssthresh should be set?
+
+I would say not it could be equal to rwnd as well, maybe it should be set to min(cwnd,rwnd)
+
+#### 39
+
+ Consider Figure 3.46(b). If l′in increases beyond R/2, can lout increase
+beyond R/3? Explain.
+ Now consider Figure 3.46(c). If l′in increases beyond R/2, can lout increase beyond R/4 under the assumption that a packet will be forwarded twice on average from the router to the receiver? Explain.
