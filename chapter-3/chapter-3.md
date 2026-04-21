@@ -955,4 +955,30 @@ I would say not it could be equal to rwnd as well, maybe it should be set to min
 
  Consider Figure 3.46(b). If l′in increases beyond R/2, can lout increase
 beyond R/3? Explain.
+Yes it can increase beyond R/3 if R/2 increase since R/2 is the bottleneck rate
  Now consider Figure 3.46(c). If l′in increases beyond R/2, can lout increase beyond R/4 under the assumption that a packet will be forwarded twice on average from the router to the receiver? Explain.
+Same for this case moreover it will be significantly harder.
+
+#### 40
+
+Consider Figure 3.61. Assuming TCP Reno is the protocol experiencing the
+behavior shown above, answer the following questions. In all cases, you
+should provide a short discussion justifying your answer.
+a. Identify the intervals of time when TCP slow start is operating.
+From 0 to 6 transmission round and from 22 to 26 (and more).
+b. Identify the intervals of time when TCP congestion avoidance is operating.
+c. After the 16th transmission round, is segment loss detected by a triple
+duplicate ACK or by a timeout?
+d. After the 22nd transmission round, is segment loss detected by a triple
+duplicate ACK or by a timeout?
+e. What is the initial value of ssthresh at the first transmission round?
+f. What is the value of ssthresh at the 18th transmission round?
+g. What is the value of ssthresh at the 24th transmission round?
+h. During what transmission round is the 70th segment sent?
+i. Assuming a packet loss is detected after the 26th round by the receipt of
+a triple duplicate ACK, what will be the values of the congestion window
+size and of ssthresh?
+j. Suppose TCP Tahoe is used (instead of TCP Reno), and assume that triple
+duplicate ACKs are received at the 16th round. What are the ssthresh
+and the congestion window size at the 19th round?
+k. 
