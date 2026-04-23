@@ -965,20 +965,43 @@ Consider Figure 3.61. Assuming TCP Reno is the protocol experiencing the
 behavior shown above, answer the following questions. In all cases, you
 should provide a short discussion justifying your answer.
 a. Identify the intervals of time when TCP slow start is operating.
-From 0 to 6 transmission round and from 22 to 26 (and more).
+From 1 to 6 transmission round and from 23 to 26 (and more).
 b. Identify the intervals of time when TCP congestion avoidance is operating.
+From 5 to 16 and from 17 to 22.
 c. After the 16th transmission round, is segment loss detected by a triple
 duplicate ACK or by a timeout?
+By duplicate ACK cwnd is divided by 2 at transmission round 17.
 d. After the 22nd transmission round, is segment loss detected by a triple
 duplicate ACK or by a timeout?
+By a timeout , cwnd drops to 1 and the slow start phase is beginning.
 e. What is the initial value of ssthresh at the first transmission round?
+32 segments.
 f. What is the value of ssthresh at the 18th transmission round?
+21 segments.
 g. What is the value of ssthresh at the 24th transmission round?
+14 segments.
 h. During what transmission round is the 70th segment sent?
+round 7.
 i. Assuming a packet loss is detected after the 26th round by the receipt of
 a triple duplicate ACK, what will be the values of the congestion window
 size and of ssthresh?
+It will enter in fast recovery mode and have its ssthresh divided by 2 so it will be 8.
+and the congestion window size would have been 7.
 j. Suppose TCP Tahoe is used (instead of TCP Reno), and assume that triple
 duplicate ACKs are received at the 16th round. What are the ssthresh
 and the congestion window size at the 19th round?
+It would enter in slow start mode and the congestion window would have been set to 1, then it would have been 8 at the 19th round. the ssthresh would have been the congestion window at the 16th round divided by 2 which is 42 / 2 = 21.
 k. 
+Again suppose TCP Tahoe is used, and there is a timeout event at
+22nd round. How many packets have been sent out from 17th round till
+22nd round, inclusive?
+52 and we pass in congestion avoidance just after the 21th round.
+1 + 2 + 4 + 8 + 16 + 21 = 52.
+
+#### 41
+
+Refer to Figure 3.55, which illustrates the convergence of TCP’s AIMD
+algorithm. Suppose that instead of a multiplicative decrease, TCP decreased
+the window size by a constant amount. Would the resulting AIAD algorithm
+converge to an equal share algorithm? Justify your answer using a diagram
+similar to Figure 3.55.
