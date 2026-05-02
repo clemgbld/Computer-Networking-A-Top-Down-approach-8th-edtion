@@ -1005,3 +1005,140 @@ algorithm. Suppose that instead of a multiplicative decrease, TCP decreased
 the window size by a constant amount. Would the resulting AIAD algorithm
 converge to an equal share algorithm? Justify your answer using a diagram
 similar to Figure 3.55.
+
+With additive decrease the AIAD algorithm will not converge to an equal share algorithm if the multiple connection does not have the same throughput. 
+
+#### 42
+
+In Section 3.5.4, we discussed the doubling of the timeout interval after a
+timeout event. This mechanism is a form of congestion control. Why does
+TCP need a window-based congestion-control mechanism (as studied in
+Section 3.7) in addition to this doubling-timeout-interval mechanism?
+
+The congestion window helps to prevent the sending host to not send packet at a higher rate that it should.
+
+#### 43
+
+Host A is sending an enormous file to Host B over a TCP connection. Over
+this connection there is never any packet loss and the timers never expire.
+Denote the transmission rate of the link connecting Host A to the Internet by
+R bps. Suppose that the process in Host A is capable of sending data into its
+TCP socket at a rate S bps, where S= 10# R. Further suppose that the TCP
+receive buffer is large enough to hold the entire file, and the send buffer can
+hold only one percent of the file. What would prevent the process in Host
+A from continuously passing data to its TCP socket at rate S bps? TCP flow
+control? TCP congestion control? Or something else? Elaborate.
+
+Mainly Host can't go higher than R bps that is the physical limitation of the link. So the bottleneck is the link Rate R.
+
+#### 44
+
+Consider sending a large file from a host to another over a TCP connection
+that has no loss.
+a. Suppose TCP uses AIMD for its congestion control without slow start.
+Assuming cwnd increases by 1 MSS every time a batch of ACKs is
+received and assuming approximately constant round-trip times, how long
+does it take for cwnd increase from 6 MSS to 12 MSS (assuming no loss
+events)?
+
+Assuming no loss event 6RTT since assuming cwnd increases by 1 MSS every time a batch of ACKs is received.
+
+b. What is the average throughput (in terms of MSS and RTT) for this con-
+nection up through time= 6 RTT?
+
+8.5MSS / RTT
+
+#### 45
+
+Consider Figure 3.54. Suppose that at t3, the sending rate at which conges-
+tion loss next occurs drops to 0.75*Wmax (unbeknownst to the TCP senders,
+of course). Show the evolution of both TCP Reno and TCP CUBIC for two
+more rounds each (Hint: note that the times at which TCP Reno and TCP
+CUBIC react to congestion loss may not be the same anymore).
+
+[answer](./problem-45.png)
+
+
+#### 46
+
+Consider Figure 3.54 again. Suppose that at t3, the sending rate at which conges-
+tion loss next occurs increases to 1.5*Wmax. Show the evolution of both TCP
+Reno and TCP CUBIC for at two more rounds each (Hint: see the hint in P45).
+
+
+[answer](./problem-46.png)
+
+#### 47
+
+Recall the macroscopic description of TCP throughput. In the period of time
+from when the connection’s rate varies from W/(2 ? RTT) to W/RTT, only one
+packet is lost (at the very end of the period).
+
+a show that the loss rate fraction is equal to 
+
+L=83​W2+43​W1​
+
+i=W/2∑W​i=2W​+(2W​+1)+...+W
+
+83W2​+43W
+
+L=83W2​+43W​1​
+
+b Use the result above to show that if a connection has loss rate L, then its
+average rate is approximately given by
+
+Average rate≈RTTL​1.22×MSS​
+
+L≈3W28​⇒W≈3L8​​
+
+Average rate≈RTT0.75​3L8​​=RTTL​1.22×MSS​
+
+#### 48
+
+Consider that only a single TCP (Reno) connection uses one 10 Mbps link
+which does not buffer any data. Suppose that this link is the only congested
+link between the sending and receiving hosts. Assume that the TCP sender
+has a huge file to send to the receiver, and the receiver’s receive buffer
+is much larger than the congestion window. We also make the following
+assumptions: each TCP segment size is 1,500 bytes; the two-way propagation
+delay of this connection is 150 msec; and this TCP connection is always in
+congestion avoidance phase, that is, ignore slow start.
+a. What is the maximum window size (in segments) that this TCP connec-
+tion can achieve?
+
+We should calculate the bandwidth delay product
+
+BDP = 10,000,000 × 0.150 = 1,500,000 bits
+
+1,500,000 / (1500 × 8) = 1,500,000 / 12,000 = 125 segments.
+
+
+b. What is the average window size (in segments) and average throughput
+(in bps) of this TCP connection?
+
+0,75 * 125 segments = 93,75 segments
+
+93,75 * 12000 / 0,150 = 7500000 bits
+
+c. How long would it take for this TCP connection to reach its maximum
+window again after recovering from a packet loss?
+
+it would take = ((maxcwnd - cwnd) / MSS) * RTT 
+
+((125 / 2) * 0,150 =  9,375 s
+
+#### 49
+
+Consider the scenario described in the previous problem. Suppose that the
+10 Mbps link can buffer a finite number of segments. Argue that in order for
+the link to always be busy sending data, we would like to choose a buffer size
+that is at least the product of the link speed C and the two-way propagation
+delay between the sender and the receiver.
+
+In order for the lint to always be busy sending data we would like to choose a buffer size that is at least the product of the link spped C and the two-way propagation delay between the sender and the receiver because of flow control the max window is min(bdp, rwnd) so rwnd has to be a least 125 segments.
+
+#### 50
+
+Repeat Problem 48, but replacing the 10 Mbps link with a 10 Gbps link. Note
+that in your answer to part c, you will realize that it takes a very long time for the congestion window size to reach its maximum window size after recover-
+ing from a packet loss. Sketch a solution to solve this problem.
