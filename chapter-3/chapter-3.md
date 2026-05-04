@@ -1142,3 +1142,129 @@ In order for the lint to always be busy sending data we would like to choose a b
 Repeat Problem 48, but replacing the 10 Mbps link with a 10 Gbps link. Note
 that in your answer to part c, you will realize that it takes a very long time for the congestion window size to reach its maximum window size after recover-
 ing from a packet loss. Sketch a solution to solve this problem.
+
+a - 125 000 segments
+
+b- 0,75 * 125 000 segments = 93750 segments
+
+c  - ((125 000 / 2) * 0,150 =  9375 s
+
+Using TCP Cubic instead of TCP Reno would help us reach the maximum much more quickly.
+
+#### 51
+
+Let T (measured by RTT) denote the time interval that a TCP connection
+takes to increase its congestion window size from W/2 to W, where W is the
+maximum congestion window size. Argue that T is a function of TCP’s
+average throughput.
+
+Average Throughput = 0,75 * W * MSS / RTT
+W = Average Throughput * RTT /0,75 * MSS
+T = (W - W/2) * RTT = Average Throughput * (RTT * RTT) / 1.5 * MSS
+Is a function of TCP's average throughput because TCP stay most of the time in the congestion avoidance state.
+
+#### 52
+
+Consider a simplified TCP’s AIMD algorithm where the congestion window
+size is measured in number of segments, not in bytes. In additive increase, the
+congestion window size increases by one segment in each RTT. In multipli-
+cative decrease, the congestion window size decreases by half (if the result
+is not an integer, round down to the nearest integer). Suppose that two TCP
+connections, C1 and C2, share a single congested link of speed 30 segments
+per second. Assume that both C1 and C2 are in the congestion avoidance
+phase. Connection C1’s RTT is 50 msec and connection C2’s RTT is 100 msec.
+Assume that when the data rate in the link exceeds the link’s speed, all
+TCP connections experience data segment loss.
+a. If both C1 and C2 at time t0 have a congestion window of 10 segments,
+what are their congestion window sizes after 1000 msec?
+
+cwnd1     |cwnd 2     |rate 1      |rate 2     |time     |total
+10    |10   |200.0    |100.0    |0    |20
+11    |11   |220.0    |110.0    |0.05    |22
+12    |11   |240.0    |110.0    |0.1    |23
+13    |12   |260.0    |120.0    |0.15000000000000002    |25
+14    |12   |280.0    |120.0    |0.2    |26
+15    |13   |300.0    |130.0    |0.25    |28
+16    |13   |320.0    |130.0    |0.3    |29
+8    |7   |160.0    |70.0    |0.35    |15
+9    |7   |180.0    |70.0    |0.39999999999999997    |16
+10    |8   |200.0    |80.0    |0.44999999999999996    |18
+11    |8   |220.0    |80.0    |0.49999999999999994    |19
+12    |9   |240.0    |90.0    |0.5499999999999999    |21
+13    |9   |260.0    |90.0    |0.6    |22
+14    |10   |280.0    |100.0    |0.65    |24
+15    |10   |300.0    |100.0    |0.7000000000000001    |25
+16    |11   |320.0    |110.0    |0.7500000000000001    |27
+17    |11   |340.0    |110.0    |0.8000000000000002    |28
+18    |12   |360.0    |120.0    |0.8500000000000002    |30
+9    |6   |180.0    |60.0    |0.9000000000000002    |15
+10    |7   |200.0    |70.0    |0.9500000000000003    |17
+
+b. In the long run, will these two connections get the same share of the band-
+width of the congested link? Explain.
+
+No they won't get the same share in the long run fairness in TCP works well only for the host with the same RTT, the host with a lower RTT get an advantage and get more share of the congested link.
+
+#### 53
+
+Consider the network described in the previous problem. Now suppose that
+the two TCP connections, C1 and C2, have the same RTT of 100 msec.
+Suppose that at time t0, C1’s congestion window size is 15 segments but C2’s
+congestion window size is 10 segments.
+
+a. What are their congestion window sizes after 2200 msec?
+
+cwnd1     |cwnd 2     |rate 1      |rate 2     |time     |total
+10    |10   |100.0    |100.0    |0    |20
+11    |11   |110.0    |110.0    |0.1    |22
+12    |12   |120.0    |120.0    |0.2    |24
+13    |13   |130.0    |130.0    |0.30000000000000004    |26
+14    |14   |140.0    |140.0    |0.4    |28
+15    |15   |150.0    |150.0    |0.5    |30
+8    |8   |80.0    |80.0    |0.6    |16
+9    |9   |90.0    |90.0    |0.7    |18
+10    |10   |100.0    |100.0    |0.7999999999999999    |20
+11    |11   |110.0    |110.0    |0.8999999999999999    |22
+12    |12   |120.0    |120.0    |0.9999999999999999    |24
+13    |13   |130.0    |130.0    |1.0999999999999999    |26
+14    |14   |140.0    |140.0    |1.2    |28
+15    |15   |150.0    |150.0    |1.3    |30
+8    |8   |80.0    |80.0    |1.4000000000000001    |16
+9    |9   |90.0    |90.0    |1.5000000000000002    |18
+10    |10   |100.0    |100.0    |1.6000000000000003    |20
+11    |11   |110.0    |110.0    |1.7000000000000004    |22
+12    |12   |120.0    |120.0    |1.8000000000000005    |24
+13    |13   |130.0    |130.0    |1.9000000000000006    |26
+14    |14   |140.0    |140.0    |2.0000000000000004    |28
+15    |15   |150.0    |150.0    |2.1000000000000005    |30
+
+b. In the long run, will these two connections get about the same share of the
+bandwidth of the congested link?
+
+Yes mostly since they have the same RTT.
+
+c. We say that two connections are synchronized, if both connections reach
+their maximum window sizes at the same time and reach their minimum
+window sizes at the same time. In the long run, will these two connec-
+tions get synchronized eventually? 
+Yes they will, we can see it in the simulation they because synchronized at 2.2 seconds.
+If so, what are their maximum window
+sizes?
+
+Their maximum window sizes is bandwidth in segments / 2 which is 15 in this exercise.
+
+d. Will this synchronization help to improve the utilization of the shared
+link? Why? Sketch some idea to break this synchronization.
+
+No the synchronization does not help to improve the utilization of the shared link because the utilization will be the average throughput and not the max throughput.
+
+An idea to break the synchronization would be to not divide by 2 the both cwnd but by a random number between 1 and 2.
+
+#### 54
+
+Consider a modification to TCP’s congestion control algorithm. Instead of additive increase, we can use multiplicative increase. A TCP sender increases
+its window size by a small positive constant a (0 < a < 1) whenever it
+receives a valid ACK. Find the functional relationship between loss rate L
+and maximum congestion window W. Argue that for this modified TCP,
+regardless of TCP’s average throughput, a TCP connection always spends the
+same amount of time to increase its congestion window size from W/2 to W.
