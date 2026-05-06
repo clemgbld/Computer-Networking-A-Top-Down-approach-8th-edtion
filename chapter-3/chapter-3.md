@@ -1268,3 +1268,53 @@ receives a valid ACK. Find the functional relationship between loss rate L
 and maximum congestion window W. Argue that for this modified TCP,
 regardless of TCP’s average throughput, a TCP connection always spends the
 same amount of time to increase its congestion window size from W/2 to W.
+
+Since the congestion window increase by W * a anytime it receives an ACK it means that the increase is proportional to the current W which means that the TCP connection always spends the same amount of time to increase its congestion window size from W/2 to W
+
+for example if W = 5 and a = 0.1
+
+W * a = 0,5 it means that it would take 5 ack to go from W/2 -> W
+
+because 2,5 / 0,5 = 5
+
+and if you take W = 2 and a = 0.1
+
+W *a = 0,2
+
+1 / 0,2 = 5
+
+So W/2 -> W = W/2 / W * a
+
+#### 55
+
+In our discussion of TCP futures in Section 3.7, we noted that to achieve a
+throughput of 10 Gbps, TCP could only tolerate a segment loss probability of
+2 * 10 ^ -10 (or equivalently, one loss event for every 5,000,000,000 segments).
+Show the derivation for the values of 2 * 10 ^ -10 (1 out of 5,000,000) for the
+RTT and MSS values given in Section 3.7. If TCP needed to support a
+100 Gbps connection, what would the tolerable loss be?
+
+L=(1.464×10−5)2≈2×10−10
+
+for 100 Gbps
+
+L=(101014640​)2≈2×10−12
+
+#### 56
+
+In our discussion of TCP congestion control in Section 3.7, we implicitly
+assumed that the TCP sender always had data to send. Consider now the case
+that the TCP sender sends a large amount of data and then goes idle (since it
+has no more data to send) at t1. TCP remains idle for a relatively long period
+of time and then wants to send more data at t2. What are the advantages and
+disadvantages of having TCP use the cwnd and ssthresh values from t1
+when starting to send data at t2? 
+
+The advantages if it is not in congestion avoidance it will start by sending directly a lot of packets
+
+The disadvantages is that a packet loss can arrive early
+
+What alternative would you recommend?
+Why?
+
+An alternative would be to reset the the cwnd and ssthresh to their initial values after a certain time of idleness, to put the congestion mechanism in the same state than at the beginning of a packets exchange because sending packets after being idle for a long time is kind of the same as restarting the process and you would avoid to have a loss too quickly.
