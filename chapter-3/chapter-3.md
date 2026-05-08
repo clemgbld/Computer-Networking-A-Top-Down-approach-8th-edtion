@@ -1318,3 +1318,37 @@ What alternative would you recommend?
 Why?
 
 An alternative would be to reset the the cwnd and ssthresh to their initial values after a certain time of idleness, to put the congestion mechanism in the same state than at the beginning of a packets exchange because sending packets after being idle for a long time is kind of the same as restarting the process and you would avoid to have a loss too quickly.
+
+#### 57
+
+In this problem, we investigate whether either UDP or TCP provides a degree
+of end-point authentication.
+a. Consider a server that receives a request within a UDP packet and
+responds to that request within a UDP packet (for example, as done by a
+DNS server). If a client with IP address X spoofs its address with address
+Y, where will the server send its response?
+It will send the answer to Y if the Y address is in the datagram
+b. Suppose a server receives a SYN with IP source address Y, and after
+responding with a SYNACK, receives an ACK with IP source address Y
+with the correct acknowledgment number. Assuming the server chooses a
+random initial sequence number and there is no “man-in-the-middle,” can
+the server be certain that the client is indeed at Y (and not at some other
+address X that is spoofing Y)?
+
+Yes it can be sure that it is Y unless some other client X guess the intial random number at the right time which is highly unlikely.
+
+#### 58
+
+In this problem, we consider the delay introduced by the TCP slow-start
+phase. Consider a client and a Web server directly connected by one link of
+rate R. Suppose the client wants to retrieve an object whose size is exactly
+equal to 15 S, where S is the maximum segment size (MSS). Denote the
+round-trip time between client and server as RTT (assumed to be constant).
+Ignoring protocol headers, determine the time to retrieve the object (includ-
+ing TCP connection establishment) when
+a. 4 S/R > S/R + RTT > 2S/R
+4 RTT + 15 S / R
+b. S/R + RTT > 4 S/R
+5 RTT + 15 S/ R
+c. S/R > RTT.
+2 RTT + 15 S / R
