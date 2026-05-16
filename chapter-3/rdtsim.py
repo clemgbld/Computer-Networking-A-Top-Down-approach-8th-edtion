@@ -133,7 +133,7 @@ class EntityA:
             self.sndpkt = make_pkt(self.seqnum, self.ack, message.data)
             to_layer3(self, self.sndpkt)
             self.is_in_flight = True
-            start_timer(self, 10)
+            start_timer(self, 120)
         else:
             self.message_queue.append(message)
 
@@ -151,12 +151,12 @@ class EntityA:
             self.sndpkt = make_pkt(self.seqnum, self.ack, message.data)
             self.is_in_flight = True
             to_layer3(self, self.sndpkt)
-            start_timer(self, 10)
+            start_timer(self, 120)
 
     # Called when A's timer goes off.
     def timer_interrupt(self):
         to_layer3(self, self.sndpkt)
-        start_timer(self, 10)
+        start_timer(self, 120)
 
 
 def inverse(zero_or_one):
@@ -166,7 +166,7 @@ def inverse(zero_or_one):
 def make_checksum(packet):
     checksum = 0
     checksum = wrap_arround(checksum + packet.seqnum)
-    checksum = wrap_arround(checksum + packet.ack)
+    checksum = wrap_arround(checksum + packet.acknum)
     checksum = wrap_arround(checksum + packet.checksum)
     for byte in packet.payload:
         checksum = wrap_arround(checksum + byte)
@@ -193,7 +193,7 @@ def is_corrupt(packet):
 
 
 def is_not_ack(rcvpkt, ack):
-    return rcvpkt.ack != ack
+    return rcvpkt.acknum != ack
 
 
 def is_not_seqnum(rcvpkt, seqnum):
@@ -216,8 +216,8 @@ class EntityB:
         if is_corrupt(packet) or is_not_seqnum(packet, self.seqnum):
             to_layer3(self, self.sndpkt)
             return
-        to_layer5(self, Msg(packet.packet))
-        self.sndpkt = make_pkt(0, self.ack, [])
+        to_layer5(self, Msg(packet.payload))
+        self.sndpkt = make_pkt(0, self.ack, bytes(20))
         to_layer3(self, self.sndpkt)
         self.ack = inverse(self.ack)
         self.seqnum = inverse(self.seqnum)
@@ -225,7 +225,7 @@ class EntityB:
     # Called when B's timer goes off.
     def timer_interrupt(self):
         to_layer3(self, self.sndpkt)
-        start_timer(self, 10)
+        start_timer(self, 120)
 
 
 ###############################################################################
