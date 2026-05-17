@@ -125,6 +125,8 @@ class EntityA:
         self.seqnum = 0
         self.message_queue = deque()
         self.is_in_flight = False
+        self.is_tracing_rtt = False
+        self.rtt = 100
 
     # Called from layer 5, passed the data to be sent to other side.
     # The argument `message` is a Msg containing the data to be sent.
@@ -133,7 +135,9 @@ class EntityA:
             self.sndpkt = make_pkt(self.seqnum, self.ack, message.data)
             to_layer3(self, self.sndpkt)
             self.is_in_flight = True
-            start_timer(self, 120)
+            start_timer(self, self.rtt)
+            self.pkt_time = get_time(self)
+            self.is_tracing_rtt = True
         else:
             self.message_queue.append(message)
 
@@ -142,21 +146,32 @@ class EntityA:
     def input(self, packet):
         if is_corrupt(packet) or is_not_ack(packet, self.ack):
             return
+        time_elapsed = get_time(self)
+        if (
+            self.is_tracing_rtt
+            and time_elapsed is not None
+            and self.pkt_time is not None
+        ):
+            self.rtt = cal_estimated_RTT(self.rtt, (time_elapsed - self.pkt_time))
         stop_timer(self)
         self.ack = inverse(self.ack)
         self.seqnum = inverse(self.seqnum)
         self.is_in_flight = False
+        self.is_tracing_rtt = False
         if self.message_queue:
             message = self.message_queue.popleft()
             self.sndpkt = make_pkt(self.seqnum, self.ack, message.data)
             self.is_in_flight = True
             to_layer3(self, self.sndpkt)
-            start_timer(self, 120)
+            start_timer(self, self.rtt)
+            self.pkt_time = get_time(self)
+            self.is_tracing_rtt = True
 
     # Called when A's timer goes off.
     def timer_interrupt(self):
+        self.is_tracing_rtt = False
         to_layer3(self, self.sndpkt)
-        start_timer(self, 120)
+        start_timer(self, self.rtt)
 
 
 def inverse(zero_or_one):
@@ -200,6 +215,10 @@ def is_not_seqnum(rcvpkt, seqnum):
     return rcvpkt.seqnum != seqnum
 
 
+def cal_estimated_RTT(estimated_RTT, sample_RTT):
+    return 0.875 * estimated_RTT + 0.125 * sample_RTT
+
+
 class EntityB:
     # The following method will be called once (only) before any other
     # EntityB methods are called.  You can use it to do any initialization.
@@ -214,18 +233,17 @@ class EntityB:
     # The argument `packet` is a Pkt containing the newly arrived packet.
     def input(self, packet):
         if is_corrupt(packet) or is_not_seqnum(packet, self.seqnum):
-            to_layer3(self, self.sndpkt)
+            to_layer3(self, make_pkt(0, inverse(self.ack), bytes(20)))
             return
         to_layer5(self, Msg(packet.payload))
-        self.sndpkt = make_pkt(0, self.ack, bytes(20))
-        to_layer3(self, self.sndpkt)
+        sndpkt = make_pkt(0, self.ack, bytes(20))
+        to_layer3(self, sndpkt)
         self.ack = inverse(self.ack)
         self.seqnum = inverse(self.seqnum)
 
     # Called when B's timer goes off.
     def timer_interrupt(self):
-        to_layer3(self, self.sndpkt)
-        start_timer(self, 120)
+        pass
 
 
 ###############################################################################
