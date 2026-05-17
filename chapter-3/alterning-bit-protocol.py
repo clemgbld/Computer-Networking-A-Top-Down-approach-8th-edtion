@@ -41,7 +41,6 @@ from enum import Enum, auto
 import random
 import sys
 import time
-from collections import deque
 
 ###############################################################################
 
