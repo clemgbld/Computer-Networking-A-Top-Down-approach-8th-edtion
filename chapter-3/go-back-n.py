@@ -121,20 +121,24 @@ class EntityA:
     # all seqnums must be in the range 0-15.
     def __init__(self, seqnum_limit):
         self.seqnum_limit = seqnum_limit
-        self.ack = 0
-        self.seqnum = 0
-        self.is_in_flight = False
+        self.base = 1
+        self.next_seqnum = 1
+        self.window = deque(maxlen=8)
+        self.n = 8
         self.is_tracing_rtt = False
         self.rtt = 100
 
     # Called from layer 5, passed the data to be sent to other side.
     # The argument `message` is a Msg containing the data to be sent.
     def output(self, message):
-        if not self.is_in_flight:
-            self.sndpkt = make_pkt(self.seqnum, self.ack, message.data)
-            to_layer3(self, self.sndpkt)
-            self.is_in_flight = True
+        if self.next_seqnum < self.base + self.n:
+            sndpkt = make_pkt(self.next_seqnum, 0, message.data)
+            self.window.append(sndpkt)
+            to_layer3(self, sndpkt)
             start_timer(self, self.rtt)
+            if self.base == self.next_seqnum:
+                start_timer(self, self.rtt)
+            self.next_seqnum = (self.next_seqnum + 1) % self.seqnum_limit
             self.pkt_time = get_time(self)
             self.is_tracing_rtt = True
         else:
@@ -143,7 +147,7 @@ class EntityA:
     # Called from layer 3, when a packet arrives for layer 4 at EntityA.
     # The argument `packet` is a Pkt containing the newly arrived packet.
     def input(self, packet):
-        if is_corrupt(packet) or is_not_ack(packet, self.ack):
+        if is_corrupt(packet) or packet.acknum + 1 <= self.base:
             return
         time_elapsed = get_time(self)
         if (
@@ -152,17 +156,23 @@ class EntityA:
             and self.pkt_time is not None
         ):
             self.rtt = cal_estimated_RTT(self.rtt, (time_elapsed - self.pkt_time))
-        stop_timer(self)
-        self.ack = inverse(self.ack)
-        self.seqnum = inverse(self.seqnum)
-        self.is_in_flight = False
+
+        for _ in packet.acknum + 1 - self.base:
+            self.window.popleft()
+
+        self.base = packet.acknum + 1
+        if self.base == self.next_seqnum:
+            stop_timer(self)
+        else:
+            start_timer(self, self.rtt)
         self.is_tracing_rtt = False
 
     # Called when A's timer goes off.
     def timer_interrupt(self):
         self.is_tracing_rtt = False
-        to_layer3(self, self.sndpkt)
         start_timer(self, self.rtt)
+        for pkt in enumerate(self.window):
+            to_layer3(self, pkt)
 
 
 def inverse(zero_or_one):
@@ -218,19 +228,20 @@ class EntityB:
     def __init__(self, seqnum_limit):
         self.seqnum_limit = seqnum_limit
         self.ack = 0
-        self.seqnum = 0
+        self.expected_seqnum = 1
+        self.sndpkt = make_pkt(0, self.ack, bytes(20))
 
     # Called from layer 3, when a packet arrives for layer 4 at EntityB.
     # The argument `packet` is a Pkt containing the newly arrived packet.
     def input(self, packet):
-        if is_corrupt(packet) or is_not_seqnum(packet, self.seqnum):
-            to_layer3(self, make_pkt(0, inverse(self.ack), bytes(20)))
+        if is_corrupt(packet) or is_not_seqnum(packet, self.expected_seqnum):
+            to_layer3(self, self.sndpkt)
             return
         to_layer5(self, Msg(packet.payload))
-        sndpkt = make_pkt(0, self.ack, bytes(20))
-        to_layer3(self, sndpkt)
-        self.ack = inverse(self.ack)
-        self.seqnum = inverse(self.seqnum)
+        self.ack += (self.ack + 1) % self.seqnum_limit
+        self.sndpkt = make_pkt(self.expected_seqnum, self.ack, bytes(20))
+        to_layer3(self, self.sndpkt)
+        self.expected_seqnum += 1
 
     # Called when B's timer goes off.
     def timer_interrupt(self):
@@ -727,4 +738,3 @@ if __name__ == "__main__":
 ###############################################################################
 
 ## End of program.
-
