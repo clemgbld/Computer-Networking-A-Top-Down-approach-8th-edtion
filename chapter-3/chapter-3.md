@@ -1457,3 +1457,67 @@ each of the TCP segments sent. Select a TCP segment in the “listing of
 captured packets” window that is being sent from the client to the
 gaia.cs.umass.edu server. Then select: Statistics->TCP Stream Graph-
 >Round Trip Time Graph.
+
+0.875 + 91.5 + 0.125 * 90.848 = 91.44185ms
+
+#### 7
+
+What is the length (header plus payload) of each of the first four data-carrying
+TCP segments?
+
+the first one has a payload of 612 bytes and a header of 20 bytes = 632 bytes.
+And the three others a pyalod of 1452 bytes and a header of 20 bytes = 1472 bytes.
+
+#### 8
+
+What is the minimum amount of available buffer space advertised to the client by
+gaia.cs.umass.edu among these first four data-carrying TCP segments7? Does the
+lack of receiver buffer space ever throttle the sender for these first four datacarrying segments?
+
+the first ACK output a window size of 63744 bytes wich is good enough to handle 43 segment from the sender.
+
+#### 9
+
+Are there any retransmitted segments in the trace file? What did you check for (in
+the trace) in order to answer this question?
+
+Yes there is some retransmission segments, we can analyse that with tcp.analysis.retransmission filter in wireshark.
+
+#### 10
+
+How much data does the receiver typically acknowledge in an ACK among the
+first ten data-carrying segments sent from the client to gaia.cs.umass.edu? Can
+you identify cases where the receiver is ACKing every other received segment
+(see Table 3.2 in the text) among these first ten data-carrying segments?
+
+In the first 10 segments there 3 acknowlegdement segment that each acknowledge 613, 5808, 7260 bytes the average of taht is 4560.3 bytes by acknowledgment
+For the second question, it is the case since there is 3 acknowledgment segmnet for 10 segments sent.
+
+#### 11
+
+What is the throughput (bytes transferred per unit time) for the TCP connection?
+Explain how you calculated this value.
+
+the formula is the total of data / time i linked the throuput plot by wireshark here: [file](./throuput.PNG) 
+
+
+Answer the following question for the TCP segments in the packet trace tcp-wiresharktrace1-1
+
+#### 12
+
+Use the Time-Sequence-Graph(Stevens) plotting tool to view the sequence
+number versus time plot of segments being sent from the client to the
+gaia.cs.umass.edu server. Consider the “fleets” of packets sent around t = 0.025, t
+= 0.053, t = 0.082 and t = 0.1. Comment on whether this looks as if TCP is in its
+slow start phase, congestion avoidance phase or some other phase. Figure 6 shows
+a slightly different view of this data.
+
+#### 13
+
+ These “fleets” of segments appear to have some periodicity. What can you say
+about the period?
+
+#### 14
+
+Answer each of two questions above for the trace that you have gathered when
+you transferred a file from your computer to gaia.cs.umass.edu
