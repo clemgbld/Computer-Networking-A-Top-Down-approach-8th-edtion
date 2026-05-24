@@ -1528,3 +1528,104 @@ Answer each of two questions above for the trace that you have gathered when
 you transferred a file from your computer to gaia.cs.umass.edu
 
 This is about the same answers than for the trace of the two last question.
+
+### Wireshark labs (UDP)
+
+#### 1
+
+Select the first UDP segment in your trace. What is the packet number of this
+segment in the trace file? 
+This is the seventh packet number.
+
+What type of application-layer payload or protocol
+message is being carried in this UDP segment?
+
+DNS
+
+Look at the details of this packet
+in Wireshark. How many fields there are in the UDP header? (You shouldn’t
+look in the textbook! Answer these questions directly from what you observe in
+the packet trace.) What are the names of these fields?
+
+There is 4 fields source port, destination port , length, checksum
+
+#### 2
+
+By consulting the displayed information in Wireshark’s packet content field for
+this packet (or by consulting the textbook), what is the length (in bytes) of each of
+the UDP header fields?
+
+The length of a UDP header is of 8 bytes.
+
+#### 3
+
+The value in the Length field is the length of what? (You can consult the text for
+this answer). Verify your claim with your captured UDP packet.
+
+
+Its is the length of the header + the payload of the UDP segment it checks out because my segment has a payload of 49 and a length of 57 bytes.
+
+#### 4
+
+ What is the maximum number of bytes that can be included in a UDP payload?
+(Hint: the answer to this question can be determined by your answer to 2. above)
+
+The maxium lenght of a UDP payload is unsiggned integer 16 bytes max - 8 bytes.
+
+#### 5
+
+What is the largest possible source port number? (Hint: see the hint in 4.)
+
+The largest number who can fit on 16 bits 65 535
+
+#### 6
+
+ What is the protocol number for UDP? Give your answer in decimal notation. To
+answer this question, you’ll need to look into the Protocol field of the IP datagram
+containing this UDP segment (see Figure 4.13 in the text, and the discussion of IP
+header fields).
+
+UDP protocol 17.
+
+#### 7
+
+Examine the pair of UDP packets in which your host sends the first UDP packet
+and the second UDP packet is a reply to this first UDP packet. (Hint: for a second
+packet to be sent in response to a first packet, the sender of the first packet should
+be the destination of the second packet). 
+
+What is the packet number of the first
+of these two UDP segments in the trace file? 
+
+the packet number is 7.
+
+What is the value in the source port
+field in this UDP segment? 
+
+61019
+
+What is the value in the destination port field in this
+UDP segment? 
+
+53
+
+What is the packet number of the second of these two UDP
+segments in the trace file? 
+
+The packet number is 8.
+
+What is the value in the source port field in this second
+UDP segment? 
+
+53
+
+
+What is the value in the destination port field in this second UDP
+segment? 
+
+61019
+
+Describe the relationship between the port numbers in the two packets
+
+The port number 61019 is the port number of the client and 53 is the port number of the DNS server (53 is the port number reserved for DNS).
+
