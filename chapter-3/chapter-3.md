@@ -1512,12 +1512,19 @@ gaia.cs.umass.edu server. Consider the “fleets” of packets sent around t = 0
 slow start phase, congestion avoidance phase or some other phase. Figure 6 shows
 a slightly different view of this data.
 
+It looks like slow start mode.
+
 #### 13
 
- These “fleets” of segments appear to have some periodicity. What can you say
+These “fleets” of segments appear to have some periodicity. What can you say
 about the period?
+
+
+These period is the RTT.
 
 #### 14
 
 Answer each of two questions above for the trace that you have gathered when
 you transferred a file from your computer to gaia.cs.umass.edu
+
+This is about the same answers than for the trace of the two last question.
