@@ -124,11 +124,69 @@ describe each type.
 
 - memory
 
+The datagram is copied by the routing processor (a CPU) via memory from the input to the output port.
+
 - bus
 
+The datagram go from the input to the output port via a shared bus which is not the routing processor.
+
 - interconnection network
+
+The datagram go from the input to the output port via multiple bus glued together by a crossbar switch.
 
 Which, if any, can send multiple packets across the fabric
 in parallel?
 
 The interconnection one can send multiple packets across the fabric in parallel.
+
+#### 11
+
+Describe how packet loss can occur at input ports. Describe how packet loss
+at input ports can be eliminated (without using infinite buffers).
+
+Loss can occur at input port when the queue of the input port is full, the queue grows when one datagram must go into one output port but another one is already there thus blocking the rest of the datagram even if they go in another output port, this phenomena is known as HOL blocking (head of a line blocking).
+
+The amount of buffering needed to avoid loss is B = RTT * C / sqrt(N) where N is TCP flows and C link capacity.
+
+#### 12
+
+Describe how packet loss can occur at output ports. 
+
+A loss can occur when the datagram arival rate temporarily exceeds the rate at which datagram can be forwarded to the output link and the queue arrived at capacity then drop a datagram.
+
+Can this loss be pre-vented by increasing the switch fabric speed?
+
+The bottleneck will then become the capacity of the link so no.
+
+#### 13
+
+What is HOL blocking? 
+
+It is when a datagram that must wait because its destination output port is busy block the other datagrams behind this last even though their destination output may be free.
+
+Does it occur in input ports or output ports?
+
+It occurs at input port.
+
+#### 14
+
+In Section 4.2, we studied FIFO, Priority, Round Robin (RR), and Weighted
+Fair Queueing (WFQ) packet scheduling disciplines? Which of these queueing
+disciplines ensure that all packets depart in the order in which they arrived?
+
+The FIFO queuing discipline.
+
+#### 15
+
+Give an example showing why a network operator might want one class of
+packets to be given priority over another class of packets.
+
+For example reazl-time voice-over-ip packets might receive priority over non-real-time traffic such as email packets.
+
+#### 16
+
+What is an essential different between RR and WFQ packet scheduling? Is
+there a case (Hint: Consider the WFQ weights) where RR and WFQ will
+behave exactly the same?
+
+### Section 4.3
