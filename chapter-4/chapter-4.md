@@ -185,8 +185,42 @@ For example reazl-time voice-over-ip packets might receive priority over non-rea
 
 #### 16
 
-What is an essential different between RR and WFQ packet scheduling? Is
-there a case (Hint: Consider the WFQ weights) where RR and WFQ will
+What is an essential different between RR and WFQ packet scheduling? 
+
+the difference is that queue have weight assigned to them when using WFQ.
+
+Is there a case (Hint: Consider the WFQ weights) where RR and WFQ will
 behave exactly the same?
 
+RR and WFQ will behave the same when every queue as the same weights when using WFQ.
+
 ### Section 4.3
+
+#### 17
+
+Suppose Host A sends Host B a TCP segment encapsulated in an IP data-
+gram. When Host B receives the datagram, how does the network layer in
+Host B know it should pass the segment (that is, the payload of the datagram)
+to TCP rather than to UDP or to some other upper-layer protocol
+
+It known thanks to the upper-layer protocol field.
+
+ipv4 protocol field , ipv6 next header field
+
+#### 18
+
+What field in the IP header can be used to ensure that a packet is forwarded
+through no more than N routers?
+
+the ip header is Hop limit in an ipv6 header, TTL in ipv4.
+
+#### 19
+
+Recall that we saw the Internet checksum being used in both transport-layer
+segment (in UDP and TCP headers, Figures 3.7 and 3.29 respectively) and in
+network-layer datagrams (IP header, Figure 4.17). Now consider a transport
+layer segment encapsulated in an IP datagram. Are the checksums in the seg-
+ment header and datagram header computed over any common bytes in the IP
+datagram? Explain your answer.
+
+Yes the source and destination ip, as well has the protocol field because the checksum of the transport layer is end to end.
