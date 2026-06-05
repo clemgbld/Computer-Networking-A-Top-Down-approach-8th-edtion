@@ -224,3 +224,53 @@ ment header and datagram header computed over any common bytes in the IP
 datagram? Explain your answer.
 
 Yes the source and destination ip, as well has the protocol field because the checksum of the transport layer is end to end.
+
+#### 20
+
+When a large datagram is fragmented into multiple smaller datagrams, where
+are these smaller datagrams reassembled into a single larger datagram?
+
+the datagrams are reassembled by the host in the network layer.
+
+#### 21
+
+Do routers have IP addresses? If so, how many?
+
+In general a router have one IP addresss by physical interface but it can have non as well.
+
+#### 22
+
+What is the 32-bit binary equivalent of the IP address 223.1.3.27?
+
+11011111  00000001 00000011  00011011
+
+#### 23
+
+Visit a host that uses DHCP to obtain its IP address, network mask, default
+router, and IP address of its local DNS server. List these values.
+
+DHCP Configuration
+IP address: 192.168.178.44
+Subnet mask: 255.255.255.0
+Router: 192.168.178.1
+DNS: 192.168.178.1
+
+#### 24
+
+Suppose there are three routers between a source host and a destination host.
+Ignoring fragmentation, an IP datagram sent from the source host to the desti-
+nation host will travel over how many interfaces? 
+
+8,  1 source host interface, 3 input ports and 3 output ports and the source interface.
+
+How many forwarding tables
+will be indexed to move the datagram from the source to the destination?
+
+3 forwarding tables one at each router.
+
+#### 25
+
+Suppose an application generates chunks of 40 bytes of data every 20 msec,
+and each chunk gets encapsulated in a TCP segment and then an IP datagram.
+What percentage of each datagram will be overhead, and what percentage
+will be application data?
