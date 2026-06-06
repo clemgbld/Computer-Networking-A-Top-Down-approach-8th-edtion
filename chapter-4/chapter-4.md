@@ -274,3 +274,67 @@ Suppose an application generates chunks of 40 bytes of data every 20 msec,
 and each chunk gets encapsulated in a TCP segment and then an IP datagram.
 What percentage of each datagram will be overhead, and what percentage
 will be application data?
+
+50% of overhead and 50% of application data, since there 40 bytes of application data and 40 bytes of header because a TCP segment header is 5 rows of 32 bits (4 bytes) and same for the ip datagram rows if there is not any options.
+
+#### 26
+
+Suppose you purchase a wireless router and connect it to your cable modem.
+Also suppose that your ISP dynamically assigns your connected device (that
+is, your wireless router) one IP address. Also suppose that you have five PCs
+at home that use 802.11 to wirelessly connect to your wireless router. How
+are IP addresses assigned to the five PCs? 
+
+Each PC will send a DHCP discover message, then the DHCP server will send them back a DHCP offer (containing their ip addresses) and then the PC will make a DHCP request then it will receive an ACK message from the DHCP server.
+
+
+Does the wireless router use NAT?
+Why or why not?
+
+Yes it use NAT because you can plug only one device to your cable model so you need a router which has one ip address then when you receive or send packets only one ip addresses is publicly exposes and this is the one of the router so a translation needs to occurs (with the NAT table) to translate the public ip address to one of the 5 ip addresses (the ones of the PC).
+
+#### 27
+
+What is meant by the term “route aggregation”? Why is it useful for a router
+to perform route aggregation?
+
+Route aggregation is a space saving trick, it aggregate multiple route into one single route that represent the range of a network.
+
+example:
+
+Subnet A: 192.168.1.0/24
+Subnet B: 192.168.2.0/24
+Subnet C: 192.168.3.0/24
+Subnet D: 192.168.0.0/24
+
+becomes 192.168.0.0/22
+
+#### 28
+
+What is meant by a “plug-and-play” or “zeroconf” protocol?
+
+This mean that you have nothing to configure yourself the protocol handles all the details for you.
+
+#### 29
+
+What is a private network address? 
+
+A private network address is an address that is not publicly exposed, it the address of a device in a private network, it's addresses gets translated by a NAT whenever a datagram is sent or received.
+
+Should a datagram with a private network
+address ever be present in the larger public Internet? Explain.
+
+No because the datagram wouldn't reach it's destination because packet or ACK packet would never reach their destinations.
+
+#### 30
+
+Compare and contrast the IPv4 and the IPv6 header fields. Do they have any
+fields in common?
+
+IPv4 has many more fields, yes the source and destination addresses, the next header (which is upper protocol layer in the IPV4), The version field, and the payload length
+
+#### 31
+
+It has been said that when IPv6 tunnels through IPv4 routers, IPv6 treats the
+IPv4 tunnels as link-layer protocols. Do you agree with this statement? Why
+or why not?
