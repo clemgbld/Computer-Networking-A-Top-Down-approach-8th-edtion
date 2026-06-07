@@ -338,3 +338,218 @@ IPv4 has many more fields, yes the source and destination addresses, the next he
 It has been said that when IPv6 tunnels through IPv4 routers, IPv6 treats the
 IPv4 tunnels as link-layer protocols. Do you agree with this statement? Why
 or why not?
+
+Yes i would say since it wraps the IPV6 datagram with an IPV4 one instead of wrapping a frame it will unwrap an IPV6 datagram on the IPV6 router receiving side, you can kind of see that like as a link layer usurpation.
+
+### Section 4.4
+
+#### 32
+
+How does generalized forwarding differ from destination-based forwarding?
+
+it's differs because it's a more generalized action that can achieve destination-based forwarding but also any kind of match + actions.
+
+#### 33
+
+What is the difference between a forwarding table that we encountered in
+destination-based forwarding in Section 4.1 and OpenFlow’s flow table that
+we encountered in Section 4.4?
+
+The OpenFlow's flow tables are more flexible you can achieve destination based forwarding but also many other match + actions such as load balancing, firewalling etc...
+
+#### 34
+
+What is meant by the “match plus action” operation of a router or switch? In
+the case of destination-based forwarding packet switch, what is matched and
+what is the action taken? 
+
+IN the case of destination-based forwarding packet switch an ip address is matched and then the action is to forward the packet to the desired output port.
+
+In the case of an SDN, name three fields that can be
+matched, and three actions that can be taken.
+
+Examples of fields that can be matched:
+
+- Src MAC, Dest MAC
+
+- Src IP, Dest IP
+
+- Src port, Dest Port
+
+Actions that can be taken:
+
+- Forwarding
+
+- Firewalling (droping a packet)
+
+- Load balancing
+
+- NAT translation
+
+- IPV6 wraped into an IPV4 to ensure compatibility then forward
+
+#### 35
+
+Name three header fields in an IP datagram that can be “matched” in Open-
+Flow 1.0 generalized forwarding. 
+
+- IP source
+- IP destination
+- IP protocol
+- IP type of service
+
+What are three IP datagram header fields
+that cannot be “matched” in OpenFlow?
+
+- payload length
+- hop limit / TTL
+- version
+
+### Problems
+
+#### 1
+
+Consider the network below.
+
+a. Show the forwarding table in router A, such that all traffic destined to host
+H3 is forwarded through interface 3.
+
+destination host     link interface
+
+H3                        3
+
+b. Can you write down a forwarding table in router A, such that all traffic
+from H1 destined to host H3 is forwarded through interface 3, while all
+traffic from H2 destined to host H3 is forwarded through interface 4?
+(Hint: This is a trick question.)
+
+You cannot use load balancing with traditional forwarding table.
+
+#### 2
+
+Suppose two packets arrive to two different input ports of a router at exactly
+the same time. Also suppose there are no other packets anywhere in the
+router.
+
+
+a. Suppose the two packets are to be forwarded to two different output ports.
+Is it possible to forward the two packets through the switch fabric at the
+same time when the fabric uses a shared bus?
+
+No only one packet can be in the shared bus at the same time.
+
+b. Suppose the two packets are to be forwarded to two different output ports.
+Is it possible to forward the two packets through the switch fabric at the
+same time when the fabric uses switching via memory?
+
+Only one memory read/write can be done at the same time so no.
+
+c. Suppose the two packets are to be forwarded to the same output port. Is it
+possible to forward the two packets through the switch fabric at the same
+time when the fabric uses a crossbar?
+
+No because since they should be forwarded to the same output port they share the same path only packets that don't cross paths can be forwarded at the same time.
+
+#### 3
+
+In Section 4.2.4, it was said that if R_switch is N times faster than R_line,
+then only negligible queuing will occur at the input ports, even if all the
+packets are to be forwarded to the same output port. Now suppose that
+R_switch = R_line, but all packets are to be forwarded to different output
+ports. Let D be the time to transmit a packet. As a function of D, what is the
+maximum input queuing delay for a packet for the (a) memory, (b) bus, and
+(c) crossbar switching fabrics?
+
+a and b will always have N - 1 packets waiting in queue that wait that the switch fabric forward another packet so (N  - 1) * D
+
+c will have no queuing
+
+#### 4
+
+Consider the switch shown below. Suppose that all datagrams have the same
+fixed length, that the switch operates in a slotted, synchronous manner, and
+that in one time slot a datagram can be transferred from an input port to an
+output port. The switch fabric is a crossbar so that at most one datagram can
+be transferred to a given output port in a time slot, but different output ports
+can receive datagrams from different input ports in a single time slot. What is
+the minimal number of time slots needed to transfer the packets shown from
+input ports to their output ports, assuming any input queue scheduling order
+you want (i.e., it need not have HOL blocking)? What is the largest number
+of slots needed, assuming the worst-case scheduling order you can devise,
+assuming that a non-empty input queue is never idle?
+
+- the minimum time slots required is 2
+
+- the maximum time slots is 3
+
+#### 5
+
+Suppose that the WEQ scheduling policy is applied to a buffer that supports
+three classes, and suppose the weights are 0.5, 0.25, and 0.25 for the three
+classes.
+
+a. Suppose that each class has a large number of packets in the buffer.
+In what sequence might the three classes be served in order to achieve
+the WFQ weights? (For round robin scheduling, a natural sequence is
+123123123 . . .).
+112311231123... .
+b. Suppose that classes 1 and 2 have a large number of packets in the buffer,
+and there are no class 3 packets in the buffer. In what sequence might the
+three classes be served in to achieve the WFQ weights?
+112112112... .
+
+#### 6
+
+Consider the figure below. Answer the following questions:
+
+a) 
+Assuming FIFO service, indicate the time at which packets 2 through
+12 each leave the queue. For each packet, what is the delay between its
+arrival and the beginning of the slot in which it is transmitted? What is the
+average of this delay over all 12 packets?
+
+packet  D
+1       0
+2       1
+3       1
+4       2
+5       2
+6       2
+7       3
+8       2
+9       3
+10      2
+11      2
+12      3
+
+the average is 1.92 let's say 2.
+
+b)
+
+Now assume a priority service, and assume that odd-numbered packets
+are high priority, and even-numbered packets are low priority. Indicate the
+time at which packets 2 through 12 each leave the queue. For each packet,
+what is the delay between its arrival and the beginning of the slot in which
+it is transmitted? What is the average of this delay over all 12 packets?
+
+c)
+Now assume round robin service. Assume that packets 1, 2, 3, 6, 11, and
+12 are from class 1, and packets 4, 5, 7, 8, 9, and 10 are from class 2.
+Indicate the time at which packets 2 through 12 each leave the queue. For
+each packet, what is the delay between its arrival and its departure? What
+is the average delay over all 12 packets?
+
+d)
+
+Now assume weighted fair queueing (WFQ) service. Assume that odd-
+numbered packets are from class 1, and even-numbered packets are from
+class 2. Class 1 has a WFQ weight of 2, while class 2 has a WFQ weight
+of 1. Note that it may not be possible to achieve an idealized WFQ sched-
+ule as described in the text, so indicate why you have chosen the particu-
+lar packet to go into service at each time slot. For each packet what is the
+delay between its arrival and its departure? What is the average delay over
+all 12 packets?
+
+e)
+What do you notice about the average delay in all four cases (FIFO, RR,
+priority, and WFQ)?
