@@ -522,7 +522,7 @@ packet  D
 11      2
 12      3
 
-the average is 1.92 let's say 2.
+the average is 1.92.
 
 b)
 
@@ -531,6 +531,23 @@ are high priority, and even-numbered packets are low priority. Indicate the
 time at which packets 2 through 12 each leave the queue. For each packet,
 what is the delay between its arrival and the beginning of the slot in which
 it is transmitted? What is the average of this delay over all 12 packets?
+
+packet  D
+1       0
+2       2
+3       0
+4       5
+5       0
+6       5
+7       1
+8       4
+9       0
+10      3
+11      0
+12      2
+
+
+the average is 1.83.
 
 c)
 Now assume round robin service. Assume that packets 1, 2, 3, 6, 11, and
