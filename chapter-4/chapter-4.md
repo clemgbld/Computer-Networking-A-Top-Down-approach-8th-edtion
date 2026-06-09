@@ -556,6 +556,24 @@ Indicate the time at which packets 2 through 12 each leave the queue. For
 each packet, what is the delay between its arrival and its departure? What
 is the average delay over all 12 packets?
 
+packet  D
+1       0
+2       1
+3       1
+4       2
+5       2
+6       2
+7       3
+8       2
+9       4
+10      4
+11      0
+12      2
+
+
+the average is 1.917.
+
+
 d)
 
 Now assume weighted fair queueing (WFQ) service. Assume that odd-
