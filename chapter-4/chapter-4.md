@@ -585,6 +585,67 @@ lar packet to go into service at each time slot. For each packet what is the
 delay between its arrival and its departure? What is the average delay over
 all 12 packets?
 
+packet  D
+1       0
+2       2
+3       0
+4       4
+5       0
+6       5
+7       1
+8       4
+9       1
+10      3
+11      0
+12      3
+
+
+
+the average is 1.917.
+
 e)
 What do you notice about the average delay in all four cases (FIFO, RR,
 priority, and WFQ)?
+
+The average delay is pretty much the same in for every queuing strategy.
+
+#### 7
+
+Consider again the figure for P6.
+
+a) 
+
+Assume a priority service, with packets 1, 4, 5, 6, and 11 being high-
+priority packets. The remaining packets are low priority. Indicate the slots
+in which packets 2 through 12 each leave the queue.
+
+slots 0  1  2  3  4  5  6  7  8  9  10  11
+
+      1  4  6  5  2  3  7  8  11 9  10  12
+
+b)
+
+Now suppose that round robin service is used, with packets 1, 4, 5, 6, and
+11 belonging to one class of traffic, and the remaining packets belonging
+to the second class of traffic. Indicate the slots in which packets 2 through
+12 each leave the queue.
+
+slots 0  1  2  3  4  5  6  7  8  9  10  11
+
+      1  2  4  3  6  7  5  8  11 9  10  12
+
+
+c)
+
+Now suppose that WFQ service is used, with packets 1, 4, 5, 6, and 11
+belonging to one class of traffic, and the remaining packets belonging to the
+second class of traffic. Class 1 has a WFQ weight of 1, while class 2 has a
+WFQ weight of 2 (note that these weights are different than in the previous
+question). Indicate the slots in which packets 2 through 12 each leave the
+queue. See also the caveat in the question above regarding WFQ service.
+
+My strategy for the two queues is to let the first packet get out in a FIFO manner.
+
+slots 0  1  2  3  4  5  6  7  8  9  10  11
+
+      2  3  1  7  4  8  9  6  10 12  5  11
