@@ -649,3 +649,71 @@ My strategy for the two queues is to let the first packet get out in a FIFO mann
 slots 0  1  2  3  4  5  6  7  8  9  10  11
 
       2  3  1  7  4  8  9  6  10 12  5  11
+
+#### 8
+
+Consider a datagram network using 32-bit host addresses. Suppose a router
+has four links, numbered 0 through 3, and packets are to be forwarded to the
+link interfaces as follows:
+
+
+
+11100000 00000000 00000000 00000000
+through 11100000 00111111 11111111 11111111  0
+11100000 01000000 00000000 00000000   
+through 11100000 01000000 11111111 11111111  1
+11100000 01000001 00000000 00000000
+through 11100001 01111111 11111111 11111111  2
+otherwise                                    3
+
+
+
+Provide a forwarding table that has five entries, uses longest prefix match-
+ing, and forwards packets to the correct link interfaces.
+
+11100000 00*                                  0
+1110000  0100000 *                            1
+11100000 0100000 1*                           2
+11100001 0*                                   2
+*                                             3
+
+Describe how your forwarding table determines the appropriate link inter-
+face for datagrams with destination addresses:
+
+11001000 10010001 01010001 01010101
+
+it match no prefix in my forwarding table and hit the otherwise case and forward the packet to the link interface 3.
+
+11100001 01000000 11000011 00111100
+
+it match the prefix that forward the packet to the link interface 2. because 2 has the longest prefix.
+
+11100001 10000000 00010001 01110111
+
+it match no prefix in my forwarding table and hit the otherwise case and forward the packet to the link interface 3.
+
+#### 9
+
+Consider a datagram network using 8-bit host addresses. Suppose a router
+uses longest prefix matching and has the following forwarding table:
+
+00           0
+010          1
+011          2
+10           3
+11           4
+
+For each of the four interfaces, give the associated range of destination host
+addresses and the number of addresses in the range.
+
+00000000 through  63 addresses
+00111111
+
+01000000 through 31 addresses
+01011111
+
+10000000 through 63 addresses
+10111111
+
+11000000 through 63 addresses
+11111111
