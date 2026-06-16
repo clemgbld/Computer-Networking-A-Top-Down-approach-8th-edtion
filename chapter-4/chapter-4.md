@@ -706,14 +706,56 @@ uses longest prefix matching and has the following forwarding table:
 For each of the four interfaces, give the associated range of destination host
 addresses and the number of addresses in the range.
 
-00000000 through  63 addresses
+00000000 through  64 addresses
 00111111
 
-01000000 through 31 addresses
+01000000 through 32 addresses
 01011111
 
-10000000 through 63 addresses
+01100000 through 32 addresses
+01111111
+
+10000000 through 64 addresses
 10111111
 
-11000000 through 63 addresses
+11000000 through 64 addresses
 11111111
+
+
+#### 10
+
+Consider a datagram network using 8-bit host addresses. Suppose a router
+uses longest prefix matching and has the following forwarding table:
+
+1            0
+10           1
+111          2
+*            3
+
+For each of the four interfaces, give the associated range of destination host
+addresses and the number of addresses in the range.
+
+11000000 through 32 addresses
+11011111
+
+10000000 through 64 addresses
+10111111
+
+11100000 through 32 addresses
+11111111
+
+00000000 through 128 addresses
+01111111
+
+#### 11
+
+Consider a router that interconnects three subnets: Subnet 1, Subnet 2,
+and Subnet 3. Suppose all of the interfaces in each of these three subnets
+are required to have the prefix 223.1.17/24. Also suppose that Subnet 1 is
+required to support at least 60 interfaces, Subnet 2 is to support at least 90
+interfaces, and Subnet 3 is to support at least 12 interfaces. Provide three
+network addresses (of the form a.b.c.d/x) that satisfy these constraints.
+
+223.1.17.0/25
+223.1.17.128/26
+223.1.17.192/28
