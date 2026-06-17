@@ -672,8 +672,8 @@ Provide a forwarding table that has five entries, uses longest prefix match-
 ing, and forwards packets to the correct link interfaces.
 
 11100000 00*                                  0
-1110000  0100000 *                            1
-11100000 0100000 1*                           2
+1110000  01000000 *                           1
+11100000 01000001*                            2
 11100001 0*                                   2
 *                                             3
 
@@ -759,3 +759,46 @@ network addresses (of the form a.b.c.d/x) that satisfy these constraints.
 223.1.17.0/25
 223.1.17.128/26
 223.1.17.192/28
+
+
+#### 12
+
+In Section 4.2.2, an example forwarding table (using longest prefix matching)
+is given. Rewrite this forwarding table using the a.b.c.d/x notation instead of
+the binary string notation
+
+11001000 00010111 00010 = 200.23.16.0/21
+
+
+11001000 00010111 00011000 = 200.23.24.0/24
+
+
+11001000 00010111 00011 = 200.23.24.0/21
+
+* = 0.0.0.0/0
+
+#### 13
+
+In Problem P8, you are asked to provide a forwarding table (using longest
+prefix matching). Rewrite this forwarding table using the a.b.c.d/x notation
+instead of the binary string notation.
+
+11100000 00* = 224.0.0.0/10                                   0
+1110000  0100000 * = 224.64.0.0/16                            1
+11100000 0100000 1* = 224.64.128.0/17                         2
+11100001 0* = 225.0.0.0/9                                     2
+* = 0.0.0.0/0                                                 3
+
+#### 14
+
+Consider a subnet with prefix 128.119.40.128/26. Give an example of one
+IP address (of form xxx.xxx.xxx.xxx) that can be assigned to this network.
+
+128.119.40.160
+
+Suppose an ISP owns the block of addresses of the form 128.119.40.64/26.
+Suppose it wants to create four subnets from this block, with each block
+having the same number of IP addresses. What are the prefixes (of form
+a.b.c.d/x) for the four subnets?
+
+
