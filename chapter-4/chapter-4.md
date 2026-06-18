@@ -801,4 +801,24 @@ Suppose it wants to create four subnets from this block, with each block
 having the same number of IP addresses. What are the prefixes (of form
 a.b.c.d/x) for the four subnets?
 
+128.119.40.64/28
+128.119.40.80/28
+128.119.40.96/28
+128.119.40.112/28
 
+#### 15
+
+Consider the topology shown in Figure 4.20.
+Denote the three subnets with hosts (starting clockwise at 12:00) as Networks A, B, and C. Denote the
+subnets without hosts as Networks D, E, and F.
+
+a. Assign network addresses to each of these six subnets, with the following
+constraints: All addresses must be allocated from 214.97.254/23; Subnet A
+should have enough addresses to support 250 interfaces; Subnet B should
+have enough addresses to support 120 interfaces; and Subnet C should
+have enough addresses to support 120 interfaces. Of course, subnets D, E
+and F should each be able to support two interfaces. For each subnet, the
+assignment should take the form a.b.c.d/x or a.b.c.d/x – e.f.g.h/y.
+
+b. Using your answer to part (a), provide the forwarding tables (using long-
+est prefix matching) for each of the three routers.
