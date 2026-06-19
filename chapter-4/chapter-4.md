@@ -820,5 +820,38 @@ have enough addresses to support 120 interfaces. Of course, subnets D, E
 and F should each be able to support two interfaces. For each subnet, the
 assignment should take the form a.b.c.d/x or a.b.c.d/x – e.f.g.h/y.
 
+A 214.97.254.0/24 - 214.97.254.0/30
+B 214.97.255.0/24 - 214.97.255.0/25
+C 214.97.255.0/25 - 214.97.255.0/30
+D 214.97.254.0/31
+E 214.97.255.0/31
+F 214.97.255.2/31
+
+
 b. Using your answer to part (a), provide the forwarding tables (using long-
 est prefix matching) for each of the three routers.
+
+R1 forwarding table
+
+214.97.254.0/24 -> A
+214.97.254.0/31 -> D
+214.97.255.128/25 -> R2 
+214.97.255.0/25 -> R3 
+214.97.255.0/31 -> R2
+
+R2 forwarding table
+
+
+214.97.254.0/24 -> R1
+214.97.255.128/25 -> B
+214.97.255.0/31 -> E
+* -> R3
+
+R3 forwarding table
+
+214.97.254.0/24 -> R1
+214.97.255.0/25 -> C
+214.97.255.2/31 -> F
+* -> R2
+
+
