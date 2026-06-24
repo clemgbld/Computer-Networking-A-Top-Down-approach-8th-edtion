@@ -1093,3 +1093,88 @@ consider the ICMP protocol to be a network-layer protocol or a transport-
 layer protocol? Justify your answer.
 
 It is a network layer protocol because it use to diagnose error on the network and it doesn't do multiplexing which is one of the core feature of any transport layer protocol, though what it does looks like the ACK message feature of the TCP protocol. 
+
+### Wireshark-lab ip
+
+#### 1
+
+Select the first UDP segment sent by your computer via the traceroute
+command to gaia.cs.umass.edu. (Hint: this is 44th packet in the trace file in the ipwireshark-trace1-1.pcapng file in footnote 2). Expand the Internet Protocol part
+of the packet in the packet details window. What is the IP address of your
+computer?
+
+Source Address: 192.168.86.61
+
+#### 2
+
+What is the value in the time-to-live (TTL) field in this IPv4 datagram’s header?
+
+Time to Live: 1
+
+#### 3
+
+ What is the value in the upper layer protocol field in this IPv4 datagram’s header?
+[Note: the answers for Linux/MacOS differ from Windows here].
+
+Protocol: UDP (17)
+
+#### 4
+
+How many bytes are in the IP header?
+
+20 bytes
+
+#### 5
+
+How many bytes are in the payload of the IP datagram? Explain how you
+determined the number of payload bytes.
+
+8 bytes the length of the header of the transport layer (UDP) + 28 the length of the payload of the data = 36 bytes
+
+Or you can do total length = 56 , minus the ip datagram header length = 20 which give 36
+
+#### 6
+
+ Has this IP datagram been fragmented? Explain how you determined whether or
+not the datagram has been fragmented.
+
+The more fragments, and the fragment offset are set to zero so no the ip datagram hasn't been fragemented.
+#### 7 
+
+Which fields in the IP datagram always change from one datagram to the next within this series of UDP segments sent by your computer destined to 128.119.245.12, via traceroute? Why?  
+
+The identification field, to be able to reassamble fragmented ip datagrams, the checksum as well since the payload and the header are not the same, the TTL is not always the same as well. 
+
+#### 8
+Which fields in this sequence of IP datagrams (containing UDP segments) stay
+constant? Why?
+
+The ip source and destination, the protocol as well for obvious reasons.
+ DSCP stays the same as well since the class of service won't change from one datagram to the other.  
+
+#### 9
+
+Describe the pattern you see in the values in the Identification field of the IP
+datagrams being sent by your computer
+
+The pattern i found is that it is always incremented by 1.
+
+#### 10
+
+ What is the upper layer protocol specified in the IP datagrams returned from the
+routers? [Note: the answers for Linux/MacOS differ from Windows here].
+
+Protocol: ICMP (1)
+
+#### 11
+
+Are the values in the Identification fields (across the sequence of all of ICMP
+packets from all of the routers) similar in behavior to your answer to question 9
+above?
+
+Not it is not similar and it's normal since the ip datagrams are not from the same machine hence there are independant counters.
+
+#### 12
+
+Are the values of the TTL fields similar, across all of ICMP packets from all of
+the routers?
