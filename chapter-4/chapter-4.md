@@ -1178,3 +1178,109 @@ Not it is not similar and it's normal since the ip datagrams are not from the sa
 
 Are the values of the TTL fields similar, across all of ICMP packets from all of
 the routers?
+
+No they are not.
+
+#### 13
+
+Find the first IP datagram containing the first part of the segment sent to
+128.119.245.12 sent by your computer via the traceroute command to
+gaia.cs.umass.edu, after you specified that the traceroute packet length
+should be 3000. (Hint: This is packet 179 in the ip-wireshark-trace1-1.pcapng trace
+file in footnote 2. Packets 179, 180, and 181 are three IP datagrams created by
+fragmenting the first single 3000-byte UDP segment sent to 128.119.145.12).
+Has that segment been fragmented across more than one IP datagram? (Hint: the
+answer is yes
+!)
+
+Yes it has been fragmented in 2 ip datagrams and the last one is a segment and it's ip header has the fragmentation flag "more segments" set to zero to indicated that it's the last fragement.
+
+#### 14
+
+What information in the IP header indicates that this datagram been fragmented? 
+
+
+The fragmentations flags are not all set to zero.
+
+#### 15
+
+ What information in the IP header for this packet indicates whether this is the first
+fragment versus a latter fragment?
+
+The first fragment has the fragment offset set to zero and the other not.
+
+#### 16
+
+How many bytes are there in is this IP datagram (header plus payload)?
+
+1500 bytes
+
+#### 17
+
+Now inspect the datagram containing the second fragment of the fragmented UDP
+segment. What information in the IP header indicates that this is not the first
+datagram fragment?
+
+It's fragment offset is not set to zero.
+
+#### 18
+
+What fields change in the IP header between the first and second fragment?
+
+The fragment offset, the more fragments flags, the header checksum.
+
+#### 19
+
+Now find the IP datagram containing the third fragment of the original UDP
+segment. What information in the IP header indicates that this is the last fragment
+of that segment
+
+The more framgments flag is set to zero.
+
+#### 20
+
+What is the IPv6 address of the computer making the DNS AAAA request? This
+is the source address of the 20th packet in the trace. Give the IPv6 source address
+for this datagram in the exact same form as displayed in the Wireshark window.
+
+Source Address: 2601:193:8302:4620:215c:f5ae:8b40:a27a
+
+#### 21
+
+What is the IPv6 destination address for this datagram? Give this IPv6 address in
+the exact same form as displayed in the Wireshark window.
+
+Destination Address: 2001:558:feed::1
+
+#### 22
+
+What is the value of the flow label for this datagram?
+
+Flow Label: 0x63ed0
+
+#### 23
+
+How much payload data is carried in this datagram?
+
+Payload Length: 37
+
+#### 24
+
+What is the upper layer protocol to which this datagram’s payload will be
+delivered at the destination?
+
+Next Header: UDP (17)
+
+#### 25
+
+How many IPv6 addresses are returned in the response to this AAAA request?
+
+14, 13 if you remove the canonical name.
+
+#### 26
+
+What is the first of the IPv6 addresses returned by the DNS for youtube.com (in
+the ip-wireshark-trace2-1.pcapng trace file, this is also the address that is numerically the smallest)? Give this IPv6 address in the exact same shorthand
+form as displayed in the Wireshark window.
+
+youtube.com: type AAAA, class IN, addr 2607:f8b0:4006:815::200e
