@@ -147,10 +147,103 @@ And it only send that new path when the policy allow it to do that.
 
 Describe the main role of the communication layer, the network-wide state-
 management layer, and the network-control application layer in an SDN
-controller.
+controller. 
 
-Communication layer: this layer takes care of the communication with the controlled device (the routers) and the SDN.
+Communication layer: this layer takes care of the communication with the controlled device (the routers) and the SDN via protocols.
+The api used is called "southbound".
 
-Network-wide state-management layer:
+Network-wide state-management layer: this layer is the heart of the control (it's operating system) that contains the flow tables for the different devices and read/write to them.
 
-Network-control application layer:
+Network-control application layer: this layer enable the controller to interact with network-control applications through its "northbound" api.
+This api can read/write network state and flow table within the Network-wide state management layer.
+
+#### 15
+
+Suppose you wanted to implement a new routing protocol in the SDN control
+plane. At which layer would you implement that protocol? Explain.
+
+At the Network-control application layer because it is an independent application that would need to communicate with the Network-wide state-management layer to read/write to the flow tables.
+
+#### 16
+
+What types of messages flow across an SDN controller’s northbound and
+southbound APIs?
+
+For example a device communicate via the southbound api to the SDN controller that a link went down, the SDN communicate to the routing application via the northbound api that the link went down, the routing algorithm recompute the paths for the devices and then again via the northbound api transmit the infos to the controllers which update it's flow tables then it transmit back the new path when a devices request it via the southbound api.
+
+Who is the recipient of these messages sent from the
+controller across the southbound interface, and who sends messages to the
+controller across the northbound interface?
+
+recipient for the message sent by the controller via southbound api = devices
+sender of the message to the controller across the northbound api = network applications such as routing, access control application and load balancer.
+
+#### 17
+
+Describe the purpose of two types of OpenFlow messages (of your choosing)
+that are sent from a controlled device to the controller. 
+
+- Port-status: This message is used by a switch to inform the controller of a change in port status.
+
+- Packet-in: send a packet to the controller that didn't match any flow tables entry in the switch for additional processing.
+
+
+Describe the purpose
+of two types of Openflow messages (of your choosing) that are send from the
+controller to a controlled device.
+
+- Read-State: to collect stats and counter values from the switch.
+
+- Modify-State: to add/delete or modify entries in the switch's flow table, and to set switch port properties.
+
+#### 18
+
+What is the purpose of the service abstraction layer in the OpenDaylight SDN
+controller?
+
+It's purpose is to abstract which protocol is used to communicate with a device.
+
+### Section 5.6-5.7
+
+#### 19
+
+Names four different types of ICMP messages
+
+Type 0 = ping response
+Type 8 = ping request
+Type 11 = TTL expired
+Type 4 = source quench (congestion control)
+
+#### 20
+
+What two types of ICMP messages are received at the sending host executing
+the Traceroute program?
+
+Type 11, code 0 = TTL expired
+Type 3, code 3 = port unreachable
+
+#### 21
+
+Define the following terms in the context of SNMP: managing server,
+managed device, network management agent and MIB
+
+Managing server: An application that has the purpose to be able to initiate actions to configure, monitor and control the network's maanged devices. A managed network can have several of them.
+
+Managed device: Any device (router host etc...) belonging to a manage network, the device itself can have many configurable components.
+
+Network Management agent: a software process inside the managed device that enable the communication between the managed device and the managed server.
+
+MIB: Management Information Base where is stored the info of the managed devices. this base can be queried by network admin via the Simple Network Management Protocol (SNMP). An MIB is often vendor specific.
+
+#### 22
+
+What are the purposes of the SNMP GetRequest and SetRequest messages?
+
+- GetRequest get an info contained in the MIB of a managed device.
+- SetRequest add/delete or update an info in the MIB of a managed device.
+
+#### 23
+
+What is the purpose of the SNMP trap message?
+
+A trap message is an unrequested message sent by the network Management agent inside the managed device to the managing server to notify the admin about something.
