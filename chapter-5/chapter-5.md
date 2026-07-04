@@ -88,3 +88,69 @@ It was introduced to help manage big intra-network, the link state algorithm is 
 #### 10
 
 Define and contrast the following terms: subnet, prefix, and BGP route.
+
+
+subnet: A subnet (subnetwork) is a range of address, you can evaluate the number of addresses by reading at the CIDR notation prefix x.x.x.x/x
+
+Analogy: a set of room in a building, let's say a floor where the floor represent a department
+
+prefix: A prefix defined the address range, it is often represented by the CIDR notation prefix x.x.x.x/x.
+
+Analogy: the number of the floor.
+
+
+BGP route: A BGP route is a route that connect two AS (eBGP) or two router (iBGP), the route have a cost.
+The route is an entry in the forwarding table that tells the world of to reach a router.
+Route = prefix + attributes (such as AS_PATH and NEXT_HOP).
+
+Analogy: the floor number + the room number.
+
+#### 11
+
+How does BGP use the NEXT-HOP attribute? 
+
+It use to know the left most router ip of the next AS
+
+How does it use the AS-PATH attribute?
+
+It use it to know which AS to traverse before reaching the destination router.
+
+
+#### 12
+
+Describe how a network administrator of an upper-tier ISP can implement
+policy when configuring BGP.
+
+It can configure its border routers either via a SDN or every border router if the controllers are embeded.
+it then set up the local attributes as they want using route selection and route advertisement.
+
+Route selection: they prefer to use their own links as much as possible to not pay the cost of a providers link.
+
+Route advertisement: they accept to forward packet from a source or destination or both that are paying customer only.
+
+#### 13
+
+True or false: When a BGP router receives an advertised path from its neigh-
+bor, it must add its own identity to the received path and then send that new
+path on to all of its neighbors. Explain.
+
+False
+
+it only it only add the AS-PATH when it is when this is a link that connect a border router to an external AS border router.
+And it only send that new path when the policy allow it to do that.
+
+
+### Section 5.5
+
+
+#### 14
+
+Describe the main role of the communication layer, the network-wide state-
+management layer, and the network-control application layer in an SDN
+controller.
+
+Communication layer: this layer takes care of the communication with the controlled device (the routers) and the SDN.
+
+Network-wide state-management layer:
+
+Network-control application layer:
