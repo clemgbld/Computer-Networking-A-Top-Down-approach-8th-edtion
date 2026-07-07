@@ -247,3 +247,83 @@ What are the purposes of the SNMP GetRequest and SetRequest messages?
 What is the purpose of the SNMP trap message?
 
 A trap message is an unrequested message sent by the network Management agent inside the managed device to the managing server to notify the admin about something.
+
+## Problems
+
+#### 1
+
+Looking at Figure 5.3, enumerate the paths from y to u that do not contain
+any loops.
+
+y -> x -> w -> v -> u
+y -> x -> w -> u
+y -> x -> v -> w -> u
+y -> x -> v -> u
+y -> x -> u
+y -> w -> x -> v -> u
+y -> w -> x -> u
+y -> w -> v -> u
+y -> w -> v -> x -> u
+y -> w -> u
+y -> z -> w -> x -> v -> u
+y -> z -> w -> x -> u
+y -> z -> w -> v -> u
+y -> z -> w -> v -> x -> u
+y -> z -> w -> u
+
+#### 2
+
+Repeat Problem P1 for paths from x to z, z to u, and z to w
+
+x -> z:
+
+x -> y -> w -> z
+x -> y -> z
+x -> w -> z
+x -> w -> y -> z
+x -> v -> w -> z
+x -> v -> w -> y -> z
+x -> v -> u -> w -> z
+x -> v -> u -> w -> y -> z
+x -> u -> v -> w -> z
+x -> u -> v -> w -> y -> z
+x -> u -> w -> z
+x -> u -> w -> y -> z
+
+z -> u:
+
+z -> w -> x -> v -> u
+z -> w -> x -> u
+z -> w -> v -> u
+z -> w -> v -> x -> u
+z -> w -> u
+z -> w -> y -> x -> v -> u
+z -> w -> y -> x -> u
+z -> y -> x -> w -> v -> u
+z -> y -> x -> w -> u
+z -> y -> x -> v -> w -> u
+z -> y -> x -> v -> u
+z -> y -> x -> u
+z -> y -> w -> x -> v -> u
+z -> y -> w -> x -> u
+z -> y -> w -> v -> u
+z -> y -> w -> v -> x -> u
+z -> y -> w -> u
+
+z -> w:
+
+z -> w
+z -> y -> x -> w
+z -> y -> x -> v -> w
+z -> y -> x -> v -> u -> w
+z -> y -> x -> u -> v -> w
+z -> y -> x -> u -> w
+z -> y -> w
+
+#### 3
+
+Consider the following network. With the indicated link costs, use Dijkstra’s
+shortest-path algorithm to compute the shortest path from x to all network nodes.
+Show how the algorithm works by computing a table similar to Table 5.1.
+
+
