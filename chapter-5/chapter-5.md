@@ -326,4 +326,58 @@ Consider the following network. With the indicated link costs, use Dijkstra’s
 shortest-path algorithm to compute the shortest path from x to all network nodes.
 Show how the algorithm works by computing a table similar to Table 5.1.
 
+Node        | Distance         | Parent
+x             0                   /
+y             6                   x
+z             8                   x
+v             3                   x
+w             6                   x
+u             6                   v
+t             7                   v
 
+#### 4
+
+Consider the network shown in Problem P3. Using Dijkstra’s algorithm, and
+showing your work using a table similar to Table 5.1, do the following:
+
+a - Compute the shortest path from t to all network nodes.
+
+Node        | Distance         | Parent
+x             7                   v
+y             7                   t
+z             15                  x
+v             4                   t
+w             5                   u
+u             2                   t
+t             0                   / 
+
+
+b - Compute the shortest path from u to all network nodes.
+
+Node        | Distance         | Parent
+x             6                   v
+y             9                   t
+z             14                  x
+v             3                   u
+w             3                   u
+u             0                   /
+t             2                   u                  
+
+
+c - Compute the shortest path from v to all network nodes.
+
+Node        | Distance         | Parent
+x             3                   v
+y             8                   v
+z             /                   /
+v             0                   /
+w             4                   v
+u             3                   v
+t             4                   v                  
+
+
+d - Compute the shortest path from w to all network nodes.
+
+e - Compute the shortest path from y to all network nodes.
+
+f - Compute the shortest path from z to all network nodes.
