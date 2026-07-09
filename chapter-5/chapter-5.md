@@ -369,7 +369,7 @@ c - Compute the shortest path from v to all network nodes.
 Node        | Distance         | Parent
 x             3                   v
 y             8                   v
-z             /                   /
+z             11                  x 
 v             0                   /
 w             4                   v
 u             3                   v
@@ -378,6 +378,39 @@ t             4                   v
 
 d - Compute the shortest path from w to all network nodes.
 
+Node        | Distance         | Parent
+x             6                   w
+y             12                  x or v or t
+z             14                  x
+v             4                   w
+w             0                   /
+u             3                   w
+t             5                   u                  
+
 e - Compute the shortest path from y to all network nodes.
 
+Node        | Distance         | Parent
+x             6                   y
+y             0                   /
+z             12                  y
+v             8                   y
+w             12                  x or v
+u             9                   t
+t             7                   y                  
+
 f - Compute the shortest path from z to all network nodes.
+
+Node        | Distance         | Parent
+x             8                   z
+y             12                  z
+z             0                   /
+v             11                  x
+w             14                  x 
+u             14                  v
+t             15                  v                  
+
+#### 5
+
+Consider the network shown below, and assume that each node initially
+knows the costs to each of its neighbors. Consider the distance-vector algo-
+rithm and show the distance table entries at node z.
