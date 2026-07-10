@@ -414,3 +414,263 @@ t             15                  v
 Consider the network shown below, and assume that each node initially
 knows the costs to each of its neighbors. Consider the distance-vector algo-
 rithm and show the distance table entries at node z.
+
+z = 0
+u = 6 z -> x -> v -> u
+v = 5 z -> x -> v
+y = 5 z -> x -> y
+x = 2 z -> x
+
+#### 6
+
+Consider a general topology (that is, not the specific network shown above) and a
+synchronous version of the distance-vector algorithm. Suppose that at each itera-
+tion, a node exchanges its distance vectors with its neighbors and receives their
+distance vectors. Assuming that the algorithm begins with each node knowing
+only the costs to its immediate neighbors, what is the maximum number of itera-
+tions required before the distributed algorithm converges? Justify your answer.
+
+Given that N is the number of nodes the maximum number of iterations required before the distributed algorithm converges if synchronous is N - 1 because it would take N - 1 hop to spread it's table to the nodes that are the most far away from each other.
+
+#### 7
+
+Consider the network fragment shown below. x has only two attached neigh-
+bors, w and y. w has a minimum-cost path to destination u (not shown) of 5,
+and y has a minimum-cost path to u of 6. The complete paths from w and y
+to u (and between w and y) are not shown. All link costs in the network have
+strictly positive integer values.
+
+a - Give x’s distance vector for destinations w, y, and u.
+
+x distance vector for w = 2
+x distance vector for y = 4
+x distance vector for u = 7
+
+b - Give a link-cost change for either c(x,w) or c(x,y) such that x will inform
+its neighbors of a new minimum-cost path to u as a result of executing the
+distance-vector algorithm.
+
+if c(x,w) changes from 2 to 1 then it will inform its neighbors which themselves will inform u.
+
+
+c - Give a link-cost change for either c(x,w) or c(x,y) such that x will not
+inform its neighbors of a new minimum-cost path to u as a result of
+executing the distance-vector algorithm.
+
+
+if c(x, y) changes from 5 to 6 x will not inform its neighbors since the cost is higher than 4 to reach y.
+
+#### 8
+
+Consider the three-node topology shown in Figure 5.6. Rather than having
+the link costs shown in Figure 5.6, the link costs are c(x,y) = 3, c(y,z) = 6,
+c(z,x) = 4. Compute the distance tables after the initialization step and after
+each iteration of a synchronous version of the distance-vector algorithm (as
+we did in our earlier discussion of Figure 5.6).
+
+x
+
+  x y z     x y z 
+x 0 3 4   x 0 3 4
+y / / /   y 3 0 6
+z / / /   z 4 6 0
+
+y
+
+  x y z     x y z 
+x / / /   x 0 3 4
+y 3 0 6   y 3 0 6
+z / / /   z 4 6 0
+
+z
+
+  x y z     x y z 
+x / / /   x 0 3 4
+y / / /   y 3 0 6
+z 4 6 0   z 4 6 0
+
+#### 9
+
+Consider the count-to-infinity problem in the distance vector routing. Will
+the count-to-infinity problem occur if we decrease the cost of a link? Why?
+No it won't happen since good news travel fast and bad news travel slow because it will take (n - 1) iteration to reach the most far node.
+If a the cost of a link increase it is (new cost - old cost) / step size where step size is the cost of the link of the neighbor that route back trough you. 
+
+How about if we connect two nodes which do not have a link?
+
+if we connect a new node that doesn't have a link it will take (n - 1) iterations to reach the most far node.
+So it won't occur.
+
+#### 10
+
+Argue that for the distance-vector algorithm in Figure 5.6, each value in the
+distance vector D(x) is non-increasing and will eventually stabilize in a finite
+number of steps.
+
+As soon as c(x,y) will stay 2 but in 2 iterations c(x,z) will go from 7 to 3 and it will achieve the optimal path and stabilize since the network as finite number of nodes.
+
+#### 11
+
+Consider Figure 5.7. Suppose there is another router w, connected to router
+y and z. The costs of all links are given as follows: c(x,y) = 4, c(x,z) = 50,
+c(y,w) = 1, c(z,w) = 1, c(y,z) = 3. Suppose that poisoned reverse is used in
+the distance-vector routing algorithm.
+
+a - When the distance vector routing is stabilized, router w, y, and z inform their
+distances to x to each other. What distance values do they tell each other?
+
+c(w, x) = 5
+c(z,x) = 7
+c(y,x) = 4
+
+b - Now suppose that the link cost between x and y increases to 60. Will there be
+a count-to-infinity problem even if poisoned reverse is used? Why or why not?
+
+yes there will be a count to infinity problem it will slowly increase to 50 before the loop breaks.
+
+If there is a count-to-infinity problem, then how many iterations are needed for
+
+50 - 6 / 2 = 22
+
+c - How do you modify c(y,z) such that there is no count-to-infinity problem
+at all if c(y,x) changes from 4 to 60?
+
+x will first propagate propagate c(z,y) = > 50 
+
+#### 12
+
+Describe how loops in paths can be detected in BGP.
+
+if the same AS id is in the path
+
+#### 13
+
+Will a BGP router always choose the loop-free route with the shortest ASpath
+length? Justify your answer
+
+No BGP router don't optimize performance but for the AS interest of the ISP owning the router.
+
+#### 14
+
+Consider the network shown below. Suppose AS3 and AS2 are running
+OSPF for their intra-AS routing protocol. Suppose AS1 and AS4 are running
+RIP for their intra-AS routing protocol. Suppose eBGP and iBGP are used
+for the inter-AS routing protocol. Initially suppose there is no physical link
+between AS2 and AS4.
+
+- a Router 3c learns about prefix x from which routing protocol: OSPF, RIP,
+eBGP, or iBGP?
+
+eBGP
+
+- b Router 3a learns about x from which routing protocol?
+
+IBGP
+
+- c Router 1c learns about x from which routing protocol?
+
+eBGP
+
+- d Router 1d learns about x from which routing protocol?
+
+IBGP
+
+#### 15
+
+Referring to the previous problem, once router 1d learns about x it will put an
+entry (x, I) in its forwarding table.
+
+a - Will I be equal to I1 or I2 for this entry? Explain why in one sentence.
+
+I1, since it got notified by 1c and the shortest path is to take I1.
+
+b - Now suppose that there is a physical link between AS2 and AS4, shown
+by the dotted line. Suppose router 1d learns that x is accessible via AS2 as
+well as via AS3. Will I be set to I1 or I2? Explain why in one sentence.
+
+I2 since the path is shorter.
+
+c - Now suppose there is another AS, called AS5, which lies on the path
+between AS2 and AS4 (not shown in diagram). Suppose router 1d learns
+that x is accessible via AS2 AS5 AS4 as well as via AS3 AS4. Will I be
+set to I1 or I2? Explain why in one sentence.
+
+I1 since AS3 AS4 is shorter than AS2 AS5 AS4
+
+#### 16
+
+Consider the following network. ISP B provides national backbone service
+to regional ISP A. ISP C provides national backbone service to regional
+ISP D. Each ISP consists of one AS. B and C peer with each other in two
+places using BGP. Consider traffic going from A to D. B would prefer
+to hand that traffic over to C on the West Coast (so that C would have
+to absorb the cost of carrying the traffic cross-country), while C would
+prefer to get the traffic via its East Coast peering point with B (so that B
+would have carried the traffic across the country). What BGP mechanism
+might C use, so that B would hand over A-to-D traffic at its East Coast
+peering point? To answer this question, you will need to dig into the BGP
+specification.
+
+Answer: ISP C would use the Multi-Exit Discriminator (MED) attribute.Justification: C can advertise routes to destination D with a low MED value at the East Coast peering point and a high MED value at the West Coast peering point. Because BGP routers prefer the path with the lowest MED value when all other attributes are equal, this forces ISP B to hand over the traffic on the East Coast. Alternatively, C could use AS-PATH prepending on the West Coast to make that path look artificially longer and less desirable to B.
+
+#### 17
+
+In Figure 5.13, consider the path information that reaches stub networks W,
+X, and Y. Based on the information available at W and X, what are their
+respective views of the network topology? Justify your answer. The topology
+view at Y is shown below.
+
+[answer](./p-17.png)
+
+#### 18
+
+Consider Figure 5.13. B would never forward traffic destined to Y via X based
+on BGP routing. But there are some very popular applications for which data
+packets go to X first and then flow to Y. Identify one such application, and
+describe how data packets follow a path not given by BGP routing.
+
+The application is P2P.
+
+#### 19
+
+In Figure 5.13, suppose that there is another stub network V that is a cus-
+tomer of ISP A. Suppose that B and C have a peering relationship, and A is
+a customer of both B and C. Suppose that A would like to have the traffic
+destined to W to come from B only, and the traffic destined to V from either
+B or C. How should A advertise its routes to B and C? What AS routes does
+C receive?
+
+
+[answer](./p-19.png)
+
+#### 20
+
+Suppose ASs X and Z are not directly connected but instead are connected
+by AS Y. Further suppose that X has a peering agreement with Y, and that Y
+has a peering agreement with Z. Finally, suppose that Z wants to transit all
+of Y’s traffic but does not want to transit X’s traffic. Does BGP allow Z to
+implement this policy?
+
+Yes it does
+
+#### 21
+
+Consider the two ways in which communication occurs between a managing
+entity and a managed device: request-response mode and trapping. What are
+the pros and cons of these two approaches, in terms of (1) overhead, (2) noti-
+fication time when exceptional events occur, and (3) robustness with respect
+to lost messages between the managing entity and the device?
+
+1) overhead here trapping wins since there is only one request  sent via UDP and one response, request response use TCP so handshaking + the request + the response is more overhead.
+
+2) here again trapping wins since it will have the exceptional events in real time, with the request response model the managed server will only have the exceptional when the it send a request to the managed device.
+
+3) robustness, here request-response wins since the notification sent from the managed device is unreliable since it uses UDP, the request-response model use TCP so it can retry and alert when something wrong happens.
+
+#### 22
+
+In Section 5.7, we saw that it was preferable to transport SNMP messages in
+unreliable UDP datagrams. Why do you think the designers of SNMP chose
+UDP rather than TCP as the transport protocol of choice for SNMP?
+
+The designers of SNMP choose to prioritize speed over robustness.
