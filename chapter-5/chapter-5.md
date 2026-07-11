@@ -672,5 +672,8 @@ to lost messages between the managing entity and the device?
 In Section 5.7, we saw that it was preferable to transport SNMP messages in
 unreliable UDP datagrams. Why do you think the designers of SNMP chose
 UDP rather than TCP as the transport protocol of choice for SNMP?
-
 The designers of SNMP choose to prioritize speed over robustness.
+
+### ICMP socket programming
+
+(program)[./icmp_pinger.py]

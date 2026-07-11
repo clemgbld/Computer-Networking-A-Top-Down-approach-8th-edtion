@@ -4,7 +4,7 @@ import sys
 import struct
 import time
 import select
-import binascii
+import statistics
 
 ICMP_ECHO_REQUEST = 8
 
@@ -14,7 +14,7 @@ def checksum(string):
     countTo = (len(string) // 2) * 2
     count = 0
     while count < countTo:
-        thisVal = ord(string[count + 1]) * 256 + ord(string[count])
+        thisVal = string[count + 1] * 256 + string[count]
         csum = csum + thisVal
         csum = csum & 0xFFFFFFFF
         count = count + 2
@@ -41,11 +41,50 @@ def receiveOnePing(mySocket, ID, timeout, destAddr):
         recPacket, addr = mySocket.recvfrom(1024)
         # Fill in start
         # Fetch the ICMP header from the IP packet
-        print(recPacket)
-        # Fill in end
+        bytearr = bytearray(recPacket)
+        
+        id = int.from_bytes(bytes(bytearr[24:26]),byteorder='little',signed=True)
+
+        if id != ID:
+            print(f"Not my packet {id} != {ID}")
+            timeLeft = timeLeft - howLongInSelect
+            if timeLeft <= 0:
+                return "Request timed out."
+            continue
+
+
+        icmp_type =  bytearr[20]
+
+
+        if icmp_type != 0:
+            return "Wrong ICMP type"
+
+        icmp_code = bytearr[21]
+
+        if icmp_code != 0:
+            return "Wrong ICMP code"
+
+
+        if checksum(recPacket) != 0:
+            return "Packet Corrupt"
+
+        mytime = (time.time() - struct.unpack('!d', bytearr[28:36])[0]) * 1000
         timeLeft = timeLeft - howLongInSelect
+
         if timeLeft <= 0:
             return "Request timed out."
+
+
+        print(f"icmp_id={id}")
+
+        seq = int.from_bytes(bytes(bytearr[26:28]),byteorder='little',signed=True)
+
+        print(f"icmp_seq={seq}")
+
+        print(f"time={mytime:.5f} ms")
+
+        return mytime
+        # Fill in end
 
 
 def sendOnePing(mySocket, destAddr, ID):
@@ -54,9 +93,9 @@ def sendOnePing(mySocket, destAddr, ID):
     # Make a dummy header with a 0 checksum
     # struct -- Interpret strings as packed binary data
     header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, myChecksum, ID, 1)
-    data = struct.pack("d", time.time())
+    data = struct.pack("!d", time.time())
     # Calculate the checksum on the data and the dummy header.
-    myChecksum = checksum(str(header + data))
+    myChecksum = checksum(header + data)
 
     # Get the right checksum, and put in the header
     if sys.platform == "darwin":
@@ -93,10 +132,24 @@ def ping(host, timeout=1):
     print("")
     # Send ping requests to a server separated by approximately one second
     delay = 0
+    errors = 0
+    delays = []
     while 1:
         delay = doOnePing(dest, timeout)
-        print(delay)
+        if isinstance(delay, (float, int)) and not isinstance(delay, (bool)):
+            delays.append(delay)
+        else:
+            errors+= 1
         time.sleep(1)  # one second
+
+        delay_max = 0 if len(delays) == 0 else max(delays)
+        delay_min =  0 if len(delays) == 0 else min(delays)
+        delay_mean = 0 if len(delays) == 0 else statistics.mean(delays)
+        packet_loss = 0 if errors == 0 else (errors / ((len(delays) + errors))) * 100
+
+        print(f"min={delay_min:.5f} ms, max={delay_max:.5f} ms, mean={delay_mean:.5f} ms, error_loss={packet_loss:.5f} %")
+
+
     return delay
 
 
