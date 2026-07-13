@@ -65,9 +65,23 @@ struct distance_table dt0;
 
 /* students to write the following two routines, and maybe some others */
 
+void send0() {
+  struct rtpkt rtpkt1;
+  creatertpkt(&rtpkt1, 0, 1, mincosts0);
+  tolayer2(rtpkt1);
+
+  struct rtpkt rtpkt2;
+  creatertpkt(&rtpkt2, 0, 2, mincosts0);
+  tolayer2(rtpkt2);
+
+  struct rtpkt rtpkt3;
+  creatertpkt(&rtpkt3, 0, 3, mincosts0);
+  tolayer2(rtpkt3);
+}
+
 void rtinit0() {
   for (int i = 0; i < 4; i++) {
-    for (int j; j < 4; j++) {
+    for (int j = 0; j < 4; j++) {
       dt0.costs[i][j] = 999;
     }
   }
@@ -76,23 +90,14 @@ void rtinit0() {
   dt0.costs[0][1] = 1;
   dt0.costs[0][2] = 3;
   dt0.costs[0][3] = 7;
+  send0();
 }
 
 void rtupdate0(struct rtpkt *rcvdpkt) {
   bool hasBeenUpdated = rtupdate(rcvdpkt, &dt0, connectcosts0, mincosts0);
 
   if (hasBeenUpdated) {
-    struct rtpkt rtpkt1;
-    creatertpkt(&rtpkt1, 0, 1, mincosts0);
-    tolayer2(rtpkt1);
-
-    struct rtpkt rtpkt2;
-    creatertpkt(&rtpkt2, 0, 2, mincosts0);
-    tolayer2(rtpkt2);
-
-    struct rtpkt rtpkt3;
-    creatertpkt(&rtpkt3, 0, 3, mincosts0);
-    tolayer2(rtpkt3);
+    send0();
   }
 }
 
@@ -129,9 +134,19 @@ struct distance_table dt1;
 
 /* students to write the following two routines, and maybe some others */
 
+void send1() {
+  struct rtpkt rtpkt0;
+  creatertpkt(&rtpkt0, 1, 0, mincosts1);
+  tolayer2(rtpkt0);
+
+  struct rtpkt rtpkt2;
+  creatertpkt(&rtpkt2, 1, 2, mincosts1);
+  tolayer2(rtpkt2);
+}
+
 void rtinit1() {
   for (int i = 0; i < 4; i++) {
-    for (int j; j < 4; j++) {
+    for (int j = 0; j < 4; j++) {
       dt1.costs[i][j] = 999;
     }
   }
@@ -139,18 +154,13 @@ void rtinit1() {
   dt1.costs[1][0] = 1;
   dt1.costs[1][1] = 0;
   dt1.costs[1][2] = 1;
+  send1();
 }
 
 void rtupdate1(struct rtpkt *rcvdpkt) {
   bool hasBeenUpdated = rtupdate(rcvdpkt, &dt1, connectcosts1, mincosts1);
   if (hasBeenUpdated) {
-    struct rtpkt rtpkt0;
-    creatertpkt(&rtpkt0, 1, 0, mincosts1);
-    tolayer2(rtpkt0);
-
-    struct rtpkt rtpkt2;
-    creatertpkt(&rtpkt2, 1, 2, mincosts1);
-    tolayer2(rtpkt2);
+    send1();
   }
 }
 
@@ -184,9 +194,23 @@ int mincosts2[4] = {999, 999, 0, 999};
 
 /* students to write the following two routines, and maybe some others */
 
+void send2() {
+  struct rtpkt rtpkt1;
+  creatertpkt(&rtpkt1, 2, 1, mincosts2);
+  tolayer2(rtpkt1);
+
+  struct rtpkt rtpkt0;
+  creatertpkt(&rtpkt0, 2, 0, mincosts2);
+  tolayer2(rtpkt0);
+
+  struct rtpkt rtpkt3;
+  creatertpkt(&rtpkt3, 2, 3, mincosts2);
+  tolayer2(rtpkt3);
+}
+
 void rtinit2() {
   for (int i = 0; i < 4; i++) {
-    for (int j; j < 4; j++) {
+    for (int j = 0; j < 4; j++) {
       dt2.costs[i][j] = 999;
     }
   }
@@ -195,22 +219,13 @@ void rtinit2() {
   dt2.costs[2][1] = 1;
   dt2.costs[2][2] = 0;
   dt2.costs[2][3] = 2;
+  send2();
 }
 
 void rtupdate2(struct rtpkt *rcvdpkt) {
   bool hasBeenUpdated = rtupdate(rcvdpkt, &dt2, connectcosts2, mincosts2);
   if (hasBeenUpdated) {
-    struct rtpkt rtpkt1;
-    creatertpkt(&rtpkt1, 2, 1, mincosts2);
-    tolayer2(rtpkt1);
-
-    struct rtpkt rtpkt0;
-    creatertpkt(&rtpkt0, 2, 0, mincosts2);
-    tolayer2(rtpkt0);
-
-    struct rtpkt rtpkt3;
-    creatertpkt(&rtpkt3, 2, 3, mincosts2);
-    tolayer2(rtpkt3);
+    send2();
   }
 }
 
@@ -238,9 +253,19 @@ int mincosts3[4] = {999, 999, 999, 0};
 
 /* students to write the following two routines, and maybe some others */
 
+void send3() {
+  struct rtpkt rtpkt0;
+  creatertpkt(&rtpkt0, 3, 0, mincosts3);
+  tolayer2(rtpkt0);
+
+  struct rtpkt rtpkt2;
+  creatertpkt(&rtpkt2, 3, 2, mincosts3);
+  tolayer2(rtpkt2);
+}
+
 void rtinit3() {
   for (int i = 0; i < 4; i++) {
-    for (int j; j < 4; j++) {
+    for (int j = 0; j < 4; j++) {
       dt3.costs[i][j] = 999;
     }
   }
@@ -248,18 +273,13 @@ void rtinit3() {
   dt3.costs[3][0] = 7;
   dt3.costs[3][2] = 2;
   dt3.costs[3][3] = 0;
+  send3();
 }
 
 void rtupdate3(struct rtpkt *rcvdpkt) {
   bool hasBeenUpdated = rtupdate(rcvdpkt, &dt3, connectcosts3, mincosts3);
   if (hasBeenUpdated) {
-    struct rtpkt rtpkt0;
-    creatertpkt(&rtpkt0, 3, 0, mincosts3);
-    tolayer2(rtpkt0);
-
-    struct rtpkt rtpkt2;
-    creatertpkt(&rtpkt2, 3, 2, mincosts3);
-    tolayer2(rtpkt2);
+    send3();
   }
 }
 
@@ -324,6 +344,16 @@ float clocktime = 0.000;
 
 void init();
 
+void printevlist() {
+  struct event *q;
+  printf("--------------\nEvent List Follows:\n");
+  for (q = evlist; q != NULL; q = q->next) {
+    printf("Event time: %f, type: %d entity: %d\n", q->evtime, q->evtype,
+           q->eventity);
+  }
+  printf("--------------\n");
+}
+
 int main() {
   struct event *eventptr;
 
@@ -380,6 +410,10 @@ int main() {
   }
 
 terminate:
+  printdt0(&dt0);
+  printdt1(&dt1);
+  printdt2(&dt2);
+  printdt3(&dt3);
   printf("\nSimulator terminated at t=%f, no packets in medium\n", clocktime);
 }
 
@@ -476,16 +510,6 @@ void insertevent(struct event *p) {
       q->prev = p;
     }
   }
-}
-
-void printevlist() {
-  struct event *q;
-  printf("--------------\nEvent List Follows:\n");
-  for (q = evlist; q != NULL; q = q->next) {
-    printf("Event time: %f, type: %d entity: %d\n", q->evtime, q->evtype,
-           q->eventity);
-  }
-  printf("--------------\n");
 }
 
 /************************** TOLAYER2 ***************/
