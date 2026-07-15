@@ -12,6 +12,14 @@ THIS IS THE MAIN ROUTINE.  IT SHOULD NOT BE TOUCHED AT ALL BY STUDENTS!
 
 **********************************************************************/
 
+int connectcosts0[4] = {0, 1, 3, 7};
+
+int connectcosts1[4] = {1, 0, 1, 999};
+
+int connectcosts2[4] = {3, 1, 0, 2};
+
+int connectcosts3[4] = {7, 999, 2, 0};
+
 /* a rtpkt is the packet sent from one routing update process to
    another via the call tolayer3() */
 struct rtpkt {
@@ -25,20 +33,77 @@ struct distance_table {
   int costs[4][4];
 };
 
+int getMin(struct distance_table *dt, int i) {
+  int min = dt->costs[i][0];
+  for (int j = 1; j < 4; j++) {
+    if (dt->costs[i][j] < min) {
+      min = dt->costs[i][j];
+    }
+  }
+
+  return min;
+}
+
+bool linkupdate(int linkid, int newCost, int fromconnectcosts[4],
+                struct distance_table *dt, int mincosts[4]) {
+
+  if (newCost == fromconnectcosts[linkid])
+    return false;
+
+  int oldLinkCost = fromconnectcosts[linkid];
+
+  bool isLess = newCost < fromconnectcosts[linkid];
+  bool hasBeenUpdated = false;
+  for (int i = 0; i < 4; i++) {
+    int oldTotalCost = dt->costs[i][linkid];
+
+    int neighborsCost;
+
+    if (oldTotalCost >= 999 || oldLinkCost >= 999) {
+      neighborsCost = 999;
+    } else {
+      neighborsCost = oldTotalCost - oldLinkCost;
+    }
+
+    int recalculatedCost;
+    if (newCost >= 999 || neighborsCost >= 999) {
+      recalculatedCost = 999;
+    } else {
+      recalculatedCost = newCost + neighborsCost;
+    }
+
+    dt->costs[i][linkid] = recalculatedCost;
+
+    int min = getMin(dt, i);
+    if (min != mincosts[i]) {
+      hasBeenUpdated = true;
+      mincosts[i] = min;
+    }
+  }
+
+  fromconnectcosts[linkid] = newCost;
+
+  return hasBeenUpdated;
+}
+
 bool rtupdate(struct rtpkt *rcvdpkt, struct distance_table *dt,
               int connectcosts[4], int mincosts[4]) {
   bool hasBeenUpdated = false;
 
   for (int i = 0; i < 4; i++) {
-    int newCost = connectcosts[rcvdpkt->sourceid] + rcvdpkt->mincost[i];
+    if (i == rcvdpkt->destid) {
+      continue;
+    }
+    int newCost;
+    if (connectcosts[rcvdpkt->sourceid] >= 999 || rcvdpkt->mincost[i] >= 999) {
+      newCost = 999;
+    } else {
+      newCost = connectcosts[rcvdpkt->sourceid] + rcvdpkt->mincost[i];
+    }
+
     dt->costs[i][rcvdpkt->sourceid] = newCost;
 
-    int min = dt->costs[i][0];
-    for (int j = 1; j < 4; j++) {
-      if (dt->costs[i][j] < min) {
-        min = dt->costs[i][j];
-      }
-    }
+    int min = getMin(dt, i);
 
     if (min != mincosts[i]) {
       hasBeenUpdated = true;
@@ -56,8 +121,6 @@ void creatertpkt(struct rtpkt *initrtpkt, int srcid, int destid,
 /* ******************************************************************
  NODE 0
 **********************************************************************/
-
-int connectcosts0[4] = {0, 1, 3, 7};
 
 int mincosts0[4] = {0, 999, 999, 999};
 
@@ -113,20 +176,9 @@ void printdt0(struct distance_table *dtptr) {
          dtptr->costs[3][3]);
 }
 
-void linkhandler0(int linkid, int newcost)
-
-/* called when cost from 0 to linkid changes from current value to newcost*/
-/* You can leave this routine empty if you're an undergrad. If you want */
-/* to use this routine, you'll need to change the value of the LINKCHANGE */
-/* constant definition in prog3.c from 0 to 1 */
-
-{}
-
 /* ******************************************************************
  NODE 1
 **********************************************************************/
-
-int connectcosts1[4] = {1, 0, 1, 999};
 
 int mincosts1[4] = {999, 0, 999, 999};
 
@@ -175,21 +227,12 @@ void printdt1(struct distance_table *dtptr)
   printf("     3|  %3d   %3d\n", dtptr->costs[3][0], dtptr->costs[3][2]);
 }
 
-void linkhandler1(int linkid, int newcost)
-/* called when cost from 1 to linkid changes from current value to newcost*/
-/* You can leave this routine empty if you're an undergrad. If you want */
-/* to use this routine, you'll need to change the value of the LINKCHANGE */
-/* constant definition in prog3.c from 0 to 1 */
-
-{}
-
 /* ******************************************************************
  NODE 2
 **********************************************************************/
 
 struct distance_table dt2;
 
-int connectcosts2[4] = {3, 1, 0, 2};
 int mincosts2[4] = {999, 999, 0, 999};
 
 /* students to write the following two routines, and maybe some others */
@@ -248,7 +291,6 @@ void printdt2(struct distance_table *dtptr)
 **********************************************************************/
 
 struct distance_table dt3;
-int connectcosts3[4] = {7, 999, 2, 0};
 int mincosts3[4] = {999, 999, 999, 0};
 
 /* students to write the following two routines, and maybe some others */
@@ -292,6 +334,79 @@ void printdt3(struct distance_table *dtptr)
   printf("     0|  %3d   %3d\n", dtptr->costs[0][0], dtptr->costs[0][2]);
   printf("dest 1|  %3d   %3d\n", dtptr->costs[1][0], dtptr->costs[1][2]);
   printf("     2|  %3d   %3d\n", dtptr->costs[2][0], dtptr->costs[2][2]);
+}
+
+void linkhandler0(int linkid, int newcost)
+
+/* called when cost from 0 to linkid changes from current value to newcost*/
+/* You can leave this routine empty if you're an undergrad. If you want */
+/* to use this routine, you'll need to change the value of the LINKCHANGE */
+/* constant definition in prog3.c from 0 to 1 */
+
+{
+  bool has0BeenUpdated =
+      linkupdate(linkid, newcost, connectcosts0, &dt0, mincosts0);
+  if (has0BeenUpdated) {
+    send0();
+  }
+  switch (linkid) {
+  case 1: {
+    bool has1BeenUpdated =
+        linkupdate(0, newcost, connectcosts1, &dt1, mincosts1);
+    if (has1BeenUpdated) {
+      send1();
+    }
+    break;
+  }
+  case 2: {
+    bool has2BeenUpdated =
+        linkupdate(0, newcost, connectcosts2, &dt2, mincosts2);
+    if (has2BeenUpdated) {
+      send2();
+    }
+    break;
+  }
+  case 3: {
+    bool has3BeenUpdated =
+        linkupdate(0, newcost, connectcosts3, &dt3, mincosts3);
+    if (has3BeenUpdated) {
+      send3();
+    }
+    break;
+  }
+  }
+}
+
+void linkhandler1(int linkid, int newcost)
+/* called when cost from 1 to linkid changes from current value to newcost*/
+/* You can leave this routine empty if you're an undergrad. If you want */
+/* to use this routine, you'll need to change the value of the LINKCHANGE */
+/* constant definition in prog3.c from 0 to 1 */
+
+{
+  bool has1BeenUpdated =
+      linkupdate(linkid, newcost, connectcosts1, &dt1, mincosts1);
+  if (has1BeenUpdated) {
+    send1();
+  }
+  switch (linkid) {
+  case 0: {
+    bool has0BeenUpdated =
+        linkupdate(1, newcost, connectcosts0, &dt0, mincosts0);
+    if (has1BeenUpdated) {
+      send1();
+    }
+    break;
+  }
+  case 2: {
+    bool has2BeenUpdated =
+        linkupdate(1, newcost, connectcosts2, &dt2, mincosts2);
+    if (has2BeenUpdated) {
+      send2();
+    }
+    break;
+  }
+  }
 }
 
 /* ******************************************************************
@@ -396,6 +511,12 @@ int main() {
       if (clocktime < 10001.0) {
         linkhandler0(1, 20);
         linkhandler1(0, 20);
+        printf("LINK UPDATE START\n");
+        printdt0(&dt0);
+        printdt1(&dt1);
+        printdt2(&dt2);
+        printdt3(&dt3);
+        printf("LINK UPDATE END\n");
       } else {
         linkhandler0(1, 1);
         linkhandler1(0, 1);

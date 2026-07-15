@@ -677,3 +677,7 @@ The designers of SNMP choose to prioritize speed over robustness.
 ### ICMP socket programming
 
 (program)[./icmp_pinger.py]
+
+### Routing algorithm assignment
+
+(program)[./distance_vector.c]
