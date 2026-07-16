@@ -681,3 +681,83 @@ The designers of SNMP choose to prioritize speed over robustness.
 ### Routing algorithm assignment
 
 (program)[./distance_vector.c]
+
+### ICMP Wireshark lab
+
+#### ICMP and Ping
+
+(ping program)[./ping.png]
+
+ What is the IP address of your host? What is the IP address of the destination
+host?
+
+(answer)[ip-source-and-dest.png]
+
+Why is it that an ICMP packet does not have source and destination port
+numbers?
+
+Because an ICMP packet relay information about the network layer not the transport layer.
+
+Examine one of the ping request packets sent by your host. What are the ICMP
+type and code numbers? What other fields does this ICMP packet have? How
+many bytes are the checksum, sequence number and identifier fields?
+
+(type and code)[type-and-code.png]
+
+checksum, sequence number (BE and LE) and id fields (BE and LE).
+
+there is 2 bits each for checksum, sequence number and identifier fields.
+
+Examine the corresponding ping reply packet. What are the ICMP type and code
+numbers? What other fields does this ICMP packet have? How many bytes are the
+checksum, sequence number and identifier fields?
+
+(type and code reply)[type-and-code-replay.png]
+
+same than the echo request for the rest of the questions.
+
+#### ICMP and Traceroute
+
+(traceroute program)[./traceroute.png]
+
+What is the IP address of your host? What is the IP address of the target
+destination host
+
+(ip source and dest traceroute)[./ip-source-and-dest-traceroute.png]
+
+If ICMP sent UDP packets instead (as in Unix/Linux), would the IP protocol
+number still be 01 for the probe packets? If not, what would it be?
+
+It would be 17 which is the ip protocol number of UDP.
+
+Examine the ICMP echo packet in your screenshot. Is this different from the
+ICMP ping query packets in the first half of this lab? If yes, how so?
+
+The difference is mostly the TTL the ping program has the same whereas the traceroute program start with a packet that has a TTL of 1 and increase with the later packets by 1 each time.
+
+Examine the ICMP error packet in your screenshot. It has more fields than the
+ICMP echo packet. What is included in those fields?
+
+(answer)[./error.png]
+
+Examine the last three ICMP packets received by the source host. How are these
+packets different from the ICMP error packets? Why are they different
+
+(last 3 packets)[./last-3-packets]
+
+They are different because we got a response time instead of a reponse not found.
+
+Within the tracert measurements, is there a link whose delay is significantly
+longer than others? 
+
+In mine there are 4 links that stood out in term of longer delay hops 10,11,12 and the last one 19.
+
+Refer to the screenshot in Figure 4, is there a link whose
+delay is significantly longer than others? 
+
+Yes the links from 13 to 17.
+
+On the basis of the router names, can
+you guess the location of the two routers on the end of this link?
+
+Yes they are in france you can see it with the name of the cities Grenoble and Nice.
