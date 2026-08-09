@@ -115,6 +115,69 @@ It would be inefficient because the more distance between the host, the less eff
 Suppose nodes A, B, and C each attach to the same broadcast LAN (through
 their adapters). If A sends thousands of IP datagrams to B with each encap-
 sulating frame addressed to the MAC address of B, will C’s adapter process
-these frames? If so, will C’s adapter pass the IP datagrams in these frames
-to the network layer C? How would your answers change if A sends frames
+these frames? 
+
+No it since it knows that the frame is not send to it by looking at the destination mac address.
+
+If so, will C’s adapter pass the IP datagrams in these frames
+to the network layer C? 
+
+If the frame as not been discarded it will pass the ip datagrams to the network layer.
+
+How would your answers change if A sends frames
 with the MAC broadcast address?
+
+If A sends frames with the MAC broadcast address both Node B and C would process it.
+
+#### 11
+
+Why is an ARP query sent within a broadcast frame? 
+
+Because the node sending the ARP query doesn't know the Mac address of the target node but only its ip address.
+
+Why is an ARP response sent within a frame with a specific destination MAC address?
+
+For efficiency purpose only the node that ask for the translation will process the frame and update its address table.
+
+#### 12
+
+For the network in Figure 6.19, the router has two ARP modules, each with its
+own ARP table. Is it possible that the same MAC address appears in both tables?
+
+Not it is impossible only the MAC addresses of the machines of in your LAN can be in each router ARP tables.
+
+#### 13
+
+Compare the frame structures for 10BASE-T, 100BASE-T, and Gigabit
+Ethernet. How do they differ?
+
+Compare the frame structures for 10BASE-T, 100BASE-T, and Gigabit
+Ethernet.
+
+How do they differ?
+
+
+They all have the same frame format.
+
+#### 14
+
+Consider Figure 6.15. How many subnetworks are there, in the addressing
+sense of Section 4.3?
+
+There is only 1 at the ip level.
+
+#### 15
+
+What is the maximum number of VLANs that can be configured on a switch
+supporting the 802.1Q protocol? Why?
+
+4096 (with 4094 usable), because 12 bits are reserved for the VLANID so 2^12 = 4096.
+
+#### 16
+
+Suppose that N switches supporting K VLAN groups are to be connected via
+a trunking protocol. How many ports are needed to connect the switches?
+
+Justify your answer.
+
+2 * N ports to connect all the switches together the K is irrelevant here. And the minimum would be 2 (N - 1) because one switch does need to be connected with 2 switch with a trunk link.
