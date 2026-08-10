@@ -181,3 +181,69 @@ a trunking protocol. How many ports are needed to connect the switches?
 Justify your answer.
 
 2 * N ports to connect all the switches together the K is irrelevant here. And the minimum would be 2 (N - 1) because one switch does need to be connected with 2 switch with a trunk link.
+
+### Problems
+
+#### 1
+
+Suppose the information content of a packet is the bit pattern 1110 0110 1001
+0101 and an even parity scheme is being used. What would the value of the field
+containing the parity bits be for the case of a two-dimensional parity scheme?
+Your answer should be such that a minimum-length checksum field is used.
+
+1110|1
+0110|0
+1001|0
+0101|0
+------
+0100|1
+
+#### 2
+
+Show (give an example other than the one in Figure 6.5) that two-dimensional
+parity checks can correct and detect a single bit error. Show (give an example
+of) a double-bit error that can be detected but not corrected.
+
+Error that can be detected and corrected:
+
+1110|1
+0110|0
+1001|0
+0101|0
+------
+0100|1
+
+
+1100|0
+0110|0
+1001|0
+0101|0
+------
+0110|1
+
+Error detected at d (1,3) and can be corrected
+
+Error that cannot be corrected
+
+1110|1
+0110|0
+1001|0
+0101|0
+------
+0100|1
+
+
+1111|1
+0110|0
+1001|0
+0100|0
+------
+0100|1
+
+#### 3
+
+Suppose the information portion of a packet (D in Figure 6.3) contains
+10 bytes consisting of the 8-bit unsigned binary ASCII representation of
+string “Internet.” Compute the Internet checksum for this data.
+
+
