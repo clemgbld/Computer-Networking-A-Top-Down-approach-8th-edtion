@@ -246,4 +246,33 @@ Suppose the information portion of a packet (D in Figure 6.3) contains
 10 bytes consisting of the 8-bit unsigned binary ASCII representation of
 string “Internet.” Compute the Internet checksum for this data.
 
+0x6a49 computed with internet_checksum.py
+
+#### 4
+
+Consider the previous problem, but instead suppose these 10 bytes contain
+
+a. the binary representation of the numbers 1 through 10.
+
+0xc5f9
+
+b. the ASCII representation of the letters B through K (uppercase).
+
+0xa098
+
+c. the ASCII representation of the letters b through k (lowercase).
+
+
+0xfff7
+
+d. Compute the Internet checksum for this data.
+
+Computed with internet_checksum.py
+
+#### 5
+
+Consider the 5-bit generator, G= 10011, and suppose that D has the value
+1010101010. What is the value of R?
+
+
 
