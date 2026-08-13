@@ -274,5 +274,54 @@ Computed with internet_checksum.py
 Consider the 5-bit generator, G= 10011, and suppose that D has the value
 1010101010. What is the value of R?
 
+10101
+10011
+-----
+00110
 
+11001
+10011
+-----
+01010
 
+10100
+10011
+-----
+00111
+
+11110
+10011
+-----
+01101
+
+11010
+10011
+-----
+01001
+
+10010
+10011
+-----
+00001
+
+00100
+
+R = 4
+
+#### 6
+
+Consider the previous problem, but suppose that D has the value
+
+a. 1000100101.
+
+8
+
+b. 0101101010.
+
+15
+
+c. 0110100011.
+
+14
+
+Computed with crc.py
