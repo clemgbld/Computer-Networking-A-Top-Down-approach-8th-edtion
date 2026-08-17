@@ -325,3 +325,98 @@ c. 0110100011.
 14
 
 Computed with crc.py
+
+#### 7
+
+In this problem, we explore some of the properties of the CRC. For
+the generator G (= 1001) given in Section 6.2.3, answer the following
+questions.
+
+a. Why can it detect any single bit error in data D?
+
+Because any single bit error will not make zero when on the receiver side we will do  crc(D + R, G)
+
+b. Can the above G detect any odd number of bit errors? Why?
+
+Yes it can because the remainder is 6 so any odd bit error will cause crc(D + R, G) to not be zero.
+
+#### 8
+
+In Section 6.3, we provided an outline of the derivation of the efficiency of
+slotted ALOHA. In this problem we’ll complete the derivation.
+a. Recall that when there are N active nodes, the efficiency of slotted
+ALOHA is Np(1- p)N-1. Find the value of p that maximizes this
+expression.
+
+f'(p) = N(1 - p) (N - 2) * (1 - Np)
+
+N(1 - p) (N - 2) * (1 - Np) = 0
+
+1 - Np = 0
+
+Np = 1
+
+p = 1 / N
+
+
+
+b. Using the value of p found in (a), find the efficiency of slotted ALOHA
+by letting N approach infinity. Hint: (1- 1/N)N approaches 1/e as N
+approaches infinity.
+
+36.8 % efficiency
+
+#### 9
+
+Show that the maximum efficiency of pure ALOHA is 1/(2e). Note: This
+problem is easy if you have completed the problem above!
+
+18.4 %
+
+#### 10
+
+Consider two nodes, A and B, that use the slotted ALOHA protocol to con-
+tend for a channel. Suppose node A has more data to transmit than node B,
+and node A’s retransmission probability pA is greater than node B’s retrans-
+mission probability, pB.
+
+a)
+
+Provide a formula for node A’s average throughput. What is the total
+efficiency of the protocol with these two nodes?
+
+total efficicency = pA + pB - 2pApB
+
+b)
+
+If pA = 2pB, is node A’s average throughput twice as large as that of node
+B? Why or why not? If not, how can you choose pA and pB to make that
+happen?
+
+pA = 2pb / 1 + pb
+
+c)
+
+In general, suppose there are N nodes, among which node A has retrans-
+mission probability 2p and all other nodes have retransmission probability
+p. Provide expressions to compute the average throughputs of node A and
+of any other node.
+
+p * (1 - 2p) * (1 - p) N - 2
+
+
+#### 13
+
+Consider a broadcast channel with N nodes and a transmission rate of R bps.
+Suppose the broadcast channel uses polling (with an additional polling node)
+for multiple access. Suppose the amount of time from when a node completes
+transmission until the subsequent node is permitted to transmit (that is, the
+polling delay) is dpoll. Suppose that within a polling round, a given node is
+allowed to transmit at most Q bits. What is the maximum throughput of the
+broadcast channel?
+
+Throughput = R * Q / R * dpoll + Q
+
+#### 14
+
+
