@@ -419,4 +419,106 @@ Throughput = R * Q / R * dpoll + Q
 
 #### 14
 
+Consider three LANs interconnected by two routers, as shown in Figure 6.33.
+
+a. Assign IP addresses to all of the interfaces. For Subnet 1 use
+addresses of the form 192.168.1.xxx; for Subnet 2 uses addresses of
+the form 192.168.2.xxx; and for Subnet 3 use addresses of the form
+192.168.3.xxx.
+
+[diagram](./problem-14.png)
+
+b Assign MAC addresses to all of the adapters.
+
+[diagram](./problem-14.png)
+
+c Consider sending an IP datagram from Host E to Host B. Suppose all of
+the ARP tables are up to date. Enumerate all the steps, as done for the
+single-router example in Section 6.4.1.
+
+E will send a datagram with a the ip adddress of Host B as destination, wrapped by an ethernet frame with the mac address of the router (1A-25-F6-CD-06-3D)
+
+The router will get the ethernet frame and pass it to the network layer, and thanks to the routing table it will be forwarded in the subnet 2
+
+Then it will be forwarded to the router 1A-25-F6-CD-06-3C then passed to the network layer, and then finally thanks to the routing table it will be forwarded to the subnet A
+
+Where it will finally reach the host B
+
+d Repeat (c), now assuming that the ARP table in the sending host is empty
+(and the other tables are up to date).
+
+- First the sending host B will send an ARP frame with the destination ip address of the router wrapped in an ethernet frame with the destination mac address which will be the broadcast address (FF-FF-FF-FF-FF-FF)
+
+- Then the router will get it and send an arp reply with it's mac address (1A-25-F6-CD-06-3D)
+
+- The sending host will receive it and update its ARP table
+
+- Then it can do what we explain in the previous answer
+
+#### 15
+
+Consider Figure 6.33. Now we replace the router between subnets 1 and 2
+with a switch S1, and label the router between subnets 2 and 3 as R1.
+
+a Consider sending an IP datagram from Host E to Host F. Will Host E ask router
+R1 to help forward the datagram? Why?
+
+No they won't need to ask router R1 to help because they are in the same LAN.
+
+In the Ethernet frame containing the
+IP datagram, what are the source and destination IP and MAC addresses?
+
+Destination ip
+
+192.168.3.102
+
+Source ip
+
+192.168.3.101
+
+Destination mac address
+
+1A-25-F6-CD-06-2D
+
+Source mac address
+
+1A-25-F6-CD-06-1D
+
+b Suppose E would like to send an IP datagram to B, and assume that E’s
+ARP cache does not contain B’s MAC address. Will E perform an ARP
+query to find B’s MAC address? Why? 
+
+No because B and E are not in the same LAN so it will either send datagram with the ip of B + Ethernet frame (with the mac address of R1) to R1 or do an ARP query to get the mac address of R1 and send datagram with the ip of B + Ethernet with the mac address of R1.
+
+In the Ethernet frame (containing
+the IP datagram destined to B) that is delivered to router R1, what are the
+source and destination IP and MAC addresses?
+
+Destination ip
+
+192.168.1.102
+
+Source ip
+
+192.168.3.101
+
+Destination mac address
+
+1A-25-F6-CD-06-3D
+
+Source mac address
+
+1A-25-F6-CD-06-1D
+
+c  Suppose Host A would like to send an IP datagram to Host B, and neither A’s
+ARP cache contains B’s MAC address nor does B’s ARP cache contain A’s
+MAC address. Further suppose that the switch S1’s forwarding table contains
+entries for Host B and router R1 only. Thus, A will broadcast an ARP request
+message. What actions will switch S1 perform once it receives the ARP
+request message? Will router R1 also receive this ARP request message? If
+so, will R1 forward the message to Subnet 3? Once Host B receives this ARP
+request message, it will send back to Host A an ARP response message. But
+will it send an ARP query message to ask for A’s MAC address? Why? What
+will switch S1 do once it receives an ARP response message from Host B?
+
 
