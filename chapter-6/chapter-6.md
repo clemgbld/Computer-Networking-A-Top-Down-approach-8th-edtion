@@ -630,8 +630,7 @@ A begins transmitting a frame and, before it finishes, node B begins transmit-
 ting a frame. Can A finish transmitting before it detects that B has transmit-
 ted? Why or why not? 
 
-
-
+Yes it can if t1 + 325 bits is less than 576 bits. 
 
 If the answer is yes, then A incorrectly believes that its
 frame was successfully transmitted without a collision. Hint: Suppose at time
@@ -642,3 +641,70 @@ reaches A before bit time t = 512 + 64 bits.
 
 In the worst case, when does B’s signal reach A?
 
+let's say B start transmitting at 324 just before receiving A signal it will thus alert A and the answer will be 324 + 325
+
+At t = 649 bits
+
+#### 19
+
+Suppose nodes A and B are on the same 10 Mbps broadcast channel, and the
+propagation delay between the two nodes is 245 bit times. Suppose A and
+B send Ethernet frames at the same time, the frames collide, and then A and
+B choose different values of K in the CSMA/CD algorithm. Assuming no
+other nodes are active, can the retransmissions from A and B collide? 
+
+No it is impossible since the difference between two number will be more than 245 bit times.
+
+For our purposes, it suffices to work out the following example. Suppose A and B
+begin transmission at t = 0 bit times. They both detect collisions at t = 245
+t bit times. Suppose KA = 0 and KB = 1. At what time does B schedule its
+retransmission?
+
+
+B schedule its retransmission after 512 bits so t = 245 + 48 + 512 bits
+
+At what time does A begin transmission? (Note: The nodes
+must wait for an idle channel after returning to Step 2—see protocol.) 
+
+t = 245 + 48 
+
+At what time does A’s signal reach B? 
+
+t = 245 + 48 + 245
+
+Does B refrain from transmitting at its
+scheduled time?
+
+Yes because node A won't be done at t = 245 + 48 + 512 bits it will be done at t = 245 + 48 + 576
+
+#### 20
+
+In this problem, you will derive the efficiency of a CSMA/CD-like multiple
+access protocol. In this protocol, time is slotted and all adapters are synchro-
+nized to the slots. Unlike slotted ALOHA, however, the length of a slot (in
+seconds) is much less than a frame time (the time to transmit a frame). Let S
+be the length of a slot. Suppose all frames are of constant length L= kRS,
+where R is the transmission rate of the channel and k is a large integer. Sup-
+pose there are N nodes, each with an infinite number of frames to send. We
+also assume that dprop 6 S, so that all nodes can detect a collision before the
+end of a slot time. The protocol is as follows:
+
+- If, for a given slot, no node has possession of the channel, all nodes
+contend for the channel; in particular, each node transmits in the slot with
+probability p. If exactly one node transmits in the slot, that node takes
+possession of the channel for the subsequent k- 1 slots and transmits its
+entire frame.
+
+- If some node has possession of the channel, all other nodes refrain
+from transmitting until the node that possesses the channel has finished
+transmitting its frame. Once this node has transmitted its frame, all nodes
+contend for the channel.
+
+a) For fixed N and p, determine the efficiency of this protocol.
+
+b) For fixed N, determine the p that maximizes the efficiency.
+
+c) Using the p (which is a function of N) found in (b), determine the effi-
+ciency as N approaches infinity.
+
+d) Show that this efficiency approaches 1 as the frame length becomes large.
