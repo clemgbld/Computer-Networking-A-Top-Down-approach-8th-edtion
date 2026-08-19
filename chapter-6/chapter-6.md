@@ -515,10 +515,130 @@ ARP cache contains B’s MAC address nor does B’s ARP cache contain A’s
 MAC address. Further suppose that the switch S1’s forwarding table contains
 entries for Host B and router R1 only. Thus, A will broadcast an ARP request
 message. What actions will switch S1 perform once it receives the ARP
-request message? Will router R1 also receive this ARP request message? If
-so, will R1 forward the message to Subnet 3? Once Host B receives this ARP
-request message, it will send back to Host A an ARP response message. But
-will it send an ARP query message to ask for A’s MAC address? Why? What
-will switch S1 do once it receives an ARP response message from Host B?
+request message?
 
+It will forward the frame to all the node that it is attached to.
+
+Will router R1 also receive this ARP request message? 
+
+Yes it will since one of its adapter (the left one) is in the same LAN now
+
+If so, will R1 forward the message to Subnet 3? 
+
+No it won't, ARP request stay within the LAN
+
+Once Host B receives this ARP
+request message, it will send back to Host A an ARP response message. 
+But will it send an ARP query message to ask for A’s MAC address? Why? 
+
+No it won't send an ARP query message to ask for A's MAC address since the mac address was already in the ARP query.
+
+What will switch S1 do once it receives an ARP response message from Host B?
+
+S1 will forward it only to A. 
+
+#### 16
+
+Consider the previous problem, but suppose now that the router between sub-
+nets 2 and 3 is replaced by a switch. Answer questions (a)–(c) in the previous
+problem in this new context.
+
+a Consider sending an IP datagram from Host E to Host F. Will Host E ask router
+R1 to help forward the datagram? Why?
+
+No they won't need to ask router R1 to help because they are in the same LAN.
+
+In the Ethernet frame containing the
+IP datagram, what are the source and destination IP and MAC addresses?
+
+Destination ip
+
+192.168.3.102
+
+Source ip
+
+192.168.3.101
+
+Destination mac address
+
+1A-25-F6-CD-06-2B
+
+Source mac address
+
+1A-25-F6-CD-06-1D
+
+b Suppose E would like to send an IP datagram to B, and assume that E’s
+ARP cache does not contain B’s MAC address. Will E perform an ARP
+query to find B’s MAC address? Why? 
+
+Yes it will because now they are in the same LAN.
+
+In the Ethernet frame (containing
+the IP datagram destined to B) that is delivered to router R1, what are the
+source and destination IP and MAC addresses?
+
+There is no router R1 anymore.
+
+c  Suppose Host A would like to send an IP datagram to Host B, and neither A’s
+ARP cache contains B’s MAC address nor does B’s ARP cache contain A’s
+MAC address. Further suppose that the switch S1’s forwarding table contains
+entries for Host B and router R1 only. Thus, A will broadcast an ARP request
+message. What actions will switch S1 perform once it receives the ARP
+request message?
+
+It will forward the frame to all the node that it is attached to.
+
+Will router R1 also receive this ARP request message? 
+
+Yes it will since one of its adapter (the left one) is in the same LAN now
+
+If so, will R1 forward the message to Subnet 3? 
+
+There is no subnet anymore so yes it will forward the message in the whole LAN that include all hosts.
+
+Once Host B receives this ARP
+request message, it will send back to Host A an ARP response message. 
+But will it send an ARP query message to ask for A’s MAC address? Why? 
+
+No it won't send an ARP query message to ask for A's MAC address since the mac address was already in the ARP query.
+
+What will switch S1 do once it receives an ARP response message from Host B?
+
+S1 will forward it only to A. 
+
+
+#### 17
+
+Recall that with the CSMA/CD protocol, the adapter waits K * 512 bit times
+after a collision, where K is drawn randomly. For K= 100, how long does
+the adapter wait until returning to Step 2 for a 100 Mbps broadcast channel?
+
+100 * K = 51200
+
+At worst  51200 / 100^6 = 0,512 ms
+
+For a 1 Gbps broadcast channel?
+
+At worst 51200 / 10^9 = 51,2 microseconds
+
+#### 18
+
+Suppose nodes A and B are on the same 10 Mbps broadcast channel, and the
+propagation delay between the two nodes is 325 bit times. Suppose CSMA/
+CD and Ethernet packets are used for this broadcast channel. Suppose node
+A begins transmitting a frame and, before it finishes, node B begins transmit-
+ting a frame. Can A finish transmitting before it detects that B has transmit-
+ted? Why or why not? 
+
+
+
+
+If the answer is yes, then A incorrectly believes that its
+frame was successfully transmitted without a collision. Hint: Suppose at time
+t = 0 bits, A begins transmitting a frame. In the worst case, A transmits a
+minimum-sized frame of 512 + 64 bit times. So A would finish transmitting
+the frame at t = 512 + 64 bit times. Thus, the answer is no, if B’s signal
+reaches A before bit time t = 512 + 64 bits. 
+
+In the worst case, when does B’s signal reach A?
 
