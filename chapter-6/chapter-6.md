@@ -895,12 +895,54 @@ entirely filled before the source sends the packet into the network. The
 time required to fill a packet is the packetization delay. In terms of L,
 determine the packetization delay in milliseconds.
 
+(P * 8) / 128 kbps = L
+
+P / 16 = L
+
 b. Packetization delays greater than 20 msec can cause a noticeable and
 unpleasant echo. Determine the packetization delay for L= 1,500 bytes
 (roughly corresponding to a maximum-sized Ethernet packet) and for
 L= 50 (corresponding to an ATM packet).
 
+1500 / 16 = 93,75 ms
+
+50/ 16 = 3,125 ms 
+
 c. Calculate the store-and-forward delay at a single switch for a link rate of
 R= 622 Mbps for L= 1,500 bytes, and for L= 50 bytes.
 
+(P + 5) * 8 / 622 Mbps
+
+(1500 + 5) * 8 / 622 Mbps = 0,01936 milliseconds
+
+(50 + 5) * 8 / 622 Mbps = 0,71 microseconds
+
 d. Comment on the advantages of using a small packet size.
+
+The smaller the packet the smaller will the delay be
+
+#### 28
+
+Consider the single switch VLAN in Figure 6.25, and assume an external
+router is connected to switch port 1. Assign IP addresses to the EE and CS
+hosts and router interface. Trace the steps taken at both the network layer
+and the link layer to transfer an IP datagram from an EE host to a CS host
+(Hint: Reread the discussion of Figure 6.19 in the text).
+
+#### 29
+
+Consider the MPLS network shown in Figure 6.29, and suppose that rout-
+ers R5 and R6 are now MPLS enabled. Suppose that we want to perform
+traffic engineering so that packets from R6 destined for A are switched to
+A via R6-R4-R3-R1, and packets from R5 destined for A are switched via
+R5-R4-R2-R1. Show the MPLS tables in R5 and R6, as well as the modified
+table in R4, that would make this possible.
+
+#### 30
+
+Consider again the same scenario as in the previous problem, but suppose
+that packets from R6 destined for D are switched via R6-R4-R3, while pack-
+ets from R5 destined to D are switched via R4-R2-R1-R3. Show the MPLS
+tables in all routers that would make this possible.
+
+
