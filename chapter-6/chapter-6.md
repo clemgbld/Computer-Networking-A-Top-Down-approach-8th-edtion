@@ -677,34 +677,230 @@ scheduled time?
 
 Yes because node A won't be done at t = 245 + 48 + 512 bits it will be done at t = 245 + 48 + 576
 
-#### 20
+#### 21
 
-In this problem, you will derive the efficiency of a CSMA/CD-like multiple
-access protocol. In this protocol, time is slotted and all adapters are synchro-
-nized to the slots. Unlike slotted ALOHA, however, the length of a slot (in
-seconds) is much less than a frame time (the time to transmit a frame). Let S
-be the length of a slot. Suppose all frames are of constant length L= kRS,
-where R is the transmission rate of the channel and k is a large integer. Sup-
-pose there are N nodes, each with an infinite number of frames to send. We
-also assume that dprop 6 S, so that all nodes can detect a collision before the
-end of a slot time. The protocol is as follows:
+Consider Figure 6.33 in problem P14. Provide MAC addresses and IP
+addresses for the interfaces at Host A, both routers, and Host F. Suppose
+Host A sends a datagram to Host F. Give the source and destination MAC
+addresses in the frame encapsulating this IP datagram as the frame is trans-
+mitted 
 
-- If, for a given slot, no node has possession of the channel, all nodes
-contend for the channel; in particular, each node transmits in the slot with
-probability p. If exactly one node transmits in the slot, that node takes
-possession of the channel for the subsequent k- 1 slots and transmits its
-entire frame.
+(i) from A to the left router, 
 
-- If some node has possession of the channel, all other nodes refrain
-from transmitting until the node that possesses the channel has finished
-transmitting its frame. Once this node has transmitted its frame, all nodes
-contend for the channel.
+Source MAC address:
 
-a) For fixed N and p, determine the efficiency of this protocol.
+1A-25-F6-CD-06-1B
 
-b) For fixed N, determine the p that maximizes the efficiency.
+Destination MAC address:
 
-c) Using the p (which is a function of N) found in (b), determine the effi-
-ciency as N approaches infinity.
+1A-25-F6-CD-06-3B
 
-d) Show that this efficiency approaches 1 as the frame length becomes large.
+
+(ii) from the left router to the right router,
+
+Source MAC address:
+
+1A-25-F6-CD-06-3C
+
+Destination MAC address:
+
+1A-25-F6-CD-06-4C
+
+(iii) from the right router to F. 
+
+Source MAC address:
+
+1A-25-F6-CD-06-3D
+
+Destination MAC address:
+
+1A-25-F6-CD-06-2D
+
+Also give the source and destination IP
+addresses in the IP datagram encapsulated within the frame at each of these
+points in time.
+
+Source IP address:
+
+192.168.1.101
+
+Destination IP address:
+
+192.168.3.102
+
+#### 22
+
+Suppose now that the leftmost router in Figure 6.33 is replaced by a switch.
+Hosts A, B, C, and D and the right router are all star-connected into this
+switch. Give the source and destination MAC addresses in the frame encap-
+sulating this IP datagram as the frame is transmitted 
+
+(i) from A to the switch,
+
+Source MAC address:
+
+1A-25-F6-CD-06-1B
+
+Destination MAC address:
+
+1A-25-F6-CD-06-4C
+
+(ii) from the switch to the right router, 
+
+Source MAC address:
+
+1A-25-F6-CD-06-1B
+
+Destination MAC address:
+
+1A-25-F6-CD-06-4C
+
+(iii) from the right router to F. 
+
+Source MAC address:
+
+1A-25-F6-CD-06-3D
+
+Destination MAC address:
+
+1A-25-F6-CD-06-2D
+
+
+Also give the source and destination IP addresses in the IP datagram encapsulated
+within the frame at each of these points in time.
+
+Source IP address:
+
+192.168.1.101
+
+Destination IP address:
+
+192.168.3.102
+
+#### 23
+
+Consider Figure 6.15. Suppose that all links are 1 Gbps. 
+
+What is the maximum total aggregate throughput that can be achieved among the 9 hosts and
+2 servers in this network? You can assume that any host or server can send to
+any other host or server. Why?
+
+9 hosts + 2 serves = 11 * 1 Gps = 11 Gps
+
+#### 24
+
+Suppose the three departmental switches in Figure 6.15 are replaced by hubs.
+All links are 1 Gbps. Now answer the questions posed in problem P23.
+
+5 Gps
+
+#### 25
+
+Suppose that all the switches in Figure 6.15 are replaced by hubs. All links
+are 1 Gbps. Now answer the questions posed in problem P23.
+
+1 Gps
+
+
+#### 26
+
+Let’s consider the operation of a learning switch in the context of a network
+in which 6 nodes labeled A through F are star connected into an Ethernet
+switch. Suppose that 
+
+(i) B sends a frame to E, 
+
+(ii) E replies with a frame to B,
+
+(iii) A sends a frame to B, 
+
+(iv) B replies with a frame to A. 
+
+The switch table is initially empty. 
+
+Show the state of the switch table before and after each
+of these events. For each of these events, identify the link(s) on which the
+transmitted frame will be forwarded, and briefly justify your answers.
+
+let's say A is interface 1, B is interface  2 etc...
+
+
+(i) 
+
+Before:
+
+Empty
+
+After:
+
+Address     interface
+B address | 2 
+
+(ii)
+
+Before:
+
+Address     interface
+B address | 2 
+
+After:
+
+Address     interface
+B address | 2 
+E address | 5
+
+(iii)
+
+Before:
+
+Address     interface
+B address | 2 
+E address | 5
+
+After:
+
+Address     interface
+B address | 2 
+E address | 5
+A address | 1
+
+(iv)
+
+Before:
+
+Address     interface
+B address | 2 
+E address | 5
+A address | 1
+
+After:
+
+Address     interface
+B address | 2 
+E address | 5
+A address | 1
+
+I deliberately not put the time but the time is updated each time as well.
+
+#### 27
+
+In this problem, we explore the use of small packets for Voice-over-IP appli-
+cations. One of the drawbacks of a small packet size is that a large fraction of
+link bandwidth is consumed by overhead bytes. To this end, suppose that the
+packet consists of P bytes and 5 bytes of header.
+
+a. Consider sending a digitally encoded voice source directly. Suppose the
+source is encoded at a constant rate of 128 kbps. Assume each packet is
+entirely filled before the source sends the packet into the network. The
+time required to fill a packet is the packetization delay. In terms of L,
+determine the packetization delay in milliseconds.
+
+b. Packetization delays greater than 20 msec can cause a noticeable and
+unpleasant echo. Determine the packetization delay for L= 1,500 bytes
+(roughly corresponding to a maximum-sized Ethernet packet) and for
+L= 50 (corresponding to an ATM packet).
+
+c. Calculate the store-and-forward delay at a single switch for a link rate of
+R= 622 Mbps for L= 1,500 bytes, and for L= 50 bytes.
+
+d. Comment on the advantages of using a small packet size.
