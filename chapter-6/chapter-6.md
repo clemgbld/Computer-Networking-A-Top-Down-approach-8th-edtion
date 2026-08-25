@@ -925,9 +925,22 @@ The smaller the packet the smaller will the delay be
 
 Consider the single switch VLAN in Figure 6.25, and assume an external
 router is connected to switch port 1. Assign IP addresses to the EE and CS
-hosts and router interface. Trace the steps taken at both the network layer
+hosts and router interface. 
+
+
+Trace the steps taken at both the network layer
 and the link layer to transfer an IP datagram from an EE host to a CS host
 (Hint: Reread the discussion of Figure 6.19 in the text).
+
+IP addresses:
+ EE department host 192.165.89.1
+ Router router interface on the EE department side 192.165.89.2
+ CS department host 192.165.88.1
+ Router router interface on the CS department side 192.165.88.2
+
+ if the EE host don't have the mac address of the router interface it will broadcast an ARP query to get it
+ then i will send a frame to the router interface which encapsulate a datagram with the IP address of the CS host (192.165.88.1)
+Then the router interface on the CS side will send the frame to the CS host. (the router interface on both side use the same mac address)
 
 #### 29
 
