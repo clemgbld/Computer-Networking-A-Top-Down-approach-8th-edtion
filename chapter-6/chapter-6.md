@@ -951,6 +951,25 @@ A via R6-R4-R3-R1, and packets from R5 destined for A are switched via
 R5-R4-R2-R1. Show the MPLS tables in R5 and R6, as well as the modified
 table in R4, that would make this possible.
 
+R6 table:
+
+in label | out label | dest  | out interface
+         |  5        |   A   |       0
+
+R5 table:
+
+in label | out label | dest  | out interface
+         |  4        |   A   |       0
+
+
+R4 table:
+
+in label | out label | dest  | out interface
+    5    |  10       |   A   |       0
+         |  12       |   D   |       0
+    4    |  8        |   A   |       1
+
+
 #### 30
 
 Consider again the same scenario as in the previous problem, but suppose
@@ -959,3 +978,112 @@ ets from R5 destined to D are switched via R4-R2-R1-R3. Show the MPLS
 tables in all routers that would make this possible.
 
 
+
+R6 table:
+
+in label | out label | dest  | out interface
+         |  5        |   A   |       0
+         |  1        |   D   |       0
+
+R5 table:
+
+in label | out label | dest  | out interface
+         |  4        |   A   |       0
+         |  2        |   D   |       0
+
+R4 table:
+
+in label | out label | dest  | out interface
+    5    |  10       |   A   |       0
+    1    |  12       |   D   |       0
+    2    |  7        |   D   |       1
+    4    |  8        |   A   |       1
+
+R2 table
+
+in label | out label | dest  | out interface
+     8   |  6        |   A   |       0
+     7   |  3        |   D   |       0
+
+R1
+
+in label | out label | dest  | out interface
+     6   |           |   A   |       0
+     3   |  12       |   D   |       1
+
+#### 31
+
+In this problem, you will put together much of what you have learned about
+Internet protocols. Suppose you walk into a room, connect to Ethernet, and
+want to download a Web page. What are all the protocol steps that take place,
+starting from powering on your PC to getting the Web page? Assume there
+is nothing in our DNS or browser caches when you power on your PC.
+(Hint: The steps include the use of Ethernet, DHCP, ARP, DNS, TCP, and
+HTTP protocols.) Explicitly indicate in your steps how you obtain the IP and
+MAC addresses of a gateway router.
+
+- powering the PC
+
+- Getting our IP address, the IP address from the router, and the DNS from the DHCP server in our router
+
+- Then getting the IP of the server hosting the web page by performing a DNS query, wrapped into a UDP segment (who has a destination port of 53) into an IP datagram (who has the destination IP of the DNS that we got from our query to the DHCP server) but our host does not have the MAC address of the router so it will have to perform an ARP query to get it by broadcasting with the broadcast address has the destination address, then the frame will go to the router.
+
+- After getting back the DNS response we finally got the IP address of the server that host the web page we can initiate the socket client who will perform a handshake with the socket on the server to establish a TCP connection and then we can send are request to get the web page and close the connection.
+
+#### 32
+
+Consider the data center network with hierarchical topology in Figure 6.30.
+Suppose now there are 80 pairs of flows, with ten flows between the first
+and ninth rack, ten flows between the second and tenth rack, and so on.
+Further suppose that all links in the network are 10 Gbps, except for the links
+between hosts and TOR switches, which are 1 Gbps.
+
+a. Each flow has the same data rate; determine the maximum rate of a flow.
+
+tier 1 link capacity / total inter cluster flow = 10 Gbps / 80 = 0.125 Gbps
+
+b. For the same traffic pattern, determine the maximum rate of a flow for the
+highly interconnected topology in Figure 6.31.
+
+(4 * 10 Gbps) / 80 = 0.5 Gbps
+
+c. Now suppose there is a similar traffic pattern, but involving 20 hosts on
+each rack and 160 pairs of flows. Determine the maximum flow rates for
+the two topologies.
+
+(4 * 10 Gbps) / 160 = 0.25 Gbps
+
+#### 33
+
+Consider the hierarchical network in Figure 6.30 and suppose that the data
+center needs to support e-mail and video distribution among other applica-
+tions. Suppose four racks of servers are reserved for e-mail and four racks are
+reserved for video. For each of the applications, all four racks must lie below
+a single tier-2 switch since the tier-2 to tier-1 links do not have sufficient
+bandwidth to support the intra-application traffic. For the e-mail application,
+suppose that for 99.9 percent of the time only three racks are used, and that
+the video application has identical usage patterns.
+
+a. For what fraction of time does the e-mail application need to use a fourth
+rack? 
+
+only 0.1 percent of the time that we need to send smpt message and response.
+
+how about for the video application?
+
+
+only 0.1 percent of the time that we need to stream the average time of the duration of a video.
+
+b. assuming e-mail usage and video usage are independent, for what fraction
+of time do (equivalently, what is the probability that) both applications
+need their fourth rack?
+
+Probability =  0.001 * 0.001 = 0.000001
+
+c. suppose that it is acceptable for an application to have a shortage of serv-
+ers for 0.001 percent of time or less (causing rare periods of performance
+degradation for users). discuss how the topology in figure 6.31 can be
+used so that only seven racks are collectively assigned to the two applica-
+tions (assuming that the topology can support all the traffic).
+
+we could link the tier 2 and tier 1 of the two applications together so that the video applications links are used to power the email applications when there is less traffic on the video application and the reverse as well.
