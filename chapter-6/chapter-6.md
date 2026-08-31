@@ -1087,3 +1087,85 @@ used so that only seven racks are collectively assigned to the two applica-
 tions (assuming that the topology can support all the traffic).
 
 we could link the tier 2 and tier 1 of the two applications together so that the video applications links are used to power the email applications when there is less traffic on the video application and the reverse as well.
+
+## Wireshark lab Ethernet and ARP
+
+I'm gonna use the trace downloaded wireshark capture for this lab
+
+### 1
+
+What is the 48-bit Ethernet address of your computer?
+
+c4:41:1e:75:b1:52
+
+### 2
+
+What is the 48-bit destination address in the Ethernet frame? 
+
+00:1e:c1:7e:d9:01
+
+Is this the Ethernet
+address of gaia.cs.umass.edu? (Hint: the answer is no). What device has this as its
+Ethernet address? [Note: this is an important question, and one that students
+sometimes get wrong. Re-read pages 483-484 in the text and make sure you
+understand the answer here.]
+
+No it is the address of the adapter of the router that is in the same LAN than c4:41:1e:75:b1:52.
+
+### 3
+
+ What is the hexadecimal value for the two-byte Frame type field in the Ethernet
+frame carrying the HTTP GET request? What upper layer protocol does this
+correspond to?
+
+Type: Ipv4 = 0x0800
+
+### 4
+
+How many bytes from the very start of the Ethernet frame does the ASCII “G” in
+“GET” appear in the Ethernet frame? Do not count any preamble bits in your count,
+i.e., assume that the Ethernet frame begins with the Ethernet frame's destination
+address.
+
+It starts at the 67th bytes
+
+### 5
+
+What is the value of the Ethernet source address? Is this the address of your
+computer, or of gaia.cs.umass.edu (Hint: the answer is no). What device has this as
+its Ethernet address?
+
+00:1e:c1:7e:d9:01
+
+No it is the address of the adapter of the router that is in the same LAN than c4:41:1e:75:b1:52.
+
+### 6
+
+What is the destination address in the Ethernet frame? Is this the Ethernet address of
+your computer?
+
+
+c4:41:1e:75:b1:52, yes it is.
+
+### 7
+
+Give the hexadecimal value for the two-byte Frame type field. What upper layer
+protocol does this correspond to?
+
+Type: Ipv4 = 0x0800
+
+### 8
+
+How many bytes from the very start of the Ethernet frame does the ASCII “O” in
+“OK” (i.e., the HTTP response code) appear in the Ethernet frame? Do not count any
+preamble bits in your count, i.e., assume that the Ethernet frame begins with the
+Ethernet frame's destination address.
+
+it start at the 67th byte.
+
+### 9
+
+How many Ethernet frames (each containing an IP datagram, each containing a TCP
+segment) carry data that is part of the complete HTTP “OK 200 ...” reply message?
+
+There is 4 reassambled TCP segment so there is 4 frames.
