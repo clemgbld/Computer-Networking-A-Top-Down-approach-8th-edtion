@@ -1169,3 +1169,134 @@ How many Ethernet frames (each containing an IP datagram, each containing a TCP
 segment) carry data that is part of the complete HTTP “OK 200 ...” reply message?
 
 There is 4 reassambled TCP segment so there is 4 frames.
+
+### 10
+
+How many entries are stored in your ARP cache?
+
+8
+
+ Internet Address      Physical Address      Type
+  192.168.178.1         80-23-95-ac-bb-90     dynamic
+  192.168.178.255       ff-ff-ff-ff-ff-ff     static
+  224.0.0.2             01-00-5e-00-00-02     static
+  224.0.0.22            01-00-5e-00-00-16     static
+  224.0.0.251           01-00-5e-00-00-fb     static
+  224.0.0.252           01-00-5e-00-00-fc     static
+  239.255.255.250       01-00-5e-7f-ff-fa     static
+  255.255.255.255       ff-ff-ff-ff-ff-ff     static
+
+### 11
+
+What is contained in each displayed entry of the ARP cache?
+
+In each display entry you have the IP address, the MAC address and the type (whether the address is dynamic or static).
+
+### 12
+
+What is the hexadecimal value of the source address in the Ethernet frame containing
+the ARP request message sent out by your computer?
+
+c4:41:1e:75:b1:52
+
+### 13
+
+What is the hexadecimal value of the destination addresses in the Ethernet frame
+containing the ARP request message sent out by your computer? And what device(if
+any) corresponds to that address (e.g,, client, server, router, switch or otherwise...)?
+
+ff:ff:ff:ff:ff:ff it is the broadcast address.
+
+### 14
+
+What is the hexadecimal value for the two-byte Ethernet Frame type field. What
+upper layer protocol does this correspond to?
+
+Type: ARP (0x0806)
+
+### 15
+
+How many bytes from the very beginning of the Ethernet frame does the ARP opcode
+field begin?
+
+20 bytes the op code start at the 21th byte.20 bytes the op code start at the 21th byte.
+
+### 16
+
+What is the value of the opcode field within the ARP request message sent by your
+computer?
+
+The op code field has the value 1.
+
+### 17
+
+ Does the ARP request message contain the IP address of the sender? If the answer is
+yes, what is that value?
+
+Yes it does contain the IP address of the sender like that the host that receive the ARP request can send the ARP response to the sender.
+
+### 18
+
+What is the IP address of the device whose corresponding Ethernet address is being
+requested in the ARP request message sent by your computer?
+
+Target IP address: 128.119.247.1, it is the IP address of the router.
+
+Now find the ARP reply message that was sent in response to the ARP request from your
+computer.
+
+### 19
+
+
+What is the value of the opcode field within the ARP reply message received by your
+computer?
+
+Opcode: reply (2)
+
+### 20
+
+Finally (!), let’s look at the answer to the ARP request message! What is the Ethernet
+address corresponding to the IP address that was specified in the ARP request
+message sent by your computer (see question 18)?
+
+00:1e:c1:7e:d9:01
+
+We’ve looked the ARP request message sent by your computer running Wireshark,
+and the ARP reply message sent in response. But there are other devices in this
+network that are also sending ARP request messages that you can find in the trace.
+
+### 21
+
+Why are there no ARP replies in your trace that are sent in response to these other
+ARP request messages?
+
+I suppose it is because the target host are no longer within the LAN.
+
+## Extra credit
+
+### 1
+
+The arp command:
+arp -s InetAddr EtherAddr
+allows you to manually add an entry to the ARP cache that resolves the IP address
+InetAddr to the physical address EtherAddr. What would happen if, when you
+manually added an entry, you entered the correct IP address, but the wrong
+Ethernet address for that remote interface? 
+
+If that happened everytime i would try to send a packet to that IP address it would try to reach the host with the wrong MAC address.
+
+A security attack known as “ARP
+poisoning” https://www.varonis.com/blog/arp-poisoning/ spoofs ARP messages
+and causes incorrect entries to be made into an ARP table!
+
+### 2
+
+What is the default amount of time that an entry remains in your ARP cache
+before being removed? You can determine this empirically (by monitoring the
+cache contents) or by looking this up in your operating system documentation.
+Indicate how/where you determined this value. 
+
+30 000 ms with a random factor between 0.5 and 1.5 so between 15 000 and 45 000 ms.
+
+See the [link](https://learn.microsoft.com/en-us/troubleshoot/windows-server/networking/address-resolution-protocol-arp-caching-behavior).
+
