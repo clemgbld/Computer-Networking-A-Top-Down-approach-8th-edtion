@@ -644,3 +644,204 @@ What are one advantage and one disadvantage of this approach over the
 approach taken in your solution to Problem P13?
 
 There is more overhead since now we must go through visited network A and B but the MME of the home network doesn't need to track that the mobile device went from visited network A to B.
+
+### Wireshark lab: WIFI
+
+#### 1
+
+What are the SSIDs of the two access points that are issuing most of the beacon
+frames in this trace? [Hint: look at the Info field. To display only beacon frames,
+neter wlan.fc.type_subtype == 8 into the Wireshark display filter]
+
+There SSIDs are:
+
+SSID: "30 Munroe St"
+SSID: "linksys12"
+
+### 2
+
+What 802.11 channel is being used by both of these access points [Hint: you’ll
+need to dig into the radio information in an 802.11 beacon frame]
+
+Channel: 6 for both.
+
+#### 3
+What is the interval of time between the transmissions of beacon frames from this
+access point (AP)? (Hint: this interval of time is contained in a field within the
+beacon frame itself).
+
+Beacon Interval: 0.102400 [Seconds]
+
+#### 4
+
+What (in hexadecimal notation) is the source MAC address on the beacon frame
+from this access point? Recall from Figure 7.13 in the text that the source,
+destination, and BSS are three addresses used in an 802.11 frame. For a detailed
+discussion of the 802.11 frame structure, see section 9.2.3-9.2.4.1in the IEEE
+802.11 standards document, excerpted https://gaia.cs.umass.edu/wiresharklabs/802.11-9.2.4.1_spec+wireshark_filters.pdf.
+
+Source address: CiscoLinksys_f7:1d:51 (00:16:b6:f7:1d:51)
+
+
+#### 5
+
+What (in hexadecimal notation) is the destination MAC address on the beacon
+frame from 30 Munroe St??
+
+Destination address: Broadcast (ff:ff:ff:ff:ff:ff)
+
+#### 6
+
+What (in hexadecimal notation) is the MAC BSS ID on the beacon frame from 30
+Munroe St?
+
+BSS Id: CiscoLinksys_f7:1d:51 (00:16:b6:f7:1d:51)
+
+#### 7
+
+The beacon frames from the 30 Munroe St access point advertise that the access
+point can support four data rates and eight additional “extended supported rates.”
+What are these rates? [Note: the traces were taken on a rather old AP
+
+Tag: Supported Rates 1(B), 2(B), 5.5(B), 11(B), [Mbit/sec]
+
+#### 8
+
+Find the 802.11 frame containing the SYN TCP segment for this first TCP session
+(that downloads alice.txt) at t=24.8110. What are three MAC address fields in the
+802.11 frame? 
+Receiver address: CiscoLinksys_f7:1d:51 (00:16:b6:f7:1d:51)
+
+Source address: Intel_d1:b6:4f (00:13:02:d1:b6:4f)
+
+Transmitter address: Intel_d1:b6:4f (00:13:02:d1:b6:4f)
+
+first hop router address:  91:2a:b0:49:b6:4f (91:2a:b0:49:b6:4f)
+
+Which MAC address in this frame corresponds to the wireless host
+(give the hexadecimal representation of the MAC address for the host)? 
+
+Source address: Intel_d1:b6:4f (00:13:02:d1:b6:4f)
+
+To the access point? To the first-hop router? What is the IP address of the wireless host
+sending this TCP segment? 
+
+
+Receiver address: CiscoLinksys_f7:1d:51 (00:16:b6:f7:1d:51)
+
+
+
+What is the destination IP address for the TCP syn segment? 
+
+Destination Address: 128.119.245.12
+
+
+
+#### 9
+
+Does the destination IP address of this TCP SYN correspond to the host, access
+point, first-hop router, or the destination web server?
+
+The destination web server.
+
+#### 10
+
+Find the 802.11 frame containing the SYNACK segment for this TCP session
+received at t=24.8277 What are three MAC address fields in the 802.11 frame?
+
+Source address: CiscoLinksys_f4:eb:a8 (00:16:b6:f4:eb:a8)
+
+Receiver address: 91:2a:b0:49:b6:4f (91:2a:b0:49:b6:4f)
+
+Destination address: 91:2a:b0:49:b6:4f (91:2a:b0:49:b6:4f)
+
+
+
+Which MAC address in this frame corresponds to the host? 
+
+host: Intel_d1:b6:4f (00:13:02:d1:b6:4f)
+
+
+To the access point?
+
+ CiscoLinksys_f4:eb:a8 (00:16:b6:f4:eb:a8)
+
+
+To the first-hop router? 
+
+91:2a:b0:49:b6:4f (91:2a:b0:49:b6:4f)
+
+
+Does the sender MAC address in the frame correspond to
+the IP address of the device that sent the TCP segment encapsulated within this
+datagram? (Hint: review Figure 6.19 in the text if you are unsure of how to
+answer this question, or the corresponding part of the previous question. It’s
+particularly important that you understand this).
+
+
+No it doesn't correspond to it
+
+#### 11
+
+What two actions are taken (i.e., frames are sent) by the host in the trace just after
+t=49, to end the association with the 30 Munroe St AP that was initially in place
+when trace collection began? (Hint: one is an IP-layer action, and one is an
+802.11-layer action).
+
+Authentication request and Association request.
+
+#### 12
+
+Let’s look first at AUTHENTICATION frames. At t = 63.1680, our host tries to
+associate with the 30 Munroe St AP. Use the Wireshark display filter
+wlan.fc.subtype == 11 to show AUTHENICATION frames sent from the
+host to and AP and vice versa. What form of authentication is the host requesting?
+
+Authentication Algorithm: Open System (0)
+
+#### 13
+
+What is the Authentication SEQ value (authentication sequence number) of
+this authentication frame from host to AP?
+
+Authentication SEQ: 0x0001
+
+#### 14
+
+The AP response to the authentication request is received at t = 63.1690. Has the
+AP accepted the form of authentication requested by the host?
+
+
+Yes it has it: 
+
+Authentication Algorithm: Open System (0)
+
+#### 15
+
+What is the Authentication SEQ value of this authentication frame from
+AP to Host ?
+
+Authentication SEQ: 0x0002
+
+#### 16
+
+What rates are indicated in the frame as SUPPORTED RATES. Do not include in
+your answers below any rates that are indicates as EXTENDED SUPPORTE
+RATES.
+
+Tag: Supported Rates 1(B), 2(B), 5.5(B), 11(B), [Mbit/sec]
+
+#### 17
+
+Does the ASSOCIATION RESPONSE indicate a Successful or Unsuccessful
+association response?
+
+Status code: Successful (0x0000)
+
+#### 18
+
+Does the fastest (largest) Extended Supported Rate the host has offered match the
+fastest (largest) Extended Supported Rate the AP is able to provide?
+
+No it doesn't the AP largest extended supported rate is 54 Mpbs and the max in the 11 Mpbs.
+
