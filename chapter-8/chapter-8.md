@@ -349,3 +349,220 @@ True
 
 Using the monoalphabetic cipher in Figure 8.3, encode the message
 “This is an easy problem.” Decode the message “rmij’u uamu xyj.”
+
+This is an easy problem -> Uasi si mj cmiw lokngch
+
+rmij'u uamu xyj -> wasn't that fun
+
+#### 2
+
+Show that Trudy’s known-plaintext attack, in which she knows the
+(ciphertext, plaintext) translation pairs for seven letters, reduces
+the number of possible substitutions to be checked in the example in
+­ Section 8.2.1 by approximately 10^9.
+
+26! = 4.0329 * 10^26
+
+26 - 7 =  19
+
+19! = 1.021 * 10^17
+
+10^26 - 17 = 10^9
+
+3.3 * 10^9
+
+#### 3
+
+Consider the polyalphabetic system shown in Figure 8.4. Will a chosen-
+plaintext attack that is able to get the plaintext encoding of the message
+“The quick brown fox jumps over the lazy dog.” be sufficient to decode
+all messages? Why or why not?
+
+Yes because since we have C1 we can deduce when C2 is used and therefore decode every message.
+
+#### 4
+
+Consider the block cipher in Figure 8.5. Suppose that each block cipher
+Ti simply reverses the order of the eight input bits (so that, for example,
+11110000 becomes 00001111). Further suppose that the 64-bit scrambler
+does not modify any bits (so that the output value of the mth bit is equal
+to the input value of the mth bit). (a) With =
+n 3 and the original 64-bit
+input equal to 10100000 repeated eight times, what is the value of the
+output? 
+
+00000101 00000101 00000101 00000101 00000101 00000101 00000101 00000101
+
+(b) Repeat part (a) but now change the last bit of the original
+64-bit input from a 0 to a 1. 
+
+N 1: 10100000 -> 00000100
+
+N2 : 00000100 -> 00100001
+
+N3: 00100001 -> 10000101
+
+00000101 00000101 00000101 00000101 00000101 00000101 00000101 10000101
+
+(c) Repeat parts (a) and (b) but now suppose
+that the 64-bit scrambler inverses the order of the 64 bits.
+
+
+N 1: 10100000 -> 00000100
+
+
+00000100 00000101 00000101 00000101 00000101 00000101 00000101 00000101
+
+
+N 2: 10100000 -> 00000100
+
+
+00000100 00000101 00000101 00000101 00000101 00000101 00000101 00000100
+
+
+N3: 00000100 -> 00100001
+
+
+00100001 00000101 00000101 00000101 00000101 00000101 00000101 00000100
+
+
+
+
+#### 5
+
+Consider the block cipher in Figure 8.5. For a given “key” Alice and Bob
+would need to keep eight tables, each 8 bits by 8 bits. For Alice (or Bob)
+to store all eight tables, how many bits of storage are necessary? 
+
+number of row in one table 2 ^ 8 = 256
+
+There are 8 tables so 256 * 8 = 2048
+
+2046 * 8 = 16384 
+
+How does this number compare with the number of bits required for a full-
+table 64-bit block cipher?
+
+it is much smaller
+
+2^64 * 8 = 1,4 * 10^20
+
+#### 6
+
+Consider the 3-bit block cipher in Table 8.1. Suppose the plaintext is
+100100100. (a) Initially assume that CBC is not used. What is the result-
+ing ciphertext? 
+
+011011011
+
+(b) Suppose Trudy sniffs the ciphertext. Assuming she
+knows that a 3-bit block cipher without CBC is being employed (but
+doesn’t know the specific cipher), what can she surmise? 
+
+That the complexity to decode the message is 2^3! since every block is the same.
+
+
+(c) Now sup-
+pose that CBC is used with =
+IV 111. What is the resulting ciphertext
+
+IV = 111
+
+First block:
+
+100
+111
+---
+011
+
+011 -> 100
+
+Second block:
+
+100
+100
+---
+000
+
+000 -> 110
+
+Third block:
+
+100
+110
+---
+010
+
+010 -> 101
+
+The answer is 100110101
+
+#### 7
+
+(a) Using RSA, choose =
+p 3 and =
+q 11, and encode the word “dog” by
+encrypting each letter separately. Apply the decryption algorithm to the
+encrypted version to recover the original plaintext message. 
+n = 33
+z = 20
+e = 17
+d = 13
+
+choosing number that are compatible with private and public key for the words.
+
+d = 4
+o = 5
+g = 7
+
+After encryption 
+
+d = 16
+o = 14
+g = 28
+
+After decryption
+
+d = 4
+o = 5
+g = 7
+
+(b) Repeat
+part (a) but now encrypt “dog” as one message m.
+
+let's take dog as 2
+
+After encryption
+
+dog = 29
+
+After decryption
+
+dog = 2
+
+#### 8
+
+Consider RSA with  p = 5 q = 11
+
+a ) What are n and z?
+
+n = 55
+
+z = 40
+
+b) Let e be 3. Why is this an acceptable choice for e?
+
+Yes because it doesn't share any factor with 40
+
+c) Find d such that = de 1 (mod z) and < d 160.
+
+using the function i wrote [here](./rsa_d.py).
+
+27
+
+e) Encrypt the message  m = 8 using the key (n, e).
+Let c denote the corresponding ciphertext.
+
+c = 8 ^ 3 mod 55 = 17
+
+
