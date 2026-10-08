@@ -258,4 +258,94 @@ Host A to Host B using IPsec. Typically, a new
 SA will be established for each packet sent in
 the stream. True or false?
 
+False
 
+#### 25
+
+Suppose that TCP is being run over IPsec
+between headquarters and the branch office
+in Figure 8.28. If TCP retransmits the same
+packet, then the two corresponding packets
+sent by R1 packets will have the same
+sequence number in the ESP header. True or
+false?
+
+False
+
+#### 26
+
+An IKE SA and an IPsec SA are the same
+thing. True or false?
+
+False
+
+#### 27
+
+Consider WEP for 802.11. Suppose that the
+data is 10101100 and the keystream is
+1111000. What is the resulting ciphertext?
+
+It is a XOR between the data and the keystream:
+
+10101100
+01111000
+--------
+11010100
+
+the cyphertext is 11010100.
+
+### section 8.9
+
+#### 28
+
+Stateful packet filters maintain two data struc-
+tures. Name them and briefly describe what
+they do.
+
+- Connection table:
+
+A table keep tracks of the ongoing TCP connection.
+
+- Access control list:
+
+It is identical to the acces list of traditional packet filters but also state which connection should be checked.
+
+#### 29
+
+Consider a traditional (stateless) packet filter.
+This packet filter may filter packets based on
+TCP flag bits as well as other header fields.
+True or false?
+
+True.
+
+#### 30
+
+In a traditional packet filter, each interface can
+have its own access control list. True or false?
+
+True
+
+#### 31
+
+Why must an application gateway work in
+conjunction with a router filter to be effective?
+
+To have a finer grained level of security.
+
+Router filter base on IP/TCP/UDP/ICMP header and application gateway perform additional application layer verification.
+
+#### 32
+
+Signature-based IDSs and IPSs inspect into
+the payloads of TCP and UDP segments. True
+or false?
+
+True
+
+## Problems
+
+#### 1
+
+Using the monoalphabetic cipher in Figure 8.3, encode the message
+“This is an easy problem.” Decode the message “rmij’u uamu xyj.”
