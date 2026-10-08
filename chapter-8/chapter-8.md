@@ -565,4 +565,43 @@ Let c denote the corresponding ciphertext.
 
 c = 8 ^ 3 mod 55 = 17
 
+#### 9
 
+In this problem, we explore the Diffie-Hellman (DH) public-key encryption algorithm, that we studied in Section 8.2.2
+
+a) With p = 11 and g = 2, suppose Alice and Bob choose private keys
+
+Sa = 5 and Sb = 12, respectively. Calculate Alice's and Bob's public-keys Ta and Tb.
+
+Show all the work.
+
+Ta = g^ Sa mod p
+
+Ta = 2 ^ 5 mod 11
+
+Ta = 10
+
+Tb = g^ Sa mod p
+
+Tb = 2 ^ 12 mod 11
+
+Tb = 4
+
+
+b) Following up on part (b), now calculate S as the shared symmetric key.
+Show all work.
+
+Ssa = (Tb) ^ Sa mod p
+Ssa = 4 ^5 mod 11
+Ssa = 1
+
+Ssb = (Ta) ^Sb mod p
+Ssb = 10 ^12 mod 11
+Ssb = 1
+
+
+c) Provide a timing diagram that shows how Diffie-Hellman can be
+attacked by a man-in-the-middle. The timing diagram should have three
+vertical lines, one for Alice, one for Bob, and one for the attacker Trudy.
+
+I won't draw the diagram but a man in the middle attack is possible if Trudy makes Alice believe that she is Bob and Bob believe that she is Alice.
