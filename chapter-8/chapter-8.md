@@ -218,3 +218,44 @@ Bob can know for sure that is Alice that created the message thanks to the digit
 
 PGP use MAC only for hybrid architecture.
 
+#### 20
+
+In the TLS record, there is a field for TLS
+sequence numbers. True or false?
+
+False
+
+#### 21
+
+What is the purpose of the random nonces in
+the TLS handshake?
+
+To prevent a connection replay attack.
+
+#### 22
+
+Suppose an TLS session employs a block
+cipher with CBC. True or false: The server
+sends to the client the IV in the clear.
+
+True
+
+#### 23
+
+Suppose Bob initiates a TCP connection to
+Trudy who is pretending to be Alice. During
+the handshake, Trudy sends Bob Alice’s cer-
+tificate. In what step of the TLS handshake
+algorithm will Bob discover that he is not
+communicating with Alice?
+
+Master key derivation, because Trudy cannot decrypt a message encrypted with the PMS since she doesn't have the correct private key to do it.
+
+#### 24
+
+Consider sending a stream of packets from
+Host A to Host B using IPsec. Typically, a new
+SA will be established for each packet sent in
+the stream. True or false?
+
+
