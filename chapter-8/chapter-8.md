@@ -605,3 +605,58 @@ attacked by a man-in-the-middle. The timing diagram should have three
 vertical lines, one for Alice, one for Bob, and one for the attacker Trudy.
 
 I won't draw the diagram but a man in the middle attack is possible if Trudy makes Alice believe that she is Bob and Bob believe that she is Alice.
+
+#### 10
+
+Suppose Alice wants to communicate with Bob using symmetric key
+cryptography using a session key KS. In Section 8.2, we learned how
+public-key cryptography can be used to distribute the session key from
+Alice to Bob. In this problem, we explore how the session key can be
+­distributed—without public key cryptography—using a key distribution
+center (KDC). The KDC is a server that shares a unique secret symmetric
+key with each registered user. For Alice and Bob, denote these keys by
+K A KDC and KB KDC. Design a scheme that uses the KDC to distribute KS
+to Alice and Bob. Your scheme should use three messages to distribute
+the session key: a message from Alice to the KDC; a message from the
+KDC to Alice; and finally a message from Alice to Bob. The first message
+is KA - KDC(A, B). using the notation KA - KDC' KB - KDC', S, A and B answer the following questions.
+
+a) What is the second message.
+
+KA-KDC(KS, KB-KDC(KS, KA))
+
+b) What is the third message.
+
+KB-KDC(KS, KA)
+
+#### 11
+
+Compute a third message, different from the two messages in Figure 8.8,
+that has the same checksum as the messages in Figure 8.8.
+
+IOU1
+00.B
+9BO9
+
+
+#### 12
+
+Suppose Alice and Bob share two secret keys: an authentication key S1
+and a symmetric encryption key S2. Augment Figure 8.9 so that both
+integrity and confidentiality are provided.
+
+It is the same diagram except that we encrypt the message with the symetric key and send (K(m), H(m + s))
+
+#### 13
+
+In the BitTorrent P2P file distribution protocol (see Chapter 2), the seed
+breaks the file into blocks, and the peers redistribute the blocks to each
+other. Without any protection, an attacker can easily wreak havoc in a tor-
+rent by masquerading as a benevolent peer and sending bogus blocks to a
+small subset of peers in the torrent. These unsuspecting peers then redis-
+tribute the bogus blocks to other peers, which in turn redistribute the
+bogus blocks to even more peers. Thus, it is critical for BitTorrent to have
+a mechanism that allows a peer to verify the integrity of a block, so that it
+doesn’t redistribute bogus blocks. Assume that when a peer joins a tor-
+rent, it initially gets a .torrent file from a fully trusted source. Describe
+a simple scheme that allows peers to verify the integrity of blocks.
