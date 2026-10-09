@@ -660,3 +660,27 @@ a mechanism that allows a peer to verify the integrity of a block, so that it
 doesn’t redistribute bogus blocks. Assume that when a peer joins a tor-
 rent, it initially gets a .torrent file from a fully trusted source. Describe
 a simple scheme that allows peers to verify the integrity of blocks.
+
+In the torrent file we have the hash of each block so each peer when it receive block needs to hash it and verify that it is the correct hash that is in the torrent file.
+
+#### 14
+
+The OSPF routing protocol uses a MAC rather than digital signatures to
+provide message integrity. Why do you think a MAC was chosen over
+digital signatures?
+
+Because it is faster (no encryption only hashing) and you just need one symetric key for all the router has opposed to a pki infrastructure where you would have to manage a lot of key and also we want to only achieve integrity and not prove that one router specific router has sent a packet.
+
+#### 15
+
+Consider our authentication protocol in Figure 8.18 in which Alice authen-
+ticates herself to Bob, which we saw works well (i.e., we found no flaws in
+it). Now suppose that while Alice is authenticating herself to Bob, Bob
+must authenticate himself to Alice. Give a scenario by which Trudy, pre-
+tending to be Alice, can now authenticate herself to Bob as Alice. (Hint:
+Consider that the sequence of operations of the protocol, one with Trudy
+initiating and one with Bob initiating, can be arbitrarily interleaved. Pay
+particular attention to the fact that both Bob and Alice will use a nonce,
+and that if care is not taken, the same nonce can be used maliciously.)
+
+
