@@ -743,3 +743,49 @@ Alice ->[Kb+(m)] -> (Internet) -> [Kb-(m)] -> Bob
 #### 19
 
 Consider the Wireshark output below for a portion of an SSL session.
+
+a) Is Wireshark packet 112 sent by the client or server?
+
+Packet 112 is sent by the client.
+
+b) What is the server’s IP address and port number?
+
+address = 216.75.194.220 , port = 443
+
+c) Assuming no loss and no retransmissions, what will be the sequence
+number of the next TCP segment sent by the client?
+
+283
+
+d) How many SSL records does Wireshark packet 112 contain?
+
+3, Handshake Protocol: client key exchange, change cipher spec protocol: change cipher spec and Handshake protocol: Encrypted Handshake message
+
+e) Does packet 112 contain a Master Secret or an Encrypted Master Secret
+or neither?
+
+An  Encrypted Master Secret.
+
+f) Assuming that the handshake type field is 1 byte and each length field
+is 3 bytes, what are the values of the first and last bytes of the Master
+Secret (or Encrypted Master Secret)?
+
+the encrypted master key start at byte 5 and end at byte 133.
+
+g) The client encrypted handshake message takes into account how
+many SSL records?
+
+4
+
+h) The server encrypted handshake message takes into account how
+many SSL records?
+
+5
+
+#### 20
+
+In Section 8.6.1, it is shown that without sequence numbers, Trudy
+(a woman-in-the middle) can wreak havoc in a TLS session by interchang-
+ing TCP segments. Can Trudy do something similar by deleting a TCP
+segment? What does she need to do to succeed at the deletion attack?
+What effect will it have?
