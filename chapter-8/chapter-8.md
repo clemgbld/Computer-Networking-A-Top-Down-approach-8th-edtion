@@ -683,4 +683,63 @@ initiating and one with Bob initiating, can be arbitrarily interleaved. Pay
 particular attention to the fact that both Bob and Alice will use a nonce,
 and that if care is not taken, the same nonce can be used maliciously.)
 
+Trudy can use a reflection attack.
 
+#### 16
+
+A natural question is whether we can use a nonce and public key cryp-
+tography to solve the end-point authentication problem in Section 8.4.
+Consider the following natural protocol: 
+
+1) Alice sends the message “I am Alice” to Bob.
+
+2) Bob chooses a nonce, R, and sends it to Alice.
+
+3) Alice uses her private key to encrypt the nonce and sends the resulting
+value to Bob. 
+
+4) Bob applies Alice’s public key to the received message.
+Thus, Bob computes R and authenticates Alice.
+
+a) Diagram this protocol, using the notation for public and private keys
+employed in the textbook.
+
+[diagram](./problem-16.png)
+
+b) Suppose that certificates are not used. Describe how Trudy can become
+a “woman-in-the-middle” by intercepting Alice’s messages and then
+pretending to be Alice to Bob.
+
+When Bob Alice would give her public key to bob in clear trudy would just have to replace it hers and then intercept the nonce and reply to bob with the nonce encrypted with her public key and if Alice manages to do then Bob will mistake her for Alice.
+
+#### 17
+
+Figure 8.21 shows the operations that Alice must perform with PGP to pro-
+vide confidentiality, authentication, and integrity. Diagram the correspond-
+ing operations that Bob must perform on the package received from Alice.
+
+[diagram](./problem-17.png)
+
+#### 18
+
+Suppose Alice wants to send an e-mail to Bob. Bob has a public-private key pair (Kb+, Kb-) and Alice has Bob certificate.
+But Alice does not
+have a public, private key pair. Alice and Bob (and the entire world) share the same Hash function H(.)
+
+a) In this situation, is it possible to design a scheme so that Bob can verify
+that Alice created the message? If so, show how with a block diagram
+for Alice and Bob.
+
+Not it is not possible without a digital signature but and Alice doesn't have public/private keys pair.
+
+b) Is it possible to design a scheme that provides confidentiality for send-
+ing the message from Alice to Bob? If so, show how with a block dia-
+gram for Alice and Bob.
+
+ yes Alice just needs to encrypt the message with Bob public key and Bob can then decrypt the message.
+
+Alice ->[Kb+(m)] -> (Internet) -> [Kb-(m)] -> Bob
+
+#### 19
+
+Consider the Wireshark output below for a portion of an SSL session.
