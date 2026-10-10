@@ -802,4 +802,4 @@ sequence numbers (and correct IP addresses and port numbers). Will
 TLS at the receiving side accept the bogus packet and pass the payload
 to the receiving application? Why or why not?
 
-
+Not it wouldn't work because a key is hashed with the record for integrity.
