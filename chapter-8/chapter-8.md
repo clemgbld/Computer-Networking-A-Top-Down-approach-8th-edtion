@@ -789,3 +789,17 @@ In Section 8.6.1, it is shown that without sequence numbers, Trudy
 ing TCP segments. Can Trudy do something similar by deleting a TCP
 segment? What does she need to do to succeed at the deletion attack?
 What effect will it have?
+
+Deleting TCP segments alone won't work in isolation she would need to also increment the sequence number correctly of every next TCP segments.
+The effect is that the receiver will receive an incomplete message.
+
+#### 21
+
+Suppose Alice and Bob are communicating over a TLS session. Suppose
+an attacker, who does not have any of the shared keys, inserts a bogus
+TCP segment into a packet stream with correct TCP checksum and
+sequence numbers (and correct IP addresses and port numbers). Will
+TLS at the receiving side accept the bogus packet and pass the payload
+to the receiving application? Why or why not?
+
+
