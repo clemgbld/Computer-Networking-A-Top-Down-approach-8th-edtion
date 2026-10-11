@@ -803,3 +803,85 @@ TLS at the receiving side accept the bogus packet and pass the payload
 to the receiving application? Why or why not?
 
 Not it wouldn't work because a key is hashed with the record for integrity.
+
+#### 22
+
+The following true/false questions pertain to Figure 8.28.
+
+a) When a host in 172.16.1 24 sends a datagram to an Amazon.com
+server, the router R1 will encrypt the datagram using IPsec.
+
+False no in the diagram only the datagrams sent between the Headquarters and the Branch office will be encrypted using Ipsec.
+
+b) When a host in 172.16.1 24 sends a datagram to a host in 172.16.2 24,
+the router R1 will change the source and destination address of the IP
+datagram.
+
+False the Ip datagram is left intact and wrapped in an IpSec datagram with the source IP as the IP of R1 and with the destination IP as the one of R2.
+
+c) Suppose a host in 172.16.1 24 initiates a TCP connection to a Web
+server in 172.16.2 24. As part of this connection, all datagrams sent
+by R1 will have protocol number 50 in the left-most IPv4 header field.
+
+True.
+
+d) Consider sending a TCP segment from a host in 172.16.1 24 to a host
+in 172.16.2 24. Suppose the acknowledgment for this segment gets
+lost, so that TCP resends the segment. Because IPsec uses sequence
+numbers, R1 will not resend the TCP segment.
+
+False R1 will resend the segment.
+
+#### 23
+
+Consider the example in Figure 8.28. Suppose Trudy is a woman-in-the-
+middle, who can insert datagrams into the stream of datagrams going
+from R1 and R2. As part of a replay attack, Trudy sends a duplicate copy
+of one of the datagrams sent from R1 to R2. Will R2 decrypt the duplicate
+datagram and forward it into the branch-office network? If not, describe
+in detail how R2 detects the duplicate datagram.
+
+No a replay attack won't work because the security association keeps track of which datagram has been sent thanks to the seq # field in the ESP header in the Enchilada.
+
+#### 24
+
+Provide a filter table and a connection table for a stateful firewall that is
+as restrictive as possible but accomplishes the following:
+
+a) Allows all internal users to establish Telnet sessions with external
+hosts.
+
+b) Allows external users to surf the company Web site at 222.22.0.12.
+
+c) But otherwise blocks all inbound and outbound traffic.
+
+The internal network is 222.22 16. In your solution, suppose that the
+connection table is currently caching three connections, all from inside to
+outside. You’ll need to invent appropriate IP addresses and port
+numbers.
+
+#### 25
+
+Suppose Alice wants to visit the Web site activist.com using a TOR-like
+service. This service uses two non-colluding proxy servers, Proxy1 and
+Proxy2. Alice first obtains the certificates (each containing a public key)
+for Proxy1 and Proxy2 from some central server.
+
+Denote K1+(), K2+(), K1-(), K2-() for the encryption / decryption with public and private RSA keys.
+
+a) Using a timing diagram, provide a protocol (as simple as possible)
+that enables Alice to establish a shared session key S1 with Proxy1.
+Denote ( ) S m 1 for encryption/decryption of data m with the shared
+key S1.
+
+b) Using a timing diagram, provide a protocol (as simple as possible)
+that allows Alice to establish a shared session key S2 with Proxy2 with-
+out revealing her IP address to Proxy2.
+
+c) Assume now that shared keys S1 and S2 are now established. Using
+a timing diagram, provide a protocol (as simple as possible and not
+using public-key cryptography) that allows Alice to request an html page
+from activist.comwithout revealing her IP address to Proxy2 and without
+revealing to Proxy1 which site she is visiting. Your diagram should end
+with an HTTP request arriving at activist.com.
+
