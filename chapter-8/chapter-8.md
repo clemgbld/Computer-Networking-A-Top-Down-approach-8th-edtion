@@ -855,10 +855,28 @@ b) Allows external users to surf the company Web site at 222.22.0.12.
 
 c) But otherwise blocks all inbound and outbound traffic.
 
-The internal network is 222.22 16. In your solution, suppose that the
+The internal network is 222.22/16. In your solution, suppose that the
 connection table is currently caching three connections, all from inside to
 outside. You’ll need to invent appropriate IP addresses and port
 numbers.
+
+Filters table:
+
+action    source address          dest address           protocol      source port     dest port    flag bit   check connection
+
+allow     222.22/16               outside of 222.22/16    TCP           > 1023           23          any             
+allow     outside of 222.22/16    222.22/16               TCP           23               > 1023      ACK             X
+allow     outside of 222.22/16    222.22.0.12             TCP           > 1023           80          any
+allow     222.22.0.12             outside of 222.22/16               TCP           80               > 1023      ACK             x
+deny      all                     all                     all           all              all         all
+
+Stateful filters table:
+
+source address     dest address     source port       dest port
+
+122.22.1.7         222.22.0.12      12699             80
+122.22.93.2        222.22.0.12      37654             80
+222.22.65.143      203.77.240.43    48712             23
 
 #### 25
 
@@ -874,9 +892,14 @@ that enables Alice to establish a shared session key S1 with Proxy1.
 Denote ( ) S m 1 for encryption/decryption of data m with the shared
 key S1.
 
+[diagram](./problem-25-a.png)
+
 b) Using a timing diagram, provide a protocol (as simple as possible)
 that allows Alice to establish a shared session key S2 with Proxy2 with-
 out revealing her IP address to Proxy2.
+
+
+[diagram](./problem-25-b.png)
 
 c) Assume now that shared keys S1 and S2 are now established. Using
 a timing diagram, provide a protocol (as simple as possible and not
@@ -885,3 +908,5 @@ from activist.comwithout revealing her IP address to Proxy2 and without
 revealing to Proxy1 which site she is visiting. Your diagram should end
 with an HTTP request arriving at activist.com.
 
+
+[diagram](./problem-25-c.png)
