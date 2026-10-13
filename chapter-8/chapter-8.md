@@ -910,3 +910,110 @@ with an HTTP request arriving at activist.com.
 
 
 [diagram](./problem-25-c.png)
+
+## Wireshark Lab: TLS
+
+### 2 a first look at the captured trace
+
+#### 1
+
+What is the packet number in your trace that contains the initial TCP SYN
+message? (By “packet number,” we meant the number in the “No.” column at the
+left of the Wireshark display, not the sequence number in the TCP segment itself).
+
+Number 579 in my own trace.
+
+#### 2
+
+Is the TCP connection set up before or after the first TLS message is sent from
+client to server?
+
+Yes it is.
+
+### 3 The TLS Handshake: client hello
+
+#### 3
+
+What is the packet number in your trace that contains the TLS Client Hello
+message? 
+
+In my own trace it is the packet number 636.
+
+#### 4
+
+ What version of TLS is your client running, as declared in the Client Hello
+message?
+
+TLS 1.0
+
+#### 5
+
+How many cipher suites are supported by your client, as declared in the Client
+Hello message? A cipher suite is a set of related cryptographic algorithms that
+determine how session keys will be derived, and how data will be encrypted and
+be digitally signed via a HMAC algorithm
+
+[Cypher suites](./wireshark-client-cypher-suites.png)
+
+#### 6
+
+Your client generates and sends a string of “random bytes” to the server in the
+Client Hello message. What are the first two hexadecimal digits in the random
+bytes field of the Client Hello message? 
+Enter the two hexadecimal digits
+(without spaces between the hex digits and without any leading '0x' , using
+lowercase letters where needed). Hint: be careful to fully dig into the Random
+field to find the Random Bytes subfield (do not consider the GMT UNIX
+Time subfield of Random)
+
+c9
+
+#### 7
+
+What is the purpose(s) of the “random bytes” field in the Client Hello message?
+Note: you’ll have do some searching and reading to get the answer to this
+question; see section 8.6 and in RFC 5246.
+
+The random bytes act as a nonce.
+
+### The TLS Handshake: Server hello message
+
+#### 8
+
+What is the packet number in your trace that contains the TLS Server Hello
+message? 
+
+In my own trace the packet number is 657.
+
+#### 9
+
+Which cipher suite has been chosen by the server from among those offered in the
+earlier Client Hello message?
+
+Cipher Suite: TLS_AES_256_GCM_SHA384 (0x1302)
+
+#### 10
+
+Does the Server Hello message contain random bytes, similar to how the Client
+Hello message contained random bytes? And if so, what is/are their purpose(s)?
+
+Yes, same purpose than the one in the client it act as a nonce to verify that the client is live and to prevent the server against a replay attack of an impersonator.
+
+#### 11
+
+What is the packet number in your trace for the TLS message part that contains
+the public key certificate for the www.cics.umass.edu server (actually the
+www.cs.umass.edu server)?
+
+In my own trace it is in packet 658.
+
+#### 12
+
+A server may return more than one certificate. If more than one certificate is
+returned, are all of these certificates for www.cs.umass.edu? If not all are for
+www.cs.umass.edu, then who are these other certificates for? You can determine
+who the certificate is for by checking the id-at-commonName field in the
+retuned certificate.
+
+
+
